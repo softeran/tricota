@@ -12,16 +12,31 @@ Class {
 }
 
 { #category : #running }
-GameTest >> setUp [
+GameTest >> juan [
+	^ self playerNamed: 'Juan'.
+]
 
+{ #category : #running }
+GameTest >> nico [
+	^ self playerNamed: 'Nico'.
+]
+
+{ #category : #running }
+GameTest >> playerNamed: aName [
+
+	^Player named: aName.
+]
+
+{ #category : #running }
+GameTest >> setUp [
 	board := Board withLockers: 6.
 	die := Die of: 4 rolling: #(3 4 3).
-	juan:= Player named: 'Juan'.
-	nico:= Player named: 'Nico'.
-		players:= OrderedCollection new.
-		players 
-				add: juan; 
-				add: nico.
+	juan := self juan.
+	nico := self nico.
+	players := OrderedCollection new.
+	players
+		add: juan;
+		add: nico
 ]
 
 { #category : #tests }
