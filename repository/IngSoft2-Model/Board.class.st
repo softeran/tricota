@@ -16,10 +16,10 @@ Board class >> assertIsGraterThanTwo: aNumberOfLockers [
 ]
 
 { #category : #'instance creation' }
-Board class >> withLockers: numberOfLockers [ 
+Board class >> initializeWithLockers: numberOfLockers [ 
 
 	self assertIsGraterThanTwo: numberOfLockers.
-	^self new withLockers: numberOfLockers.
+	^self new initializeWithLockers: numberOfLockers.
 ]
 
 { #category : #finish }
@@ -28,6 +28,6 @@ Board >> finishLine [
 ]
 
 { #category : #'instance initialization' }
-Board >> withLockers: numberOfLockers [ 
+Board >> initializeWithLockers: numberOfLockers [ 
 	lockers:= numberOfLockers.
 ]

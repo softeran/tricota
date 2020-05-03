@@ -25,12 +25,12 @@ Game class >> assertTheSecondElementIsABoard: aBoard [
 ]
 
 { #category : #'instance creation' }
-Game class >> setElements: aDice and: aBoard [  
+Game class >> initializeRolling: aDice On: aBoard [  
 
 	self assertTheFirstElementIsADice: aDice.
 	self assertTheSecondElementIsABoard: aBoard.
 	
-	^self new setElements: aDice and: aBoard.
+	^self new initializeRolling: aDice On: aBoard.
 ]
 
 { #category : #playing }
@@ -60,6 +60,13 @@ Game >> hasStarted [
 	^ (players isEmpty) not.
 ]
 
+{ #category : #'instance initialization' }
+Game >> initializeRolling: aDice On: aBoard [ 
+	dice:= aDice.
+	board:= aBoard.
+	players:= #().
+]
+
 { #category : #playing }
 Game >> move: currentPlayer to: nextPosition [
 	
@@ -67,7 +74,7 @@ Game >> move: currentPlayer to: nextPosition [
 	finishLine := board finishLine .
 	(nextPosition >= finishLine) 
 		ifTrue: [currentPlayer moveForward: (finishLine).
-					winner := currentPlayer sayYourName ]
+					winner := currentPlayer named ]
 		ifFalse: [currentPlayer moveForward: (nextPosition)].
 	 
 	
@@ -88,13 +95,6 @@ Game >> nextTurn [
 { #category : #playing }
 Game >> playersPositions [
 	^ players playersPositions
-]
-
-{ #category : #'instance initialization' }
-Game >> setElements: aDice and: aBoard [ 
-	dice:= aDice.
-	board:= aBoard.
-	players:= #().
 ]
 
 { #category : #playing }

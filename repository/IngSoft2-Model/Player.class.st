@@ -9,23 +9,30 @@ Class {
 }
 
 { #category : #'instance creation' }
-Player class >> assertNameIsAString: aString [ 
+Player class >> assertNameIsANonEmptyString: aString [ 
 
-	(aString isString)
-		ifFalse: [ InstanceCreationFailed signal: 'Name must be a string' ]
+	(aString isEmpty)
+		ifFalse: [ InstanceCreationFailed signal: 'Name must not be an empty string' ]
 
 ]
 
 { #category : #'instance creation' }
-Player class >> yourNameIs: aString [ 
+Player class >> initializeWithName: aString [ 
 
-	self assertNameIsAString: aString.
-	^self new yourNameIs: aString.
+	self assertNameIsANonEmptyString: aString.
+	^self new initializeWithName: aString.
 ]
 
 { #category : #playing }
 Player >> currentPosition [
 	^position
+]
+
+{ #category : #'instance initialization' }
+Player >> initializeWithName: aString [ 
+	name:= aString.
+	position:= 0.
+	
 ]
 
 { #category : #playing }
@@ -34,19 +41,12 @@ Player >> moveForward: moveTo [
 	position := moveTo.
 ]
 
-{ #category : #reset }
-Player >> resetPosition [
-	position := 0.
-]
-
 { #category : #hablar }
-Player >> sayYourName [
+Player >> named [
 	^name.
 ]
 
-{ #category : #'instance initialization' }
-Player >> yourNameIs: aString [ 
-	name:= aString.
-	position:= 0.
-	
+{ #category : #reset }
+Player >> resetPosition [
+	position := 0.
 ]

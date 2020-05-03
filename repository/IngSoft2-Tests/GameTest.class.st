@@ -9,11 +9,11 @@ GameTest >> testAskForWinnerBeforeFinishing [
 
 	| board game die players player1 player2 |
 		
-	board := Board withLockers: 6.
+	board := Board initializeWithLockers: 6.
 	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.
@@ -32,11 +32,11 @@ GameTest >> testFinalPositions [
 
 	| board game die players player1 player2 positions |
 		
-	board := Board withLockers: 6.
+	board := Board initializeWithLockers: 6.
 	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.
@@ -45,8 +45,8 @@ GameTest >> testFinalPositions [
 	game nextTurn.
 	game nextTurn.
 	positions:= OrderedCollection new.
-	positions add:(CurrentPosition of:'Juan' atLocker:6);
-	add:(CurrentPosition of:'Nico' atLocker: 4).
+	positions add:(CurrentPosition initializeOf:'Juan' atLocker:6);
+	add:(CurrentPosition initializeOf:'Nico' atLocker: 4).
 	
 	
 	self assert:(game playersPositions =  positions).
@@ -59,11 +59,11 @@ GameTest >> testFirstTurn [
 
 	| board game die players player1 player2|
 		
-	board := Board withLockers: 10.
+	board := Board initializeWithLockers: 10.
 	die := Die of: 4 rolling: #(3 4 1).
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.
@@ -79,9 +79,9 @@ GameTest >> testFirstTurn [
 GameTest >> testGameNotStarted [
 
 	| board game die |
-	board := Board withLockers: 10.
+	board := Board initializeWithLockers: 10.
 	die := Die of: 4.
-	game:= Game setElements: die and: board.
+	game:= Game initializeRolling: die On: board.
 
 	self assert: (game hasStarted) equals: false.
 
@@ -94,11 +94,11 @@ GameTest >> testGameStarted [
 
 	| board game die players player1 player2 |
 		
-	board := Board withLockers: 10.
+	board := Board initializeWithLockers: 10.
 	die := Die of: 4.
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.
@@ -114,19 +114,19 @@ GameTest >> testIncorrectGameInstanciation [
 
 	| board game die notADie notABoard|
 	
-	board := Board withLockers: 10.
+	board := Board initializeWithLockers: 10.
 	die := Die of: 4.
 
 	self
-		should: [ game:= Game setElements: notADie and: board ]
+		should: [ game:= Game initializeRolling: notADie On: board ]
 		raise: InstanceCreationFailed
 		withMessageText: 'The dice is incorrect'.
 	self
-		should: [ game:= Game setElements: die and: notABoard  ]
+		should: [ game:= Game initializeRolling: die On: notABoard  ]
 		raise: InstanceCreationFailed
 		withMessageText: 'The board is incorrect'.
 	self
-		should: [ game:= Game setElements: notADie  and: notABoard  ]
+		should: [ game:= Game initializeRolling: notADie  On: notABoard  ]
 		raise: InstanceCreationFailed
 		withMessageText: 'The dice is incorrect'
 	
@@ -138,9 +138,9 @@ GameTest >> testInvalidTurn [
 
 	| board game die|
 		
-	board := Board withLockers: 10.
+	board := Board initializeWithLockers: 10.
 	die := Die of: 4 rolling: #(3 4 1).
-	game:= Game setElements: die and: board.
+	game:= Game initializeRolling: die On: board.
 	 
 	self
 		should: [ game nextTurn  ]
@@ -153,11 +153,11 @@ GameTest >> testPlayerCantGoFurtherThanFinishLine [
 
 	| board game die players player1 player2 |
 		
-	board := Board withLockers: 11.
+	board := Board initializeWithLockers: 11.
 	die := Die of: 10 rolling: #(3 4 9).
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.
@@ -176,11 +176,11 @@ GameTest >> testPlayerWon [
 
 	| board game die players player1 player2 |
 		
-	board := Board withLockers: 6.
+	board := Board initializeWithLockers: 6.
 	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.
@@ -199,11 +199,11 @@ GameTest >> testResetPositions [
 
 	| board game die players player1 player2 positions result |
 		
-	board := Board withLockers: 6.
+	board := Board initializeWithLockers: 6.
 	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.
@@ -214,8 +214,8 @@ GameTest >> testResetPositions [
 	
 	game startPlaying: players.
 	positions:= OrderedCollection new.
-	positions add:(CurrentPosition of:'Juan' atLocker:0);
-	add:(CurrentPosition of:'Nico' atLocker: 0).
+	positions add:(CurrentPosition initializeOf:'Juan' atLocker:0);
+	add:(CurrentPosition initializeOf:'Nico' atLocker: 0).
 	result:= game playersPositions.
 	
 	
@@ -231,11 +231,11 @@ GameTest >> testWinnersName [
 
 	| board game die players player1 player2 |
 		
-	board := Board withLockers: 6.
+	board := Board initializeWithLockers: 6.
 	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game setElements: die and: board.
-	player1:= Player yourNameIs: 'Juan'.
-	player2:= Player yourNameIs: 'Nico'.
+	game:= Game initializeRolling: die On: board.
+	player1:= Player initializeWithName: 'Juan'.
+	player2:= Player initializeWithName: 'Nico'.
 	players:= OrderedCollection new.
 	players add: player1; 
 				add: player2.

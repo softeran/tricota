@@ -9,8 +9,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-CurrentPosition class >> of: playerName atLocker: number [ 
-	^self new of: playerName atLocker: number.
+CurrentPosition class >> initializeOf: playerName atLocker: number [ 
+	^self new initializeOf: playerName atLocker: number.
 ]
 
 { #category : #'instance initialization' }
@@ -32,7 +32,7 @@ CurrentPosition >> getName [
 ]
 
 { #category : #'instance initialization' }
-CurrentPosition >> of: playerName atLocker: number [
+CurrentPosition >> initializeOf: playerName atLocker: number [
 	name:= playerName.
 	locker:= number.
 ]

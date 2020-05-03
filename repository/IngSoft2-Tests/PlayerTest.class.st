@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #tests }
-PlayerTest >> testIncorrectPlayerInicialization [
-
- 	
-	self
-		should: [ Player yourNameIs: 3  ]
-		raise: InstanceCreationFailed
-		withMessageText: 'Name must be a string'
+PlayerTest >> testInitializePlayerName [
+ 	| player |
+	player:= Player initializeWithName: 'Juan'.
+	self assert: player named equals: 'Juan'.
 ]
 
 { #category : #tests }
-PlayerTest >> testInitializePlayer [
- 	| player |
-	player:= Player yourNameIs: 'Juan'.
-	self assert: player sayYourName equals: 'Juan'.
+PlayerTest >> testPlayerNameMustBeNonEmptyString [
+
+ 	
+	self
+		should: [ Player initializeWithName: '']
+		raise: InstanceCreationFailed
+		withMessageText: 'Name must not be an empty string'.
 ]
