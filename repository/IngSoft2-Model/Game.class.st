@@ -49,7 +49,7 @@ Game >> assertTheGameHasFinished [
 { #category : #displaying }
 Game >> hasFinished [
 	
-	| finishLine return |
+	| finishLine |
 	finishLine := board finishLine.
 	^ players haveReached: finishLine
 	

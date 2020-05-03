@@ -30,7 +30,7 @@ GameTest >> testAskForWinnerBeforeFinishing [
 { #category : #tests }
 GameTest >> testFinalPositions [
 
-	| board game die players player1 player2 positions result |
+	| board game die players player1 player2 positions |
 		
 	board := Board withLockers: 6.
 	die := Die of: 4 rolling: #(3 4 3).
@@ -47,7 +47,7 @@ GameTest >> testFinalPositions [
 	positions:= OrderedCollection new.
 	positions add:(CurrentPosition of:'Juan' atLocker:6);
 	add:(CurrentPosition of:'Nico' atLocker: 4).
-	result:= game playersPositions.
+	
 	
 	self assert:(game playersPositions =  positions).
 	
@@ -78,7 +78,7 @@ GameTest >> testFirstTurn [
 { #category : #tests }
 GameTest >> testGameNotStarted [
 
-	| board game die players player1 player2 |
+	| board game die |
 	board := Board withLockers: 10.
 	die := Die of: 4.
 	game:= Game setElements: die and: board.

@@ -29,14 +29,6 @@ Player >> currentPosition [
 ]
 
 { #category : #playing }
-Player >> finalPosition [
-	|n p|
-	n := self sayYourName.
-	p := self currentPosition.
-	^#(n p).
-]
-
-{ #category : #playing }
 Player >> moveForward: moveTo [ 
 	
 	position := moveTo.

@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 PlayerTest >> testIncorrectPlayerInicialization [
 
- 	| player |
+ 	
 	self
 		should: [ Player yourNameIs: 3  ]
 		raise: InstanceCreationFailed
