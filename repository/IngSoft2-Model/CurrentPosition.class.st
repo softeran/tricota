@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-CurrentPosition class >> initializeOf: playerName atLocker: number [ 
+CurrentPosition class >> of: playerName atLocker: number [ 
 	^self new initializeOf: playerName atLocker: number.
 ]
 

@@ -16,7 +16,7 @@ Board class >> assertIsGraterThanTwo: aNumberOfLockers [
 ]
 
 { #category : #'instance creation' }
-Board class >> initializeWithLockers: numberOfLockers [ 
+Board class >> withLockers: numberOfLockers [ 
 
 	self assertIsGraterThanTwo: numberOfLockers.
 	^self new initializeWithLockers: numberOfLockers.

@@ -12,12 +12,12 @@ Class {
 Player class >> assertNameIsANonEmptyString: aString [ 
 
 	(aString isEmpty)
-		ifFalse: [ InstanceCreationFailed signal: 'Name must not be an empty string' ]
+		ifTrue: [ InstanceCreationFailed signal: 'Name must not be an empty string' ]
 
 ]
 
 { #category : #'instance creation' }
-Player class >> initializeWithName: aString [ 
+Player class >> named: aString [ 
 
 	self assertNameIsANonEmptyString: aString.
 	^self new initializeWithName: aString.
@@ -42,7 +42,7 @@ Player >> moveForward: moveTo [
 ]
 
 { #category : #hablar }
-Player >> named [
+Player >> nameIs [
 	^name.
 ]
 

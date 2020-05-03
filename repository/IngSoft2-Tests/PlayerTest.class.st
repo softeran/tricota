@@ -7,8 +7,8 @@ Class {
 { #category : #tests }
 PlayerTest >> testInitializePlayerName [
  	| player |
-	player:= Player initializeWithName: 'Juan'.
-	self assert: player named equals: 'Juan'.
+	player:= Player named: 'Juan'.
+	self assert: player nameIs equals: 'Juan'.
 ]
 
 { #category : #tests }
@@ -16,7 +16,7 @@ PlayerTest >> testPlayerNameMustBeNonEmptyString [
 
  	
 	self
-		should: [ Player initializeWithName: '']
+		should: [ Player named: '']
 		raise: InstanceCreationFailed
 		withMessageText: 'Name must not be an empty string'.
 ]

@@ -68,7 +68,7 @@ CircularIterator >> playersPositions [
 	| positions |
 	positions:= OrderedCollection new.
 	
-		options collect: [ :player | positions add:( CurrentPosition initializeOf: (player named) atLocker: (player currentPosition)) ].
+		options collect: [ :player | positions add:( CurrentPosition of: (player nameIs) atLocker: (player currentPosition)) ].
 	^positions.
 ]
 

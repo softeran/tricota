@@ -25,7 +25,7 @@ Game class >> assertTheSecondElementIsABoard: aBoard [
 ]
 
 { #category : #'instance creation' }
-Game class >> initializeRolling: aDice On: aBoard [  
+Game class >> rolling: aDice On: aBoard [  
 
 	self assertTheFirstElementIsADice: aDice.
 	self assertTheSecondElementIsABoard: aBoard.
@@ -74,7 +74,7 @@ Game >> move: currentPlayer to: nextPosition [
 	finishLine := board finishLine .
 	(nextPosition >= finishLine) 
 		ifTrue: [currentPlayer moveForward: (finishLine).
-					winner := currentPlayer named ]
+					winner := currentPlayer nameIs ]
 		ifFalse: [currentPlayer moveForward: (nextPosition)].
 	 
 	
