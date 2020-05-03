@@ -1,5 +1,5 @@
 Class {
-	#name : #Game,
+	#name : #UCABoardGame,
 	#superclass : #Object,
 	#instVars : [
 		'board',
@@ -11,43 +11,43 @@ Class {
 }
 
 { #category : #'instance creation' }
-Game class >> assertTheFirstElementIsADice: aDice [
+UCABoardGame class >> assertTheFirstElementIsADice: aDice [
 	
 	((aDice class = Die) | (aDice class = Dice))
 		ifFalse: [ InstanceCreationFailed signal: 'The dice is incorrect' ]
 ]
 
 { #category : #'instance creation' }
-Game class >> assertTheSecondElementIsABoard: aBoard [
+UCABoardGame class >> assertTheSecondElementIsABoard: aBoard [
 	
 	(aBoard class = Board)
 		ifFalse: [ InstanceCreationFailed signal: 'The board is incorrect' ]
 ]
 
 { #category : #'instance creation' }
-Game class >> rolling: aDice On: aBoard [  
+UCABoardGame class >> rolling: aDice on: aBoard with: aGroupOfPlayers [
 
 	self assertTheFirstElementIsADice: aDice.
 	self assertTheSecondElementIsABoard: aBoard.
 	
-	^self new initializeRolling: aDice On: aBoard.
+	^self new initializeRolling: aDice on: aBoard with: aGroupOfPlayers.
 ]
 
 { #category : #playing }
-Game >> assertTheGameHasBegan [
+UCABoardGame >> assertTheGameHasBegan [
 	
 	(self hasStarted )
 		ifFalse: [ InstanceCreationFailed signal: 'The game has not started yet' ]
 ]
 
 { #category : #playing }
-Game >> assertTheGameHasFinished [
+UCABoardGame >> assertTheGameHasFinished [
 	(self hasFinished)
 		ifFalse: [ InstanceCreationFailed signal: 'The game has not finished yet' ]
 ]
 
 { #category : #displaying }
-Game >> hasFinished [
+UCABoardGame >> hasFinished [
 	
 	| finishLine |
 	finishLine := board finishLine.
@@ -56,19 +56,20 @@ Game >> hasFinished [
 ]
 
 { #category : #playing }
-Game >> hasStarted [
+UCABoardGame >> hasStarted [
 	^ (players isEmpty) not.
 ]
 
 { #category : #'instance initialization' }
-Game >> initializeRolling: aDice On: aBoard [ 
+UCABoardGame >> initializeRolling: aDice on: aBoard with: aGroupOfPlayers [ 
 	dice:= aDice.
 	board:= aBoard.
-	players:= #().
+	players:= (SequentialPlayersProvider providing: aGroupOfPlayers).
+	winner := 'No Winner'.
 ]
 
 { #category : #playing }
-Game >> move: currentPlayer to: nextPosition [
+UCABoardGame >> move: currentPlayer to: nextPosition [
 	
 	|finishLine |
 	finishLine := board finishLine .
@@ -81,7 +82,7 @@ Game >> move: currentPlayer to: nextPosition [
 ]
 
 { #category : #playing }
-Game >> nextTurn [
+UCABoardGame >> nextTurn [
 	
 	|currentPlayer nextPosition |
 	self assertTheGameHasBegan.
@@ -93,19 +94,12 @@ Game >> nextTurn [
 ]
 
 { #category : #playing }
-Game >> playersPositions [
+UCABoardGame >> playersPositions [
 	^ players playersPositions
 ]
 
 { #category : #playing }
-Game >> startPlaying: aSequenceOfPlayers [
-	players:= (SequentialPlayersProvider providing: aSequenceOfPlayers).
-	players resetPosition.
-	winner := 'No Winner'.
-]
-
-{ #category : #playing }
-Game >> theWinnerIs [
+UCABoardGame >> theWinnerIs [
 
 	self assertTheGameHasFinished.
 	^ winner 

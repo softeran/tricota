@@ -1,23 +1,35 @@
 Class {
 	#name : #GameTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'juan',
+		'nico',
+		'players',
+		'board',
+		'die'
+	],
 	#category : #'IngSoft2-Tests-Game-Tests'
 }
+
+{ #category : #running }
+GameTest >> setUp [
+
+	board := Board withLockers: 6.
+	die := Die of: 4 rolling: #(3 4 3).
+	juan:= Player named: 'Juan'.
+	nico:= Player named: 'Nico'.
+		players:= OrderedCollection new.
+		players 
+				add: juan; 
+				add: nico.
+]
 
 { #category : #tests }
 GameTest >> testAskForWinnerBeforeFinishing [
 
-	| board game die players player1 player2 |
+	| game |
 		
-	board := Board withLockers: 6.
-	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game rolling: die On: board.
-	player1:= Player named: 'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players.
+	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	game nextTurn.
 
@@ -30,24 +42,15 @@ GameTest >> testAskForWinnerBeforeFinishing [
 { #category : #tests }
 GameTest >> testFinalPositions [
 
-	| board game die players player1 player2 positions |
+	|game positions|
 		
-	board := Board withLockers: 6.
-	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game rolling: die On: board.
-	player1:= Player named:'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players.
+	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	game nextTurn.
 	game nextTurn.
 	positions:= OrderedCollection new.
 	positions add:(CurrentPosition of:'Juan' atLocker:6);
 	add:(CurrentPosition of:'Nico' atLocker: 4).
-	
 	
 	self assert:(game playersPositions =  positions).
 	
@@ -57,134 +60,23 @@ GameTest >> testFinalPositions [
 { #category : #tests }
 GameTest >> testFirstTurn [
 
-	| board game die players player1 player2|
+	| game |
 		
-	board := Board withLockers: 10.
-	die := Die of: 4 rolling: #(3 4 1).
-	game:= Game rolling: die On: board.
-	player1:= Player named: 'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players.
+	game:= UCABoardGame rolling: die on: board with:players.
 	game nextTurn.
 	
-	self assert: player1 currentPosition equals: 3.
+	self assert: juan currentPosition equals: 3.
 	
 	
 ]
 
 { #category : #tests }
-GameTest >> testGameNotStarted [
+GameTest >> testGameHasFinished [
 
-	| board game die |
-	board := Board withLockers: 10.
-	die := Die of: 4.
-	game:= Game rolling: die On: board.
-
-	self assert: (game hasStarted) equals: false.
-
-	
-	
-]
-
-{ #category : #tests }
-GameTest >> testGameStarted [
-
-	| board game die players player1 player2 |
+	| game |
 		
-	board := Board withLockers: 10.
-	die := Die of: 4.
-	game:= Game rolling: die On: board.
-	player1:= Player named: 'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players. 
 	
-	self assert: (game hasStarted) equals: true.
-	
-	
-]
-
-{ #category : #tests }
-GameTest >> testIncorrectGameInstanciation [
-
-	| board game die notADie notABoard|
-	
-	board := Board withLockers: 10.
-	die := Die of: 4.
-
-	self
-		should: [ game:= Game rolling: notADie On: board ]
-		raise: InstanceCreationFailed
-		withMessageText: 'The dice is incorrect'.
-	self
-		should: [ game:= Game rolling: die On: notABoard  ]
-		raise: InstanceCreationFailed
-		withMessageText: 'The board is incorrect'.
-	self
-		should: [ game:= Game rolling: notADie  On: notABoard  ]
-		raise: InstanceCreationFailed
-		withMessageText: 'The dice is incorrect'
-	
-	
-]
-
-{ #category : #tests }
-GameTest >> testInvalidTurn [
-
-	| board game die|
-		
-	board := Board withLockers: 10.
-	die := Die of: 4 rolling: #(3 4 1).
-	game:= Game rolling: die On: board.
-	 
-	self
-		should: [ game nextTurn  ]
-		raise: InstanceCreationFailed
-		withMessageText: 'The game has not started yet'
-]
-
-{ #category : #tests }
-GameTest >> testPlayerCantGoFurtherThanFinishLine [
-
-	| board game die players player1 player2 |
-		
-	board := Board withLockers: 11.
-	die := Die of: 10 rolling: #(3 4 9).
-	game:= Game rolling: die On: board.
-	player1:= Player named: 'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-
-	self assert: player1 currentPosition equals: 11.
-	
-	
-]
-
-{ #category : #tests }
-GameTest >> testPlayerWon [
-
-	| board game die players player1 player2 |
-		
-	board := Board withLockers: 6.
-	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game rolling: die On: board.
-	player1:= Player named: 'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players.
+	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	game nextTurn.
 	game nextTurn.
@@ -195,19 +87,48 @@ GameTest >> testPlayerWon [
 ]
 
 { #category : #tests }
-GameTest >> testResetPositions [
+GameTest >> testIncorrectGameInstanciation [
 
-	| board game die players player1 player2 positions result |
+	"|game notADie notABoard|
+	
+	self
+		should: [ game:= UCABoardGame rolling: notADie On: board ]
+		raise: InstanceCreationFailed
+		withMessageText: 'The dice is incorrect'.
+	self
+		should: [ game:= UCABoardGame rolling: die On: notABoard  ]
+		raise: InstanceCreationFailed
+		withMessageText: 'The board is incorrect'.
+	self
+		should: [ game:= UCABoardGame rolling: notADie  On: notABoard  ]
+		raise: InstanceCreationFailed
+		withMessageText: 'The dice is incorrect'"
+	
+	
+]
+
+{ #category : #tests }
+GameTest >> testPlayerCantGoFurtherThanFinishLine [
+
+	| game |
 		
-	board := Board withLockers: 6.
-	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game rolling: die On: board.
-	player1:= Player named: 'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players.
+	die := Die of: 4 rolling: #(3 4 4).
+	game:= UCABoardGame rolling: die on: board with: players.
+
+	game nextTurn.
+	game nextTurn.
+	game nextTurn.
+	self assert: juan currentPosition equals: 6.
+	
+	
+]
+
+{ #category : #tests }
+GameTest >> testResetPositionsWhenRestartingGame [
+
+"| game positions |
+	game:= UCABoardGame rolling: die on: board with: players.
+	
 	game nextTurn.
 	game nextTurn.
 	game nextTurn.
@@ -216,10 +137,8 @@ GameTest >> testResetPositions [
 	positions:= OrderedCollection new.
 	positions add:(CurrentPosition of:'Juan' atLocker:0);
 	add:(CurrentPosition of:'Nico' atLocker: 0).
-	result:= game playersPositions.
 	
-	
-	self assert:(result =  positions).
+	self assert:(game playersPositions =  positions)."
 	
 
 	
@@ -229,17 +148,9 @@ GameTest >> testResetPositions [
 { #category : #tests }
 GameTest >> testWinnersName [
 
-	| board game die players player1 player2 |
+	| game |
 		
-	board := Board withLockers: 6.
-	die := Die of: 4 rolling: #(3 4 3).
-	game:= Game rolling: die On: board.
-	player1:= Player named: 'Juan'.
-	player2:= Player named: 'Nico'.
-	players:= OrderedCollection new.
-	players add: player1; 
-				add: player2.
-	game startPlaying: players.
+	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	game nextTurn.
 	game nextTurn.
