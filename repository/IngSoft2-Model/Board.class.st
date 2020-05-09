@@ -2,10 +2,19 @@ Class {
 	#name : #Board,
 	#superclass : #Object,
 	#instVars : [
-		'lockers'
+		'lockers',
+		'laps'
 	],
 	#category : #'IngSoft2-Model-Board'
 }
+
+{ #category : #'instance creation' }
+Board class >> assertIsGraterThanCero: aNumberOfLaps [
+
+	aNumberOfLaps> 0
+		ifFalse: [ InstanceCreationFailed signal: 'Board must have at least one lap' ]
+	
+]
 
 { #category : #'instance creation' }
 Board class >> assertIsGraterThanTwo: aNumberOfLockers [
@@ -16,10 +25,12 @@ Board class >> assertIsGraterThanTwo: aNumberOfLockers [
 ]
 
 { #category : #'instance creation' }
-Board class >> withLockers: numberOfLockers [ 
+Board class >> withLockers: numberOfLockers andLaps: numberOfLaps [
 
 	self assertIsGraterThanTwo: numberOfLockers.
-	^self new initializeWithLockers: numberOfLockers.
+	self assertIsGraterThanCero: numberOfLaps.
+	
+	^self new initializeWithLockers: numberOfLockers andLaps: numberOfLaps.
 ]
 
 { #category : #finish }
@@ -28,6 +39,7 @@ Board >> finishLine [
 ]
 
 { #category : #'instance initialization' }
-Board >> initializeWithLockers: numberOfLockers [ 
+Board >> initializeWithLockers: numberOfLockers andLaps: numberOfLaps [
 	lockers:= numberOfLockers.
+	laps:= numberOfLaps.
 ]

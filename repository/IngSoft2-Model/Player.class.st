@@ -25,20 +25,20 @@ Player class >> named: aString [
 
 { #category : #playing }
 Player >> currentPosition [
-	^position
+	^position locker.
 ]
 
 { #category : #'instance initialization' }
 Player >> initializeWithName: aString [ 
 	name:= aString.
-	position:= 0.
+	position:= CurrentPosition of: aString atLocker:0 atLap:0.
 	
 ]
 
 { #category : #playing }
 Player >> moveForward: moveTo [ 
 	
-	position := moveTo.
+	position moveFoward: moveTo.
 ]
 
 { #category : #hablar }

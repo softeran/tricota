@@ -29,7 +29,7 @@ GameTest >> playerNamed: aName [
 
 { #category : #running }
 GameTest >> setUp [
-	board := Board withLockers: 6.
+	board := Board withLockers: 6 andLaps: 2.
 	die := Die of: 4 rolling: #(3 4 3).
 	juan := self juan.
 	nico := self nico.
@@ -64,8 +64,8 @@ GameTest >> testFinalPositions [
 	game nextTurn.
 	game nextTurn.
 	positions:= OrderedCollection new.
-	positions add:(CurrentPosition of:'Juan' atLocker:6);
-	add:(CurrentPosition of:'Nico' atLocker: 4).
+	positions add:(CurrentPosition of:'Juan' atLocker:6 atLap:2);
+	add:(CurrentPosition of:'Nico' atLocker: 4 atLap:2).
 	
 	self assert:(game playersPositions =  positions).
 	
