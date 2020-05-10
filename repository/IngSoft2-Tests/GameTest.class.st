@@ -11,6 +11,18 @@ Class {
 	#category : #'IngSoft2-Tests-Game-Tests'
 }
 
+{ #category : #tests }
+GameTest >> amountOfTurns: game [
+	game nextTurn.
+	game nextTurn.
+	game nextTurn.
+	game nextTurn.
+	game nextTurn.
+	game nextTurn.
+	game nextTurn.
+	game nextTurn
+]
+
 { #category : #running }
 GameTest >> juan [
 	^ self playerNamed: 'Juan'.
@@ -19,6 +31,11 @@ GameTest >> juan [
 { #category : #running }
 GameTest >> nico [
 	^ self playerNamed: 'Nico'.
+]
+
+{ #category : #playing }
+GameTest >> play: anUCABoardGame amountOfTurns: anInteger [ 
+	1 to: anInteger do: [ :number | anUCABoardGame nextTurn ].
 ]
 
 { #category : #running }
@@ -30,7 +47,7 @@ GameTest >> playerNamed: aName [
 { #category : #running }
 GameTest >> setUp [
 	board := Board withLockers: 6 andLaps: 2.
-	die := Die of: 4 rolling: #(3 4 3).
+	die := Die of: 4 rolling: #(3 4 3 1 4 1 4).
 	juan := self juan.
 	nico := self nico.
 	players := OrderedCollection new.
@@ -57,17 +74,13 @@ GameTest >> testAskForWinnerBeforeFinishing [
 { #category : #tests }
 GameTest >> testFinalPositions [
 
-	|game positions|
+	|game|
 		
 	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	game nextTurn.
 	game nextTurn.
-	positions:= OrderedCollection new.
-	positions add:(CurrentPosition of:'Juan' atLocker:6 atLap:2);
-	add:(CurrentPosition of:'Nico' atLocker: 4 atLap:2).
-	
-	self assert:(game playersPositions =  positions).
+	self assert:((game playersPositions atPosition: 1 ) = juan).
 	
 	
 ]
@@ -80,25 +93,17 @@ GameTest >> testFirstTurn [
 	game:= UCABoardGame rolling: die on: board with:players.
 	game nextTurn.
 	
-	self assert: juan currentPosition equals: 3.
+	self assert: juan lockerPosition equals: 3.
 	
 	
 ]
 
 { #category : #tests }
 GameTest >> testGameHasFinished [
-
 	| game |
-		
-	
-	game:= UCABoardGame rolling: die on: board with: players.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	
-	self assert: game hasFinished.
-	
-	
+	game := UCABoardGame rolling: die on: board with: players.
+	self play: game amountOfTurns:8.
+	self assert: game hasFinished
 ]
 
 { #category : #tests }
@@ -123,7 +128,7 @@ GameTest >> testIncorrectGameInstanciation [
 ]
 
 { #category : #tests }
-GameTest >> testPlayerCantGoFurtherThanFinishLine [
+GameTest >> testPlayerFinishedOneLap [
 
 	| game |
 		
@@ -133,7 +138,7 @@ GameTest >> testPlayerCantGoFurtherThanFinishLine [
 	game nextTurn.
 	game nextTurn.
 	game nextTurn.
-	self assert: juan currentPosition equals: 6.
+	self assert: juan lapNumber equals: 1.
 	
 	
 ]
@@ -166,11 +171,9 @@ GameTest >> testWinnersName [
 	| game |
 		
 	game:= UCABoardGame rolling: die on: board with: players.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
+	self play: game amountOfTurns:8.
 	
-	self assert: game theWinnerIs equals: 'Juan'.
+	self assert: game theWinnerIs equals: juan.
 	
 	
 ]

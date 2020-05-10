@@ -46,12 +46,23 @@ UCABoardGame >> assertTheGameHasFinished [
 		ifFalse: [ InstanceCreationFailed signal: 'The game has not finished yet' ]
 ]
 
+{ #category : #asserting }
+UCABoardGame >> assertTheWinnerIs: currentPlayer [
+	
+	(currentPlayer lapNumber == board lapsToWin)
+	ifTrue:[winner:= currentPlayer].
+	
+	
+	
+]
+
 { #category : #displaying }
 UCABoardGame >> hasFinished [
 	
-	| finishLine |
-	finishLine := board finishLine.
-	^ players haveReached: finishLine
+	| totalLaps |
+	totalLaps  := board lapsToWin.
+	
+	^ players haveCompleted: totalLaps.
 	
 ]
 
@@ -69,16 +80,40 @@ UCABoardGame >> initializeRolling: aDice on: aBoard with: aGroupOfPlayers [
 ]
 
 { #category : #playing }
+UCABoardGame >> move: currentPlayer forwardTo: nextPosition changingLapIfCrossing: finishLine [
+	
+	self move: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
+	self move: currentPlayer to: nextPosition ifCrosses: finishLine.
+	self assertTheWinnerIs: currentPlayer.
+	
+
+	
+]
+
+{ #category : #playing }
 UCABoardGame >> move: currentPlayer to: nextPosition [
+	| finishLine |
+	finishLine := board finishLine.
+	self
+		move: currentPlayer
+		forwardTo: nextPosition
+		changingLapIfCrossing: finishLine
+]
+
+{ #category : #'as yet unclassified' }
+UCABoardGame >> move: currentPlayer to: nextPosition ifCrosses: finishLine [
+
+	(nextPosition >= finishLine)
 	
-	|finishLine |
-	finishLine := board finishLine .
-	(nextPosition >= finishLine) 
-		ifTrue: [currentPlayer moveForward: (finishLine).
-					winner := currentPlayer nameIs ]
-		ifFalse: [currentPlayer moveForward: (nextPosition)].
-	 
-	
+		ifTrue: [ currentPlayer moveForward: (nextPosition - finishLine).
+			currentPlayer increaseLap ].
+]
+
+{ #category : #'as yet unclassified' }
+UCABoardGame >> move: currentPlayer to: nextPosition ifDoesNotCross: finishLine [
+
+	(nextPosition >= finishLine)
+		ifFalse: [ currentPlayer moveForward: nextPosition ]
 ]
 
 { #category : #playing }
@@ -87,7 +122,7 @@ UCABoardGame >> nextTurn [
 	|currentPlayer nextPosition |
 	self assertTheGameHasBegan.
 	currentPlayer := players nextPlayer.
-	nextPosition := currentPlayer currentPosition + dice roll.
+	nextPosition := currentPlayer lockerPosition + dice roll.
 	self move: currentPlayer to: nextPosition.
 	
 	
@@ -95,7 +130,8 @@ UCABoardGame >> nextTurn [
 
 { #category : #playing }
 UCABoardGame >> playersPositions [
-	^ players playersPositions
+	
+	^ PositionTable filledWith: players asACollection.
 ]
 
 { #category : #playing }

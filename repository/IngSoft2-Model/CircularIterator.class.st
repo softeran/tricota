@@ -24,6 +24,11 @@ CircularIterator class >> cyclingOver: aSequentiableCollection [
 	^ self new initializeCyclingOver: aSequentiableCollection asArray
 ]
 
+{ #category : #asACollection }
+CircularIterator >> asACollection [
+	^ options .
+]
+
 { #category : #accessing }
 CircularIterator >> current [
 
@@ -31,8 +36,8 @@ CircularIterator >> current [
 ]
 
 { #category : #playing }
-CircularIterator >> haveReached: finishLine [ 
-	^ options detect: [ :player | player currentPosition = finishLine ] 
+CircularIterator >> haveCompleted: totalLaps [
+	^ options detect: [ :player | player lapNumber = totalLaps] 
 				ifFound: [true] 
 				ifNone: [false].
 ]
@@ -68,7 +73,7 @@ CircularIterator >> playersPositions [
 	| positions |
 	positions:= OrderedCollection new.
 	
-		options collect: [ :player | positions add:( CurrentPosition of: (player nameIs) atLocker: (player currentPosition) atLap: 0) ].
+		options collect: [ :player | positions add:( CurrentPosition of: (player nameIs) atLocker: (player lockerPosition) atLap: 0) ].
 	^positions.
 ]
 

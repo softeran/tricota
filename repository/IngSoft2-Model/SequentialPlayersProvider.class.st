@@ -28,9 +28,14 @@ SequentialPlayersProvider class >> providing: aSequence [
 	^ self new initializeProviding: aSequence
 ]
 
+{ #category : #asACollection }
+SequentialPlayersProvider >> asACollection [
+ 	^ sequence asACollection.
+]
+
 { #category : #playing }
-SequentialPlayersProvider >> haveReached: finishLine [ 
-	^ sequence haveReached: finishLine 
+SequentialPlayersProvider >> haveCompleted: totalLaps [
+	^ sequence haveCompleted: totalLaps.
 ]
 
 { #category : #initialization }

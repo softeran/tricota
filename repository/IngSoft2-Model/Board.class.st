@@ -43,3 +43,8 @@ Board >> initializeWithLockers: numberOfLockers andLaps: numberOfLaps [
 	lockers:= numberOfLockers.
 	laps:= numberOfLaps.
 ]
+
+{ #category : #lap }
+Board >> lapsToWin [
+	^laps.
+]

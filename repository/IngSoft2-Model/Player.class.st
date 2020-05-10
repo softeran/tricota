@@ -25,14 +25,29 @@ Player class >> named: aString [
 
 { #category : #playing }
 Player >> currentPosition [
-	^position locker.
+	^position .
+]
+
+{ #category : #lap }
+Player >> increaseLap [
+	 position increaseLap.
 ]
 
 { #category : #'instance initialization' }
 Player >> initializeWithName: aString [ 
 	name:= aString.
-	position:= CurrentPosition of: aString atLocker:0 atLap:0.
+	position:= CurrentPosition atLocker:0 atLap:0.
 	
+]
+
+{ #category : #lap }
+Player >> lapNumber [
+	^position lapNumber.
+]
+
+{ #category : #playing }
+Player >> lockerPosition [
+	^position locker.
 ]
 
 { #category : #playing }

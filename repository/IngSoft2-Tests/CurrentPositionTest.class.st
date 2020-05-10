@@ -8,8 +8,8 @@ Class {
 CurrentPositionTest >> testEqualsPlayersOnAPosition [
 
 | position1 position2 |
-position1:=CurrentPosition of: 'Juan' atLocker: 4 atLap: 2.
-position2:= CurrentPosition of: 'Juan' atLocker: 4 atLap: 2.
+position1:=CurrentPosition atLocker: 4 atLap: 2.
+position2:= CurrentPosition  atLocker: 4 atLap: 2.
 
 self assert: position1 = position2.
 ]
