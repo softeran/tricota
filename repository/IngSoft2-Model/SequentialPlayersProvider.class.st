@@ -28,16 +28,6 @@ SequentialPlayersProvider class >> providing: aSequence [
 	^ self new initializeProviding: aSequence
 ]
 
-{ #category : #asACollection }
-SequentialPlayersProvider >> asACollection [
- 	^ sequence asACollection.
-]
-
-{ #category : #playing }
-SequentialPlayersProvider >> haveCompleted: totalLaps [
-	^ sequence haveCompleted: totalLaps.
-]
-
 { #category : #initialization }
 SequentialPlayersProvider >> initializeProviding: aSequence [
 
@@ -56,14 +46,4 @@ SequentialPlayersProvider >> nextPlayer [
 	next := sequence current.
 	sequence next.
 	^ next
-]
-
-{ #category : #playing }
-SequentialPlayersProvider >> playersPositions [
-	^ sequence playersPositions.
-]
-
-{ #category : #reset }
-SequentialPlayersProvider >> resetPosition [
-	sequence resetPosition.
 ]

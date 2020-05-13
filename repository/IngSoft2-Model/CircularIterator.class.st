@@ -24,22 +24,10 @@ CircularIterator class >> cyclingOver: aSequentiableCollection [
 	^ self new initializeCyclingOver: aSequentiableCollection asArray
 ]
 
-{ #category : #asACollection }
-CircularIterator >> asACollection [
-	^ options .
-]
-
 { #category : #accessing }
 CircularIterator >> current [
 
 	^options at: currentIndex + 1
-]
-
-{ #category : #playing }
-CircularIterator >> haveCompleted: totalLaps [
-	^ options detect: [ :player | player lapNumber = totalLaps] 
-				ifFound: [true] 
-				ifNone: [false].
 ]
 
 { #category : #testing }
@@ -67,23 +55,8 @@ CircularIterator >> next [
 	^self current 
 ]
 
-{ #category : #playing }
-CircularIterator >> playersPositions [
-
-	| positions |
-	positions:= OrderedCollection new.
-	
-		options collect: [ :player | positions add:( CurrentPosition of: (player nameIs) atLocker: (player lockerPosition) atLap: 0) ].
-	^positions.
-]
-
 { #category : #iterating }
 CircularIterator >> reset [
 
 	currentIndex := 0
-]
-
-{ #category : #reset }
-CircularIterator >> resetPosition [
-	options collect:[:player | player resetPosition ].
 ]

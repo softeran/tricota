@@ -4,8 +4,9 @@ Class {
 	#instVars : [
 		'board',
 		'dice',
-		'players',
-		'winner'
+		'winner',
+		'sequenceOfPlayers',
+		'players'
 	],
 	#category : #'IngSoft2-Model-Game'
 }
@@ -61,21 +62,24 @@ UCABoardGame >> hasFinished [
 	
 	| totalLaps |
 	totalLaps  := board lapsToWin.
+	^ players detect: [ :player | player lapNumber = totalLaps]  				
+					ifFound: [true] 				
+					ifNone: [false].
 	
-	^ players haveCompleted: totalLaps.
 	
 ]
 
 { #category : #playing }
 UCABoardGame >> hasStarted [
-	^ (players isEmpty) not.
+	^ (sequenceOfPlayers isEmpty) not.
 ]
 
 { #category : #'instance initialization' }
 UCABoardGame >> initializeRolling: aDice on: aBoard with: aGroupOfPlayers [ 
 	dice:= aDice.
 	board:= aBoard.
-	players:= (SequentialPlayersProvider providing: aGroupOfPlayers).
+	players:= aGroupOfPlayers.
+	sequenceOfPlayers:= (SequentialPlayersProvider providing: aGroupOfPlayers).
 	winner := 'No Winner'.
 ]
 
@@ -126,7 +130,7 @@ UCABoardGame >> nextTurn [
 	
 	|currentPlayer nextPosition |
 	self assertTheGameHasBegan.
-	currentPlayer := players nextPlayer.
+	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := currentPlayer lockerPosition + dice roll.
 	self move: currentPlayer to: nextPosition.
 	
@@ -136,7 +140,7 @@ UCABoardGame >> nextTurn [
 { #category : #playing }
 UCABoardGame >> playersPositions [
 	
-	^ PositionTable filledWith: players asACollection.
+	^ PositionTable filledWith: players.
 ]
 
 { #category : #playing }
