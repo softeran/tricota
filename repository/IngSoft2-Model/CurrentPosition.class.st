@@ -2,7 +2,6 @@ Class {
 	#name : #CurrentPosition,
 	#superclass : #Object,
 	#instVars : [
-		'name',
 		'locker',
 		'laps'
 	],
@@ -17,7 +16,7 @@ CurrentPosition class >> atLocker: number atLap: numberOfLaps [
 
 { #category : #'instance initialization' }
 CurrentPosition >> = anObject [ 
-	name= anObject getName ifFalse: [ ^false ].
+	laps = anObject lapNumber ifFalse: [ ^false ].
 	locker = anObject lockerPosition ifFalse: [ ^false ].
 	
  ^true
@@ -34,9 +33,11 @@ CurrentPosition >> >= aCurrentPosition [
 
 ]
 
-{ #category : #playersName }
-CurrentPosition >> getName [
-	^name
+{ #category : #'instance initialization' }
+CurrentPosition >> hash [
+	
+	^self species hash bitXor: (self  lapNumber hash bitXor: self lockerPosition hash).
+
 ]
 
 { #category : #lap }
@@ -53,11 +54,6 @@ CurrentPosition >> initializeAtLocker: number atLap: numberOfLaps [
 { #category : #lap }
 CurrentPosition >> lapNumber [
 	^laps.
-]
-
-{ #category : #position }
-CurrentPosition >> locker [
-	^ locker
 ]
 
 { #category : #playerPosition }

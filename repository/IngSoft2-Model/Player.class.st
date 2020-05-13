@@ -47,7 +47,7 @@ Player >> lapNumber [
 
 { #category : #playing }
 Player >> lockerPosition [
-	^position locker.
+	^position lockerPosition .
 ]
 
 { #category : #playing }
