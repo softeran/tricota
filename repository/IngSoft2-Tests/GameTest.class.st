@@ -11,18 +11,6 @@ Class {
 	#category : #'IngSoft2-Tests-Game-Tests'
 }
 
-{ #category : #tests }
-GameTest >> amountOfTurns: game [
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn
-]
-
 { #category : #running }
 GameTest >> juan [
 	^ self playerNamed: 'Juan'.
@@ -72,33 +60,6 @@ GameTest >> testAskForWinnerBeforeFinishing [
 ]
 
 { #category : #tests }
-GameTest >> testFinalPositions [
-
-	|game|
-		
-	game:= UCABoardGame rolling: die on: board with: players.
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	self assert:((game playersPositions atPosition: 1 ) = juan).
-	
-	
-]
-
-{ #category : #tests }
-GameTest >> testFirstTurn [
-
-	| game |
-		
-	game:= UCABoardGame rolling: die on: board with:players.
-	game nextTurn.
-	
-	self assert: juan lockerPosition equals: 3.
-	
-	
-]
-
-{ #category : #tests }
 GameTest >> testGameHasFinished [
 	| game |
 	game := UCABoardGame rolling: die on: board with: players.
@@ -107,22 +68,27 @@ GameTest >> testGameHasFinished [
 ]
 
 { #category : #tests }
-GameTest >> testIncorrectGameInstanciation [
+GameTest >> testLapNumberOfPlayer [
 
-	"|game notADie notABoard|
+	| game |
+	game:= UCABoardGame rolling: die on: board with: players.
+	self play: game amountOfTurns:3.
+	self 
+		assert: (game lapNumberOf: juan) equals:1;
+		assert: (game lapNumberOf: nico) equals:0.
 	
-	self
-		should: [ game:= UCABoardGame rolling: notADie On: board ]
-		raise: InstanceCreationFailed
-		withMessageText: 'The dice is incorrect'.
-	self
-		should: [ game:= UCABoardGame rolling: die On: notABoard  ]
-		raise: InstanceCreationFailed
-		withMessageText: 'The board is incorrect'.
-	self
-		should: [ game:= UCABoardGame rolling: notADie  On: notABoard  ]
-		raise: InstanceCreationFailed
-		withMessageText: 'The dice is incorrect'"
+	
+]
+
+{ #category : #tests }
+GameTest >> testLockerNumberOfPlayer [
+
+	| game |
+		
+	game:= UCABoardGame rolling: die on: board with:players.
+	game nextTurn.
+	
+	self assert: juan lockerPosition equals: 3.
 	
 	
 ]
@@ -144,23 +110,13 @@ GameTest >> testPlayerFinishedOneLap [
 ]
 
 { #category : #tests }
-GameTest >> testResetPositionsWhenRestartingGame [
+GameTest >> testPlayersPositions [
 
-"| game positions |
+	|game|
+		
 	game:= UCABoardGame rolling: die on: board with: players.
-	
-	game nextTurn.
-	game nextTurn.
-	game nextTurn.
-	
-	game startPlaying: players.
-	positions:= OrderedCollection new.
-	positions add:(CurrentPosition of:'Juan' atLocker:0);
-	add:(CurrentPosition of:'Nico' atLocker: 0).
-	
-	self assert:(game playersPositions =  positions)."
-	
-
+	self play:game amountOfTurns:2.
+	self assert:((game playersPositions atPosition: 1 ) = nico).
 	
 	
 ]

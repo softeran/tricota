@@ -79,6 +79,11 @@ UCABoardGame >> initializeRolling: aDice on: aBoard with: aGroupOfPlayers [
 	winner := 'No Winner'.
 ]
 
+{ #category : #lap }
+UCABoardGame >> lapNumberOf: aPlayer [ 
+	^ aPlayer lapNumber.
+]
+
 { #category : #playing }
 UCABoardGame >> move: currentPlayer forwardTo: nextPosition changingLapIfCrossing: finishLine [
 	
