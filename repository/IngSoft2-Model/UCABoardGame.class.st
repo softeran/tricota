@@ -133,6 +133,7 @@ UCABoardGame >> nextTurn [
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := currentPlayer lockerPosition + dice roll.
 	self move: currentPlayer to: nextPosition.
+	nextPosition:= board applyEffectOf: nextPosition.
 	
 	
 ]

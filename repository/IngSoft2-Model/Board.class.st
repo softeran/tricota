@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'lockers',
-		'laps'
+		'laps',
+		'effects'
 	],
 	#category : #'IngSoft2-Model-Board'
 }
@@ -33,6 +34,20 @@ Board class >> withLockers: numberOfLockers andLaps: numberOfLaps [
 	^self new initializeWithLockers: numberOfLockers andLaps: numberOfLaps.
 ]
 
+{ #category : #instanceCreation }
+Board class >> withLockers: anInteger andLaps: anInteger2 withEffects: aCollection [ 
+	^self new initializeWithLockers: anInteger andLaps: anInteger2 withEffects: aCollection.
+]
+
+{ #category : #playing }
+Board >> applyEffectOf: aPosition [
+	effects detect: [ :lockerWithEffect | lockerWithEffect position  = aPosition ]  				
+					ifFound: [:lockerWithEffect | lockerWithEffect applyEffect]  
+									
+					ifNone: [false].
+		
+]
+
 { #category : #finish }
 Board >> finishLine [
 	^lockers.
@@ -42,6 +57,14 @@ Board >> finishLine [
 Board >> initializeWithLockers: numberOfLockers andLaps: numberOfLaps [
 	lockers:= numberOfLockers.
 	laps:= numberOfLaps.
+]
+
+{ #category : #initialization }
+Board >> initializeWithLockers: anInteger andLaps: anInteger2 withEffects: lockersWithEffects [
+	
+	lockers:= anInteger.
+	laps:= anInteger2.
+	effects:= lockersWithEffects.
 ]
 
 { #category : #lap }
