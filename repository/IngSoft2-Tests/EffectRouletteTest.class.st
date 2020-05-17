@@ -42,13 +42,35 @@ EffectRouletteTest >> setUp [
 ]
 
 { #category : #tests }
+EffectRouletteTest >> testAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA [
+
+	| effects atomicBomb effectRoulette speedUp wormHole moonWalk noEffect |
+	
+	atomicBomb := AtomicBomb new.
+	speedUp := SpeedUp new.
+	wormHole := WormHole new.
+	moonWalk := MoonWalk maxBackwards: 5.
+	noEffect := NoEffect new.
+	effects:=Dictionary  new.
+	effects at: atomicBomb put: 2.
+	effects at: speedUp put: 20.
+	effects at: wormHole put: 20.
+	effects at: moonWalk put: 10.
+	effects at: noEffect put: 48.
+	effectRoulette := EffectRoulette with: effects.
+
+	self assert: effectRoulette spin equals: atomicBomb.
+	
+]
+
+{ #category : #tests }
 EffectRouletteTest >> testAtomicBomb [
 
 	| effects game atomicBomb effectRoulette |
 	
 	atomicBomb := AtomicBomb new.
-	effects:=OrderedCollection new.
-	effects add: atomicBomb .
+	effects:=Dictionary  new.
+	effects at: atomicBomb put: 100.
 	effectRoulette := EffectRoulette with: effects.
 	board := Board withLockers: 60 andLaps: 2 withEffects: effectRoulette.
 	
@@ -64,8 +86,8 @@ EffectRouletteTest >> testMoonWalk [
 	| effects game moonWalk  effectRoulette |
 	
 	moonWalk := MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2).
-	effects:=OrderedCollection new.
-	effects add: moonWalk  .
+	effects:=Dictionary  new.
+	effects at: moonWalk put: 100.
 	effectRoulette := EffectRoulette with: effects.
 	board := Board withLockers: 60 andLaps: 2 withEffects: effectRoulette.
 	
@@ -83,8 +105,8 @@ EffectRouletteTest >> testSpeedUp [
 	| effects game speedUp effectRoulette |
 	
 	speedUp := SpeedUp new.
-	effects:=OrderedCollection new.
-	effects add: speedUp .
+	effects:=Dictionary  new.
+	effects at: speedUp put: 100.
 	effectRoulette := EffectRoulette with: effects.
 	board := Board withLockers: 60 andLaps: 2 withEffects: effectRoulette.
 	
@@ -100,8 +122,8 @@ EffectRouletteTest >> testWormHole [
 	| effects game wormHole effectRoulette |
 	
 	wormHole := WormHole new.
-	effects:=OrderedCollection new.
-	effects add: wormHole.
+	effects:=Dictionary  new.
+	effects at: wormHole put: 100.
 	effectRoulette := EffectRoulette with: effects.
 	board := Board withLockers: 60 andLaps: 2 withEffects: effectRoulette.
 	
@@ -112,14 +134,14 @@ EffectRouletteTest >> testWormHole [
 ]
 
 { #category : #tests }
-EffectRouletteTest >> testWormHoleAAAAAAAAAAAAAAAAAAAAAAAAa [
+EffectRouletteTest >> testWormHoleDecreasingLap [
 
 	| effects game wormHole effectRoulette |
 	
 	die := Die of: 10 rolling: #(2).
 	wormHole := WormHole new.
-	effects:=OrderedCollection new.
-	effects add: wormHole.
+	effects:=Dictionary  new.
+	effects at: wormHole put: 100.
 	effectRoulette := EffectRoulette with: effects.
 	board := Board withLockers: 60 andLaps: 2 withEffects: effectRoulette.
 	

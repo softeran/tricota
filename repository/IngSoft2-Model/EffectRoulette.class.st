@@ -2,7 +2,8 @@ Class {
 	#name : #EffectRoulette,
 	#superclass : #Object,
 	#instVars : [
-		'collectionOfEffects'
+		'collectionOfEffects',
+		'dictionaryOfEffects'
 	],
 	#category : #'IngSoft2-Model-Board'
 }
@@ -14,10 +15,20 @@ EffectRoulette class >> with: effects [
 
 { #category : #initialization }
 EffectRoulette >> initializeWith: effects [
-	collectionOfEffects := effects.
+	"collectionOfEffects := effects."
+	| cont |
+	cont :=1.
+	effects keysAndValuesDo: [ :key :value | 
+			effects at: key put: (Interval from: cont to: (cont + value -1)). 
+			cont := cont + value].
+	dictionaryOfEffects := effects.
 ]
 
 { #category : #playing }
 EffectRoulette >> spin [
-	^ collectionOfEffects atRandom.
+	
+	| randomValue |
+	randomValue := Random new nextInt: 100.
+	dictionaryOfEffects keysAndValuesDo: [ :key :value |
+			(value includes: randomValue) ifTrue: [ ^ key ] ].
 ]

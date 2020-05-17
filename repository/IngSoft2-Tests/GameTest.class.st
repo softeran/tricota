@@ -39,8 +39,8 @@ GameTest >> playerNamed: aName [
 GameTest >> setUp [
 
 	noEffect := NoEffect new.
-	effects:=OrderedCollection new.
-	effects add: noEffect.
+	effects:=Dictionary  new.
+	effects at: noEffect put: 100.
 	effectRoulette := EffectRoulette with: effects.
 	board := Board withLockers: 6 andLaps: 2 withEffects: effectRoulette.
 	die := Die of: 4 rolling: #(3 4 3 1 4 1 4).
