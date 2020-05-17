@@ -71,8 +71,3 @@ Player >> moveForward: moveTo [
 Player >> nameIs [
 	^name.
 ]
-
-{ #category : #reset }
-Player >> resetPosition [
-	position := 0.
-]

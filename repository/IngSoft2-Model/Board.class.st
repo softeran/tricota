@@ -40,20 +40,6 @@ Board class >> withLockers: anInteger andLaps: anInteger2 withEffects: aCollecti
 ]
 
 { #category : #playing }
-Board >> applyEffectOf: aPosition [
-	effects detect: [ :lockerWithEffect | lockerWithEffect position  = aPosition ]  				
-					ifFound: [:lockerWithEffect | lockerWithEffect applyEffect]  
-									
-					ifNone: [false].
-		
-]
-
-{ #category : #playing }
-Board >> applyEffectTo: position [  
-	^ effects spin applyEffectTo: position .
-]
-
-{ #category : #playing }
 Board >> applyEffectTo: aPosition knowing: players and: aCurrentPlayer inThe: game [
 	^ effects spin applyEffectTo: aPosition  knowing: players  and: aCurrentPlayer inThe: game.
 ]
