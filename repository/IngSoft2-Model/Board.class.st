@@ -4,21 +4,13 @@ Class {
 	#instVars : [
 		'lockers',
 		'laps',
-		'effects'
+		'effectRoulette'
 	],
 	#category : #'IngSoft2-Model-Board'
 }
 
 { #category : #'instance creation' }
-Board class >> assertIsGraterThanCero: aNumberOfLaps [
-
-	aNumberOfLaps> 0
-		ifFalse: [ InstanceCreationFailed signal: 'Board must have at least one lap' ]
-	
-]
-
-{ #category : #'instance creation' }
-Board class >> assertIsGraterThanTwo: aNumberOfLockers [
+Board class >> assertIsGreaterThanTwo: aNumberOfLockers [
 
 	aNumberOfLockers > 1
 		ifFalse: [ InstanceCreationFailed signal: 'Board must have at least two lockers' ]
@@ -26,22 +18,23 @@ Board class >> assertIsGraterThanTwo: aNumberOfLockers [
 ]
 
 { #category : #'instance creation' }
-Board class >> withLockers: numberOfLockers andLaps: numberOfLaps [
+Board class >> assertIsGreaterThanZero: aNumberOfLaps [
 
-	self assertIsGraterThanTwo: numberOfLockers.
-	self assertIsGraterThanCero: numberOfLaps.
+	aNumberOfLaps> 0
+		ifFalse: [ InstanceCreationFailed signal: 'Board must have at least one lap' ]
 	
-	^self new initializeWithLockers: numberOfLockers andLaps: numberOfLaps.
 ]
 
 { #category : #instanceCreation }
-Board class >> withLockers: anInteger andLaps: anInteger2 withEffects: aCollection [ 
-	^self new initializeWithLockers: anInteger andLaps: anInteger2 withEffects: aCollection.
+Board class >> withLockers: lockers andLaps: laps withEffects: effects [ 
+	self assertIsGreaterThanTwo: lockers.
+	self assertIsGreaterThanZero: laps.
+	^self new initializeWithLockers: lockers andLaps: laps withEffects: effects .
 ]
 
 { #category : #playing }
 Board >> applyEffectTo: aPosition knowing: players and: aCurrentPlayer inThe: game [
-	^ effects spin applyEffectTo: aPosition  knowing: players  and: aCurrentPlayer inThe: game.
+	^ effectRoulette spin applyEffectTo: aPosition  knowing: players  and: aCurrentPlayer inThe: game.
 ]
 
 { #category : #finish }
@@ -49,18 +42,12 @@ Board >> finishLine [
 	^lockers.
 ]
 
-{ #category : #'instance initialization' }
-Board >> initializeWithLockers: numberOfLockers andLaps: numberOfLaps [
-	lockers:= numberOfLockers.
-	laps:= numberOfLaps.
-]
-
 { #category : #initialization }
-Board >> initializeWithLockers: anInteger andLaps: anInteger2 withEffects: lockersWithEffects [
+Board >> initializeWithLockers: anAmountOfLockers andLaps: anAmountOfLaps withEffects: aEffectRoulette [
 	
-	lockers:= anInteger.
-	laps:= anInteger2.
-	effects:= lockersWithEffects.
+	lockers:= anAmountOfLockers.
+	laps:= anAmountOfLaps.
+	effectRoulette:= aEffectRoulette.
 ]
 
 { #category : #lap }

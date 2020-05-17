@@ -41,12 +41,9 @@ MoonWalk class >> maxBackwards: aNumberOfLockers source: aNumberProvider [
 ]
 
 { #category : #playing }
-MoonWalk >> applyEffectTo: aPosition  knowing: players and: aCurrentPlayer inThe: game [
+MoonWalk >> applyEffectTo: aPosition  knowing: players and: currentPlayer inThe: game [
 	
-	| lockers |
-	lockers := self moveBackwards.
-	players do: [:player | player ~= aCurrentPlayer ifTrue: [ game moveBackwards: player amountOf: lockers  ] ] .
-
+	self moveAll: players except: currentPlayer inThe: game.
 	^ aPosition.
 ]
 
@@ -55,6 +52,14 @@ MoonWalk >> initializeMaxBackwards: aNumberOfLockers source: aNumberProvider [
 
 	maxNumberOfLockersBackwards := aNumberOfLockers.
 	numberProvider := aNumberProvider.
+]
+
+{ #category : #'as yet unclassified' }
+MoonWalk >> moveAll: players except: currentPlayer inThe: game [
+
+	| lockers |
+	lockers := self moveBackwards.
+	players do: [:player | player ~= currentPlayer ifTrue: [ game moveBackwards: player amountOf: lockers  ] ] .
 ]
 
 { #category : #playing }

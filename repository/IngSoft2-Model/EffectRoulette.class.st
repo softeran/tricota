@@ -2,8 +2,7 @@ Class {
 	#name : #EffectRoulette,
 	#superclass : #Object,
 	#instVars : [
-		'collectionOfEffects',
-		'dictionaryOfEffects'
+		'effectsWithProbabilities'
 	],
 	#category : #'IngSoft2-Model-Board'
 }
@@ -13,22 +12,34 @@ EffectRoulette class >> with: effects [
 	^ self new initializeWith: effects.
 ]
 
+{ #category : #playing }
+EffectRoulette >> chooseEffectAccordingToProbabilities [
+	| randomValue |
+	randomValue := Random new nextInt: 100.
+	effectsWithProbabilities
+		keysAndValuesDo: [ :key :value | 
+			(value includes: randomValue)
+				ifTrue: [ ^ key ] ]
+]
+
+{ #category : #initialization }
+EffectRoulette >> createDictionaryEffectsAndProbabilities: effects [
+	| minimum |
+	minimum := 1.
+	effects
+		keysAndValuesDo: [ :key :value | 
+			effects at: key put: (Interval from: minimum to: minimum + value - 1).
+			minimum := minimum + value ].
+	^effects.
+]
+
 { #category : #initialization }
 EffectRoulette >> initializeWith: effects [
-	"collectionOfEffects := effects."
-	| cont |
-	cont :=1.
-	effects keysAndValuesDo: [ :key :value | 
-			effects at: key put: (Interval from: cont to: (cont + value -1)). 
-			cont := cont + value].
-	dictionaryOfEffects := effects.
+	
+	effectsWithProbabilities := self createDictionaryEffectsAndProbabilities: effects.
 ]
 
 { #category : #playing }
 EffectRoulette >> spin [
-	
-	| randomValue |
-	randomValue := Random new nextInt: 100.
-	dictionaryOfEffects keysAndValuesDo: [ :key :value |
-			(value includes: randomValue) ifTrue: [ ^ key ] ].
+	^ self chooseEffectAccordingToProbabilities
 ]

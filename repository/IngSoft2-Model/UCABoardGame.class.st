@@ -4,50 +4,32 @@ Class {
 	#instVars : [
 		'board',
 		'dice',
-		'winner',
 		'sequenceOfPlayers',
-		'players'
+		'players',
+		'winner'
 	],
 	#category : #'IngSoft2-Model-Game'
 }
 
 { #category : #'instance creation' }
-UCABoardGame class >> assertTheFirstElementIsADice: aDice [
-	
-	((aDice class = Die) | (aDice class = Dice))
-		ifFalse: [ InstanceCreationFailed signal: 'The dice is incorrect' ]
-]
-
-{ #category : #'instance creation' }
-UCABoardGame class >> assertTheSecondElementIsABoard: aBoard [
-	
-	(aBoard class = Board)
-		ifFalse: [ InstanceCreationFailed signal: 'The board is incorrect' ]
-]
-
-{ #category : #'instance creation' }
 UCABoardGame class >> rolling: aDice on: aBoard with: aGroupOfPlayers [
 
-	self assertTheFirstElementIsADice: aDice.
-	self assertTheSecondElementIsABoard: aBoard.
-	
 	^self new initializeRolling: aDice on: aBoard with: aGroupOfPlayers.
 ]
 
-{ #category : #playing }
-UCABoardGame >> assertTheGameHasBegan [
-	
-	(self hasStarted )
-		ifFalse: [ InstanceCreationFailed signal: 'The game has not started yet' ]
-]
-
-{ #category : #playing }
+{ #category : #assertions }
 UCABoardGame >> assertTheGameHasFinished [
 	(self hasFinished)
 		ifFalse: [ InstanceCreationFailed signal: 'The game has not finished yet' ]
 ]
 
-{ #category : #asserting }
+{ #category : #assertions }
+UCABoardGame >> assertTheGameHasNotFinished [
+	(self hasFinished)
+		ifTrue: [ InstanceCreationFailed signal: 'The game has finished' ]
+]
+
+{ #category : #assertions }
 UCABoardGame >> assertTheWinnerIs: currentPlayer [
 	
 	(currentPlayer lapNumber == board lapsToWin)
@@ -57,7 +39,7 @@ UCABoardGame >> assertTheWinnerIs: currentPlayer [
 	
 ]
 
-{ #category : #displaying }
+{ #category : #assertions }
 UCABoardGame >> hasFinished [
 	
 	| totalLaps |
@@ -69,11 +51,6 @@ UCABoardGame >> hasFinished [
 	
 ]
 
-{ #category : #playing }
-UCABoardGame >> hasStarted [
-	^ (sequenceOfPlayers isEmpty) not.
-]
-
 { #category : #'instance initialization' }
 UCABoardGame >> initializeRolling: aDice on: aBoard with: aGroupOfPlayers [ 
 	dice:= aDice.
@@ -83,12 +60,12 @@ UCABoardGame >> initializeRolling: aDice on: aBoard with: aGroupOfPlayers [
 	winner := 'No Winner'.
 ]
 
-{ #category : #lap }
+{ #category : #position }
 UCABoardGame >> lapNumberOf: aPlayer [ 
 	^ aPlayer lapNumber.
 ]
 
-{ #category : #playing }
+{ #category : #'move backwards' }
 UCABoardGame >> move: currentPlayer backwardsTo: nextPosition changingLapIfCrossing: finishLine [ 
 		
 	self moveBackwards: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
@@ -96,11 +73,11 @@ UCABoardGame >> move: currentPlayer backwardsTo: nextPosition changingLapIfCross
 
 ]
 
-{ #category : #playing }
+{ #category : #'move forward' }
 UCABoardGame >> move: currentPlayer forwardTo: nextPosition changingLapIfCrossing: finishLine [
 	
-	self move: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
-	self move: currentPlayer to: nextPosition ifCrosses: finishLine.
+	self moveForward: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
+	self moveForward: currentPlayer to: nextPosition ifCrosses: finishLine.
 	self assertTheWinnerIs: currentPlayer.
 	
 
@@ -115,23 +92,7 @@ UCABoardGame >> move: currentPlayer to: nextPosition [
 
 ]
 
-{ #category : #'as yet unclassified' }
-UCABoardGame >> move: currentPlayer to: nextPosition ifCrosses: finishLine [
-
-	(nextPosition >= finishLine)
-	
-		ifTrue: [ currentPlayer moveForward: (nextPosition - finishLine).
-			currentPlayer increaseLap ].
-]
-
-{ #category : #'as yet unclassified' }
-UCABoardGame >> move: currentPlayer to: nextPosition ifDoesNotCross: finishLine [
-
-	(nextPosition >= finishLine)
-		ifFalse: [ currentPlayer moveForward: nextPosition ]
-]
-
-{ #category : #playing }
+{ #category : #'move backwards' }
 UCABoardGame >> move: aCurrentPlayer whenIsGoingBackwardsTo: nextPosition [  
 
 	
@@ -145,7 +106,7 @@ UCABoardGame >> move: aCurrentPlayer whenIsGoingBackwardsTo: nextPosition [
 			changingLapIfCrossing: finishLine]
 ]
 
-{ #category : #playing }
+{ #category : #'move forward' }
 UCABoardGame >> move: currentPlayer whenIsGoingForwardTo: nextPosition [ 
 	
 	| finishLine |
@@ -159,7 +120,7 @@ UCABoardGame >> move: currentPlayer whenIsGoingForwardTo: nextPosition [
 			changingLapIfCrossing: finishLine]
 ]
 
-{ #category : #playing }
+{ #category : #'move forward' }
 UCABoardGame >> moveBackwards: aPlayer amountOf: lockers [ 
 	
 	
@@ -172,7 +133,7 @@ UCABoardGame >> moveBackwards: aPlayer amountOf: lockers [
 	
 ]
 
-{ #category : #playing }
+{ #category : #'move backwards' }
 UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine [
 
 	| followingPosotion |
@@ -183,18 +144,34 @@ UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine [
 			aPlayer decreaseLap].
 ]
 
-{ #category : #playing }
+{ #category : #'move backwards' }
 UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLine [
 
 	(nextPosition >=0)
 		ifTrue: [ aPlayer moveBackwards: nextPosition ]
 ]
 
+{ #category : #'move forward' }
+UCABoardGame >> moveForward: currentPlayer to: nextPosition ifCrosses: finishLine [
+
+	(nextPosition >= finishLine)
+	
+		ifTrue: [ currentPlayer moveForward: (nextPosition - finishLine).
+			currentPlayer increaseLap ].
+]
+
+{ #category : #'move forward' }
+UCABoardGame >> moveForward: currentPlayer to: nextPosition ifDoesNotCross: finishLine [
+
+	(nextPosition >= finishLine)
+		ifFalse: [ currentPlayer moveForward: nextPosition ]
+]
+
 { #category : #playing }
 UCABoardGame >> nextTurn [
 	
 	|currentPlayer nextPosition positionWithEffect |
-	self assertTheGameHasBegan.
+	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := currentPlayer lockerPosition + dice roll.
 	positionWithEffect := board applyEffectTo: nextPosition knowing: players and: currentPlayer inThe: self.
@@ -205,7 +182,7 @@ UCABoardGame >> nextTurn [
 	
 ]
 
-{ #category : #playing }
+{ #category : #position }
 UCABoardGame >> playersPositions [
 	
 	^ PositionTable filledWith: players.

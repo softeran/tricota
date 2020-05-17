@@ -6,15 +6,16 @@ Class {
 
 { #category : #tests }
 PlayerTest >> testInitializePlayerName [
+
  	| player |
 	player:= Player named: 'Juan'.
-	self assert: player nameIs equals: 'Juan'.
+	
+	self assert: player name equals: 'Juan'.
 ]
 
 { #category : #tests }
 PlayerTest >> testPlayerNameMustBeNonEmptyString [
 
- 	
 	self
 		should: [ Player named: '']
 		raise: InstanceCreationFailed

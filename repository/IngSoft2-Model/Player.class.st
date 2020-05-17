@@ -23,17 +23,17 @@ Player class >> named: aString [
 	^self new initializeWithName: aString.
 ]
 
-{ #category : #playing }
+{ #category : #position }
 Player >> currentPosition [
 	^position .
 ]
 
-{ #category : #lap }
+{ #category : #move }
 Player >> decreaseLap [
 	 position decreaseLap.
 ]
 
-{ #category : #lap }
+{ #category : #move }
 Player >> increaseLap [
 	 position increaseLap.
 ]
@@ -45,29 +45,29 @@ Player >> initializeWithName: aString [
 	
 ]
 
-{ #category : #lap }
+{ #category : #position }
 Player >> lapNumber [
 	^position lapNumber.
 ]
 
-{ #category : #playing }
+{ #category : #position }
 Player >> lockerPosition [
 	^position lockerPosition .
 ]
 
-{ #category : #playing }
+{ #category : #move }
 Player >> moveBackwards: moveTo [ 
 	
 	position moveBackwards: moveTo.
 ]
 
-{ #category : #playing }
+{ #category : #move }
 Player >> moveForward: moveTo [ 
 	
 	position moveFoward: moveTo.
 ]
 
-{ #category : #hablar }
-Player >> nameIs [
+{ #category : #name }
+Player >> name [
 	^name.
 ]
