@@ -6,7 +6,10 @@ Class {
 		'nico',
 		'players',
 		'board',
-		'die'
+		'die',
+		'effectRoulette',
+		'effects',
+		'noEffect'
 	],
 	#category : #'IngSoft2-Tests-Game-Tests'
 }
@@ -34,7 +37,12 @@ GameTest >> playerNamed: aName [
 
 { #category : #running }
 GameTest >> setUp [
-	board := Board withLockers: 6 andLaps: 2.
+
+	noEffect := NoEffect new.
+	effects:=OrderedCollection new.
+	effects add: noEffect.
+	effectRoulette := EffectRoulette with: effects.
+	board := Board withLockers: 6 andLaps: 2 withEffects: effectRoulette.
 	die := Die of: 4 rolling: #(3 4 3 1 4 1 4).
 	juan := self juan.
 	nico := self nico.

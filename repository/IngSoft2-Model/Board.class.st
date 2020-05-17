@@ -48,6 +48,16 @@ Board >> applyEffectOf: aPosition [
 		
 ]
 
+{ #category : #playing }
+Board >> applyEffectTo: position [  
+	^ effects spin applyEffectTo: position .
+]
+
+{ #category : #playing }
+Board >> applyEffectTo: aPosition knowing: players and: aCurrentPlayer inThe: game [
+	^ effects spin applyEffectTo: aPosition  knowing: players  and: aCurrentPlayer inThe: game.
+]
+
 { #category : #finish }
 Board >> finishLine [
 	^lockers.

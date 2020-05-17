@@ -33,6 +33,11 @@ CurrentPosition >> >= aCurrentPosition [
 
 ]
 
+{ #category : #lap }
+CurrentPosition >> decreaseLap [
+	laps:= laps-1.
+]
+
 { #category : #'instance initialization' }
 CurrentPosition >> hash [
 	
@@ -59,6 +64,13 @@ CurrentPosition >> lapNumber [
 { #category : #playerPosition }
 CurrentPosition >> lockerPosition [
 	^locker
+]
+
+{ #category : #playerPosition }
+CurrentPosition >> moveBackwards: moveTo [
+	
+	locker:= moveTo.
+	
 ]
 
 { #category : #playerPosition }

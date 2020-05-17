@@ -29,6 +29,11 @@ Player >> currentPosition [
 ]
 
 { #category : #lap }
+Player >> decreaseLap [
+	 position decreaseLap.
+]
+
+{ #category : #lap }
 Player >> increaseLap [
 	 position increaseLap.
 ]
@@ -48,6 +53,12 @@ Player >> lapNumber [
 { #category : #playing }
 Player >> lockerPosition [
 	^position lockerPosition .
+]
+
+{ #category : #playing }
+Player >> moveBackwards: moveTo [ 
+	
+	position moveBackwards: moveTo.
 ]
 
 { #category : #playing }

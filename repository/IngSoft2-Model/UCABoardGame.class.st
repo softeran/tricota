@@ -89,6 +89,14 @@ UCABoardGame >> lapNumberOf: aPlayer [
 ]
 
 { #category : #playing }
+UCABoardGame >> move: currentPlayer backwardsTo: nextPosition changingLapIfCrossing: finishLine [ 
+		
+	self moveBackwards: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
+	self moveBackwards: currentPlayer to: nextPosition ifCrosses: finishLine.
+
+]
+
+{ #category : #playing }
 UCABoardGame >> move: currentPlayer forwardTo: nextPosition changingLapIfCrossing: finishLine [
 	
 	self move: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
@@ -101,12 +109,10 @@ UCABoardGame >> move: currentPlayer forwardTo: nextPosition changingLapIfCrossin
 
 { #category : #playing }
 UCABoardGame >> move: currentPlayer to: nextPosition [
-	| finishLine |
-	finishLine := board finishLine.
-	self
-		move: currentPlayer
-		forwardTo: nextPosition
-		changingLapIfCrossing: finishLine
+
+	self move: currentPlayer whenIsGoingForwardTo: nextPosition.
+	self move: currentPlayer whenIsGoingBackwardsTo: nextPosition.
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -126,14 +132,75 @@ UCABoardGame >> move: currentPlayer to: nextPosition ifDoesNotCross: finishLine 
 ]
 
 { #category : #playing }
+UCABoardGame >> move: aCurrentPlayer whenIsGoingBackwardsTo: nextPosition [  
+
+	
+	| finishLine |
+	(aCurrentPlayer lockerPosition > nextPosition)
+	ifTrue: [
+		finishLine := board finishLine.
+		self
+			move: aCurrentPlayer
+			backwardsTo: nextPosition
+			changingLapIfCrossing: finishLine]
+]
+
+{ #category : #playing }
+UCABoardGame >> move: currentPlayer whenIsGoingForwardTo: nextPosition [ 
+	
+	| finishLine |
+	
+	(currentPlayer lockerPosition < nextPosition)
+	ifTrue: [
+		finishLine := board finishLine.
+		self
+			move: currentPlayer
+			forwardTo: nextPosition
+			changingLapIfCrossing: finishLine]
+]
+
+{ #category : #playing }
+UCABoardGame >> moveBackwards: aPlayer amountOf: lockers [ 
+	
+	
+	| finishLine nextPosition |
+	finishLine := board finishLine .
+	nextPosition := aPlayer lockerPosition - lockers.
+	self moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLine.
+	self moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine.
+
+	
+]
+
+{ #category : #playing }
+UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine [
+
+	| followingPosotion |
+	(nextPosition < 0)
+		ifTrue: [ 
+			followingPosotion := finishLine + nextPosition.
+			aPlayer moveBackwards: followingPosotion.
+			aPlayer decreaseLap].
+]
+
+{ #category : #playing }
+UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLine [
+
+	(nextPosition >=0)
+		ifTrue: [ aPlayer moveBackwards: nextPosition ]
+]
+
+{ #category : #playing }
 UCABoardGame >> nextTurn [
 	
-	|currentPlayer nextPosition |
+	|currentPlayer nextPosition positionWithEffect |
 	self assertTheGameHasBegan.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := currentPlayer lockerPosition + dice roll.
-	self move: currentPlayer to: nextPosition.
-	nextPosition:= board applyEffectOf: nextPosition.
+	positionWithEffect := board applyEffectTo: nextPosition knowing: players and: currentPlayer inThe: self.
+
+	self move: currentPlayer to: positionWithEffect.
+
 	
 	
 ]
