@@ -43,11 +43,6 @@ CircularIterator >> initializeCyclingOver: anArray [
 	self reset
 ]
 
-{ #category : #'tests - sequence isempty' }
-CircularIterator >> isEmpty [
-	^ options isEmpty.
-]
-
 { #category : #iterating }
 CircularIterator >> next [
 

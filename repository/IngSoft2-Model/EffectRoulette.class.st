@@ -1,3 +1,8 @@
+"
+I'm Effect Roulette! When spinning me i give an effect in return, based on probabilities.
+I am given a dictionary that has effects as keys and probabilities as values when created.
+
+"
 Class {
 	#name : #EffectRoulette,
 	#superclass : #Object,

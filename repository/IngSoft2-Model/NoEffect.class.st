@@ -1,3 +1,6 @@
+"
+I'm No Effect, if i am chosen by the Effect Roulette, nothing happens.
+"
 Class {
 	#name : #NoEffect,
 	#superclass : #Object,

@@ -1,3 +1,7 @@
+"
+I'm Dice! I'm a group of die.
+When rolling me i roll every die in the group and return the sum of all the results.
+"
 Class {
 	#name : #Dice,
 	#superclass : #Object,

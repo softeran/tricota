@@ -1,3 +1,7 @@
+"
+I'm a PLayer! I can move forwrd and backwards.
+I am given a name when created. My position starts on locker zero and lap zero.
+"
 Class {
 	#name : #Player,
 	#superclass : #Object,

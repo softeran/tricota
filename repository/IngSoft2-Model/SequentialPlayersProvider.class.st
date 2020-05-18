@@ -1,3 +1,9 @@
+"
+I represent a sequence of players
+I am given a sequence of players when created.
+
+ 
+"
 Class {
 	#name : #SequentialPlayersProvider,
 	#superclass : #Object,
@@ -32,11 +38,6 @@ SequentialPlayersProvider class >> providing: aSequence [
 SequentialPlayersProvider >> initializeProviding: aSequence [
 
 	sequence := (CircularIterator cyclingOver: aSequence ) 
-]
-
-{ #category : #'tests - sequence isempty' }
-SequentialPlayersProvider >> isEmpty [
-	^ sequence isEmpty .
 ]
 
 { #category : #providing }

@@ -1,3 +1,7 @@
+"
+I'm a Position Table! I display the list of players taking into account the players positions.
+If two players or more are in the same lap, i compare their positions to know who is first.
+"
 Class {
 	#name : #PositionTable,
 	#superclass : #Object,

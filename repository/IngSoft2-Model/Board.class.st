@@ -1,3 +1,7 @@
+"
+I'm Board!
+I am given an amount of lockers (greater than 1), a number of laps (grearte than 0) and a Effect Roulette when created.
+"
 Class {
 	#name : #Board,
 	#superclass : #Object,
@@ -10,7 +14,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-Board class >> assertIsGreaterThanTwo: aNumberOfLockers [
+Board class >> assertIsGreaterThanOne: aNumberOfLockers [
 
 	aNumberOfLockers > 1
 		ifFalse: [ InstanceCreationFailed signal: 'Board must have at least two lockers' ]
@@ -27,7 +31,7 @@ Board class >> assertIsGreaterThanZero: aNumberOfLaps [
 
 { #category : #instanceCreation }
 Board class >> withLockers: lockers andLaps: laps withEffects: effects [ 
-	self assertIsGreaterThanTwo: lockers.
+	self assertIsGreaterThanOne: lockers.
 	self assertIsGreaterThanZero: laps.
 	^self new initializeWithLockers: lockers andLaps: laps withEffects: effects .
 ]

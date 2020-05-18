@@ -1,3 +1,8 @@
+"
+I'm Moon Walk, if i am chosen by the Effect Roulette, everybody, except the player who spinned the wheel, goes backwards N positions.
+
+N is a random number between 1 and a number that it's given me when i'm created.
+"
 Class {
 	#name : #MoonWalk,
 	#superclass : #Object,

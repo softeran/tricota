@@ -1,3 +1,8 @@
+"
+I'm Uca Board Game!
+I am given a die or dice, a board and a collection of players when created.
+
+"
 Class {
 	#name : #UCABoardGame,
 	#superclass : #Object,

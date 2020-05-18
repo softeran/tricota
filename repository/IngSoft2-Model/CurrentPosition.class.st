@@ -1,3 +1,6 @@
+"
+I'm Current Position, i represent the position in the board and the amount of laps of a certain player.
+"
 Class {
 	#name : #CurrentPosition,
 	#superclass : #Object,

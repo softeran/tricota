@@ -1,3 +1,6 @@
+"
+I'm Atomic Bomb, if i am chosen by the Effect Roulette, everybody goes back to position Zero.
+"
 Class {
 	#name : #AtomicBomb,
 	#superclass : #Object,

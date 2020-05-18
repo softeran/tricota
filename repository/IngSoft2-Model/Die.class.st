@@ -1,3 +1,7 @@
+"
+I'm Die! When rolling me i give a number in return. This number is between 1 and my amount of sides.
+I am given an amount of sides (greater than 1), a number of laps (grearte than 0) when created.
+"
 Class {
 	#name : #Die,
 	#superclass : #Object,
