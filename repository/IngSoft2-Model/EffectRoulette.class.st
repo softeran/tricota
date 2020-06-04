@@ -7,10 +7,17 @@ Class {
 	#name : #EffectRoulette,
 	#superclass : #Object,
 	#instVars : [
-		'effectsWithProbabilities'
+		'effectsWithProbabilities',
+		'effectProvider'
 	],
 	#category : #'IngSoft2-Model-Board'
 }
+
+{ #category : #'instance creation' }
+EffectRoulette class >> source: aEffectProvider [
+
+	^ self new initializeSource: aEffectProvider.
+]
 
 { #category : #'instance creation' }
 EffectRoulette class >> with: effects [ 
@@ -28,14 +35,9 @@ EffectRoulette >> chooseEffectAccordingToProbabilities [
 ]
 
 { #category : #initialization }
-EffectRoulette >> createDictionaryEffectsAndProbabilities: effects [
-	| minimum |
-	minimum := 1.
-	effects
-		keysAndValuesDo: [ :key :value | 
-			effects at: key put: (Interval from: minimum to: minimum + value - 1).
-			minimum := minimum + value ].
-	^effects.
+EffectRoulette >> initializeSource: aEffectProvider [ 
+
+	effectProvider:= aEffectProvider.
 ]
 
 { #category : #initialization }
@@ -46,5 +48,5 @@ EffectRoulette >> initializeWith: effects [
 
 { #category : #playing }
 EffectRoulette >> spin [
-	^ self chooseEffectAccordingToProbabilities
+	^ effectProvider nextEffect.
 ]

@@ -25,13 +25,13 @@ UCABoardGame class >> rolling: aDice on: aBoard with: aGroupOfPlayers [
 { #category : #assertions }
 UCABoardGame >> assertTheGameHasFinished [
 	(self hasFinished)
-		ifFalse: [ InstanceCreationFailed signal: 'The game has not finished yet' ]
+		ifFalse: [ InvalideRequest signal: 'The game has not finished yet' ]
 ]
 
 { #category : #assertions }
 UCABoardGame >> assertTheGameHasNotFinished [
 	(self hasFinished)
-		ifTrue: [ InstanceCreationFailed signal: 'The game has finished' ]
+		ifTrue: [ InvalideRequest signal: 'The game has finished' ]
 ]
 
 { #category : #assertions }
@@ -142,11 +142,15 @@ UCABoardGame >> moveBackwards: aPlayer amountOf: lockers [
 UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine [
 
 	| followingPosotion |
-	(nextPosition < 0)
+	(nextPosition < 0 and: aPlayer lapNumber>0 )
 		ifTrue: [ 
 			followingPosotion := finishLine + nextPosition.
 			aPlayer moveBackwards: followingPosotion.
 			aPlayer decreaseLap].
+	(nextPosition < 0 and: (aPlayer lapNumber == 0 ))
+		ifTrue: [ 
+			aPlayer moveBackwards: 0.
+			 ].
 ]
 
 { #category : #'move backwards' }
@@ -194,7 +198,7 @@ UCABoardGame >> playersPositions [
 ]
 
 { #category : #playing }
-UCABoardGame >> theWinnerIs [
+UCABoardGame >> winner [
 
 	self assertTheGameHasFinished.
 	^ winner 

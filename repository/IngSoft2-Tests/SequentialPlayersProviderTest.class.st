@@ -5,6 +5,15 @@ Class {
 }
 
 { #category : #tests }
+SequentialPlayersProviderTest >> collectionWithOnePlayer [
+	| players juan |
+	juan := Player named: 'Juan'.
+	players := OrderedCollection new.
+	players add: juan.
+	^ players
+]
+
+{ #category : #tests }
 SequentialPlayersProviderTest >> players [
 
 	| players juan nico |
@@ -20,12 +29,16 @@ SequentialPlayersProviderTest >> players [
 
 { #category : #tests }
 SequentialPlayersProviderTest >> testCreationFailsWithLessThanTwoPlayersSequence [
-
+	| onlyOnePlayer|
+	onlyOnePlayer := self collectionWithOnePlayer.
 	self
 		should: [ SequentialPlayersProvider providing: #() ]
 		raise: InstanceCreationFailed
 		withMessageText: 'Not enough players. Need at least 2 players'.
-		
+	self
+		should: [ SequentialPlayersProvider providing: onlyOnePlayer ]
+		raise: InstanceCreationFailed
+		withMessageText: 'Not enough players. Need at least 2 players'
 ]
 
 { #category : #tests }
