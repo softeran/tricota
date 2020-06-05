@@ -13,17 +13,6 @@ Class {
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> aBoardWith100ProbabilityOf: effect [
 
-	| effects effectRoulette board|
-	effects:=Dictionary  new.
-	effects at: effect put: 100.
-	effectRoulette := EffectRoulette with: effects.
-	board := Board withLockers: 60 andLaps: 2 withEffects: effectRoulette.
-	^board.
-]
-
-{ #category : #tests }
-UcaBoardGameWithEffectRouletteTest >> aBoardWith100ProbabilityOfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: effect [
-
 	| aSequenceOfEffects effectRoulette board |
 	aSequenceOfEffects := OrderedCollection new.
 	aSequenceOfEffects add: effect.
@@ -67,7 +56,7 @@ UcaBoardGameWithEffectRouletteTest >> testAtomicBomb [
 
 	| game board |
 	
-	board := self aBoardWith100ProbabilityOfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: AtomicBomb new.
+	board := self aBoardWith100ProbabilityOf: AtomicBomb new.
 	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	
@@ -83,7 +72,7 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalk [
 
 	| game board |
 	
-	board := self aBoardWith100ProbabilityOfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2)).
+	board := self aBoardWith100ProbabilityOf: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2)).
 	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	
@@ -99,7 +88,7 @@ UcaBoardGameWithEffectRouletteTest >> testSpeedUp [
 	| game board |
 	
 	
-	board := self aBoardWith100ProbabilityOfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: SpeedUp new.
+	board := self aBoardWith100ProbabilityOf: SpeedUp new.
 	
 	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
@@ -113,7 +102,7 @@ UcaBoardGameWithEffectRouletteTest >> testWormHole [
 
 	| game board |
 	
-	board := self aBoardWith100ProbabilityOfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: WormHole new.
+	board := self aBoardWith100ProbabilityOf: WormHole new.
 	
 	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
@@ -128,7 +117,7 @@ UcaBoardGameWithEffectRouletteTest >> testWormHoleDecreasingLap [
 	| game board |
 	
 	die := Die of: 10 rolling: #(2).
-	board := self aBoardWith100ProbabilityOfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: WormHole new.
+	board := self aBoardWith100ProbabilityOf: WormHole new.
 	game:= UCABoardGame rolling: die on: board with: players.
 	game nextTurn.
 	

@@ -19,11 +19,6 @@ EffectRoulette class >> source: aEffectProvider [
 	^ self new initializeSource: aEffectProvider.
 ]
 
-{ #category : #'instance creation' }
-EffectRoulette class >> with: effects [ 
-	^ self new initializeWith: effects.
-]
-
 { #category : #initialization }
 EffectRoulette >> initializeSource: aEffectProvider [ 
 
