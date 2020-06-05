@@ -42,11 +42,10 @@ UcaBoardGameNoEffectsTest >> playerNamed: aName [
 
 { #category : #running }
 UcaBoardGameNoEffectsTest >> setUp [
-
-	noEffect := NoEffect new.
-	effects:=Dictionary  new.
-	effects at: noEffect put: 100.
-	effectRoulette := EffectRoulette with: effects.
+	| aSequenceOfEffects |
+	aSequenceOfEffects := OrderedCollection new.
+	aSequenceOfEffects add: NoEffect new.
+	effectRoulette := EffectRouletteBuilder new with: aSequenceOfEffects.
 	board := Board withLockers: 6 andLaps: 2 withEffects: effectRoulette.
 	die := Die of: 4 rolling: #(3 4 3 1 4 1 4).
 	juan := self juan.
@@ -216,7 +215,7 @@ UcaBoardGameNoEffectsTest >> testTryToKeepPlayingAfterGameEnded [
 
 	| game |
 	game := UCABoardGame rolling: die on: board with: players.
-	self play: game amountOfTurns:7.
+	self finish: game.
 	
 	self
 		should: [ game nextTurn ]

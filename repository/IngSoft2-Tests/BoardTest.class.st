@@ -12,10 +12,10 @@ Class {
 { #category : #running }
 BoardTest >> setUp [
 	
-	noEffect := NoEffect new.
-	effects:=Dictionary  new.
-	effects at: noEffect put: 100.
-	effectRoulette := EffectRoulette with: effects.
+	| aSequenceOfEffects |
+	aSequenceOfEffects := OrderedCollection new.
+	aSequenceOfEffects add: NoEffect new.
+	effectRoulette := EffectRouletteBuilder new with: aSequenceOfEffects.
 
 ]
 

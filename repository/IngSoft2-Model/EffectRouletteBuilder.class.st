@@ -25,6 +25,6 @@ EffectRouletteBuilder >> with: aSequenceOfEffects [
 ]
 
 { #category : #'as yet unclassified' }
-EffectRouletteBuilder >> withProbabilites: dictionaryEffectsProbabilites [
-	^ EffectRoulette source:( self createDictionaryEffectsAndProbabilities: dictionaryEffectsProbabilites).
+EffectRouletteBuilder >> withProbabilities: dictionaryEffectsProbabilities [
+	^ EffectRoulette source:( ProbabilitiesEffectProvider with:(self createDictionaryEffectsAndProbabilities: dictionaryEffectsProbabilities)).
 ]

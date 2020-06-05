@@ -24,26 +24,10 @@ EffectRoulette class >> with: effects [
 	^ self new initializeWith: effects.
 ]
 
-{ #category : #playing }
-EffectRoulette >> chooseEffectAccordingToProbabilities [
-	| randomValue |
-	randomValue := Random new nextInt: 100.
-	effectsWithProbabilities
-		keysAndValuesDo: [ :key :value | 
-			(value includes: randomValue)
-				ifTrue: [ ^ key ] ]
-]
-
 { #category : #initialization }
 EffectRoulette >> initializeSource: aEffectProvider [ 
 
 	effectProvider:= aEffectProvider.
-]
-
-{ #category : #initialization }
-EffectRoulette >> initializeWith: effects [
-	
-	effectsWithProbabilities := self createDictionaryEffectsAndProbabilities: effects.
 ]
 
 { #category : #playing }

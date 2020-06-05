@@ -28,7 +28,7 @@ EffectRouletteTest >> testSpin [
 
 	| effects effectRoulette |
 	effects := self effectsWithProbabilities.
-	effectRoulette := EffectRoulette with: effects.
+	effectRoulette := EffectRouletteBuilder new withProbabilities: effects.
 
 	1 to: 100 do: [ :iteration | self assert: (effects keys includes: effectRoulette spin ) ].
 ]
