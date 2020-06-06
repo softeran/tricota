@@ -10,7 +10,7 @@ Class {
 		'effectsWithProbabilities',
 		'effectProvider'
 	],
-	#category : #'IngSoft2-Model-Board'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #'instance creation' }

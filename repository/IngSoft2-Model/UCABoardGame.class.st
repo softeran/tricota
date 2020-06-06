@@ -7,19 +7,21 @@ Class {
 	#name : #UCABoardGame,
 	#superclass : #Object,
 	#instVars : [
-		'board',
 		'dice',
 		'sequenceOfPlayers',
 		'players',
-		'winner'
+		'winner',
+		'lockers',
+		'laps',
+		'effectRoulette'
 	],
 	#category : #'IngSoft2-Model-Game'
 }
 
 { #category : #'instance creation' }
-UCABoardGame class >> rolling: aDice on: aBoard with: aGroupOfPlayers [
+UCABoardGame class >> rolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette [.
 
-	^self new initializeRolling: aDice on: aBoard with: aGroupOfPlayers.
+	^self new initializeRolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette.
 ]
 
 { #category : #assertions }
@@ -37,7 +39,7 @@ UCABoardGame >> assertTheGameHasNotFinished [
 { #category : #assertions }
 UCABoardGame >> assertTheWinnerIs: currentPlayer [
 	
-	(currentPlayer lapNumber == board lapsToWin)
+	(currentPlayer lapNumber == laps)
 	ifTrue:[winner:= currentPlayer].
 	
 	
@@ -47,9 +49,7 @@ UCABoardGame >> assertTheWinnerIs: currentPlayer [
 { #category : #assertions }
 UCABoardGame >> hasFinished [
 	
-	| totalLaps |
-	totalLaps  := board lapsToWin.
-	^ players detect: [ :player | player lapNumber = totalLaps]  				
+	^ players detect: [ :player | player lapNumber = laps]  				
 					ifFound: [true] 				
 					ifNone: [false].
 	
@@ -57,11 +57,13 @@ UCABoardGame >> hasFinished [
 ]
 
 { #category : #'instance initialization' }
-UCABoardGame >> initializeRolling: aDice on: aBoard with: aGroupOfPlayers [ 
+UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette [
 	dice:= aDice.
-	board:= aBoard.
 	players:= aGroupOfPlayers.
 	sequenceOfPlayers:= (SequentialPlayersProvider providing: aGroupOfPlayers).
+	lockers:= aNumberOfLockers.
+	laps:= aNumberOfLaps.
+	effectRoulette:= anEffectRoulette.
 	winner := 'No Winner'.
 ]
 
@@ -104,7 +106,7 @@ UCABoardGame >> move: aCurrentPlayer whenIsGoingBackwardsTo: nextPosition [
 	| finishLine |
 	(aCurrentPlayer lockerPosition > nextPosition)
 	ifTrue: [
-		finishLine := board finishLine.
+		finishLine := lockers.
 		self
 			move: aCurrentPlayer
 			backwardsTo: nextPosition
@@ -118,7 +120,7 @@ UCABoardGame >> move: currentPlayer whenIsGoingForwardTo: nextPosition [
 	
 	(currentPlayer lockerPosition < nextPosition)
 	ifTrue: [
-		finishLine := board finishLine.
+		finishLine := lockers.
 		self
 			move: currentPlayer
 			forwardTo: nextPosition
@@ -126,12 +128,12 @@ UCABoardGame >> move: currentPlayer whenIsGoingForwardTo: nextPosition [
 ]
 
 { #category : #'move forward' }
-UCABoardGame >> moveBackwards: aPlayer amountOf: lockers [ 
+UCABoardGame >> moveBackwards: aPlayer amountOf: aNumberOflockers [ 
 	
 	
 	| finishLine nextPosition |
-	finishLine := board finishLine .
-	nextPosition := aPlayer lockerPosition - lockers.
+	finishLine := lockers.
+	nextPosition := aPlayer lockerPosition - aNumberOflockers.
 	self moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLine.
 	self moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine.
 
@@ -183,7 +185,7 @@ UCABoardGame >> nextTurn [
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := currentPlayer lockerPosition + dice roll.
-	positionWithEffect := board applyEffectTo: nextPosition knowing: players and: currentPlayer inThe: self.
+	positionWithEffect := effectRoulette spin applyEffectTo: nextPosition knowing: players and: currentPlayer inThe: self. 
 
 	self move: currentPlayer to: positionWithEffect.
 

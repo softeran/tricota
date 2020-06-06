@@ -7,18 +7,17 @@ Class {
 		'nico',
 		'players'
 	],
-	#category : #'IngSoft2-Tests-Board-Tests'
+	#category : #'IngSoft2-Tests-Effects-Tests'
 }
 
 { #category : #tests }
-UcaBoardGameWithEffectRouletteTest >> aBoardWith100ProbabilityOf: effect [
+UcaBoardGameWithEffectRouletteTest >> aEffectRouletteWith100ProbabilityOf: effect [
 
-	| aSequenceOfEffects effectRoulette board |
+	| aSequenceOfEffects effectRoulette |
 	aSequenceOfEffects := OrderedCollection new.
 	aSequenceOfEffects add: effect.
 	effectRoulette := EffectRouletteBuilder new with: aSequenceOfEffects.
-	board := Board withLockers: 60 andLaps: 2 withEffects: effectRoulette.
-	^board.
+	^effectRoulette .
 ]
 
 { #category : #running }
@@ -54,10 +53,10 @@ UcaBoardGameWithEffectRouletteTest >> setUp [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testAtomicBomb [
 
-	| game board |
+	| game effectRoulette |
 	
-	board := self aBoardWith100ProbabilityOf: AtomicBomb new.
-	game:= UCABoardGame rolling: die on: board with: players.
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: AtomicBomb new.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
 	self 
@@ -70,10 +69,10 @@ UcaBoardGameWithEffectRouletteTest >> testAtomicBomb [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testMoonWalk [
 
-	| game board |
+	| game effectRoulette |
 	
-	board := self aBoardWith100ProbabilityOf: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2)).
-	game:= UCABoardGame rolling: die on: board with: players.
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2)).
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
 	self assert: nico lapNumber equals: 0;
@@ -85,12 +84,10 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalk [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testSpeedUp [
 
-	| game board |
+	| game effectRoulette |
 	
-	
-	board := self aBoardWith100ProbabilityOf: SpeedUp new.
-	
-	game:= UCABoardGame rolling: die on: board with: players.
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: SpeedUp  new.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
 	self assert: juan lockerPosition equals: 11.
@@ -100,11 +97,10 @@ UcaBoardGameWithEffectRouletteTest >> testSpeedUp [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testWormHole [
 
-	| game board |
+	| game effectRoulette |
 	
-	board := self aBoardWith100ProbabilityOf: WormHole new.
-	
-	game:= UCABoardGame rolling: die on: board with: players.
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: WormHole new.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
 	self assert: juan lockerPosition equals: 3.
@@ -114,11 +110,11 @@ UcaBoardGameWithEffectRouletteTest >> testWormHole [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testWormHoleDecreasingLap [
 
-	| game board |
+	| game effectRoulette |
 	
-	die := Die of: 10 rolling: #(2).
-	board := self aBoardWith100ProbabilityOf: WormHole new.
-	game:= UCABoardGame rolling: die on: board with: players.
+	die := Die of: 10 rolling: #(2).	
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: WormHole new.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
 	self assert: juan lapNumber equals: 0;

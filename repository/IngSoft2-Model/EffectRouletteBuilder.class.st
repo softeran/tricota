@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'effectsWithProbabilities'
 	],
-	#category : #'IngSoft2-Model-Board'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #initialization }
