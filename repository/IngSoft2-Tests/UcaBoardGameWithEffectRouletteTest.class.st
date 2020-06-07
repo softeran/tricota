@@ -56,28 +56,14 @@ UcaBoardGameWithEffectRouletteTest >> testAtomicBomb [
 	| game effectRoulette |
 	
 	effectRoulette := self aEffectRouletteWith100ProbabilityOf: AtomicBomb new.
-	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
-	
 	self 
+		assert: (game lapNumberOf: juan) equals:1;
+		assert: (game lapNumberOf: nico) equals:0;
 		assert: (game lockerNumberOf: juan) equals: 0;
-	 	assert: (game lapNumberOf: juan)  equals: 0.
-	
-	
-]
-
-{ #category : #tests }
-UcaBoardGameWithEffectRouletteTest >> testMoonWalk [
-
-	| game effectRoulette |
-	
-	effectRoulette := self aEffectRouletteWith100ProbabilityOf: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2)).
-	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
-	game nextTurn.
-	
-	self assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
-		
+	
 	
 ]
 
@@ -110,6 +96,21 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkaaaaaaaaaaaaaaaaaaaaaaaaaa [
 		assert: (game lockerNumberOf: juan) equals: 5;
 		assert: (game lockerNumberOf: nico) equals: 2;
 		assert: (game lockerNumberOf: sofi) equals: 3.
+		
+	
+]
+
+{ #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testMoonWalkbbbbbbbbbbbbbbbbbbbb [
+
+	| game effectRoulette |
+	
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2)).
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
+	game nextTurn.
+	
+	self assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 0.
 		
 	
 ]

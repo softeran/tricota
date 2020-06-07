@@ -93,121 +93,15 @@ UCABoardGame >> lockerNumberOf: aPlayer [
 	^ (self currentPositionOf: aPlayer) lockerPosition.
 ]
 
-{ #category : #'move backwards' }
-UCABoardGame >> move: currentPlayer backwardsTo: nextPosition changingLapIfCrossing: finishLine [ 
-		
-	self moveBackwards: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
-	self moveBackwards: currentPlayer to: nextPosition ifCrosses: finishLine.
-
-]
-
-{ #category : #'move forward' }
-UCABoardGame >> move: currentPlayer forwardTo: nextPosition changingLapIfCrossing: finishLine [
-	
-	self moveForward: currentPlayer to: nextPosition ifDoesNotCross: finishLine.
-	self moveForward: currentPlayer to: nextPosition ifCrosses: finishLine.
-	self assertTheWinnerIs: currentPlayer.
-	
-
-	
-]
-
-{ #category : #playing }
-UCABoardGame >> move: currentPlayer to: nextPosition [
-
-	self move: currentPlayer whenIsGoingForwardTo: nextPosition.
-	self move: currentPlayer whenIsGoingBackwardsTo: nextPosition.
-
-]
-
-{ #category : #'move backwards' }
-UCABoardGame >> move: aPlayer whenIsGoingBackwardsTo: nextPosition [  
-
-	
-	| finishLine |
-	((self currentPositionOf: aPlayer) lockerPosition > nextPosition)
-	ifTrue: [
-		finishLine := lockers.
-		self
-			move: aPlayer
-			backwardsTo: nextPosition
-			changingLapIfCrossing: finishLine]
-]
-
-{ #category : #'move forward' }
-UCABoardGame >> move: currentPlayer whenIsGoingForwardTo: nextPosition [ 
-	
-	| finishLine |
-	
-	((self currentPositionOf: currentPlayer)lockerPosition < nextPosition)
-	ifTrue: [
-		finishLine := lockers.
-		self
-			move: currentPlayer
-			forwardTo: nextPosition
-			changingLapIfCrossing: finishLine]
-]
-
-{ #category : #'move forward' }
-UCABoardGame >> moveBackwards: aPlayer amountOf: aNumberOflockers [ 
-	
-	
-	| finishLine nextPosition |
-	finishLine := lockers.
-	nextPosition := (self currentPositionOf: aPlayer) lockerPosition - aNumberOflockers.
-	self moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLine.
-	self moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine.
-
-	
-]
-
-{ #category : #'move backwards' }
-UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine [
-
-	| followingPosotion positionOfCurrentPlayer|
-	positionOfCurrentPlayer := (self currentPositionOf: aPlayer).
-	(nextPosition < 0 and: positionOfCurrentPlayer lapNumber>0 )
-		ifTrue: [ 
-			followingPosotion := finishLine + nextPosition.
-			positionOfCurrentPlayer moveBackwards: followingPosotion.
-			positionOfCurrentPlayer decreaseLap].
-	(nextPosition < 0 and: (positionOfCurrentPlayer lapNumber == 0 ))
-		ifTrue: [ 
-			positionOfCurrentPlayer moveBackwards: 0.
-			 ].
-]
-
-{ #category : #'move backwards' }
-UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLine [
-
-	(nextPosition >=0)
-		ifTrue: [ aPlayer moveBackwards: nextPosition ]
-]
-
-{ #category : #'move forward' }
-UCABoardGame >> moveForward: aPlayer to: nextPosition ifCrosses: finishLine [
-
-	(nextPosition >= finishLine)
-	
-		ifTrue: [ (self currentPositionOf: aPlayer) moveForward: (nextPosition - finishLine).
-			(self currentPositionOf: aPlayer) increaseLap ].
-]
-
-{ #category : #'move forward' }
-UCABoardGame >> moveForward: aPlayer to: nextPosition ifDoesNotCross: finishLine [
-
-	(nextPosition >= finishLine)
-		ifFalse: [ (self currentPositionOf: aPlayer) moveForward: nextPosition ]
-]
-
 { #category : #playing }
 UCABoardGame >> nextTurn [
 	| currentPlayer nextPosition positionWithEffect |
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := (playersWithPositions at: currentPlayer) lockerPosition + dice roll.
-	positionWithEffect := effectRoulette spin applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer inThe: self.
-	self move: currentPlayer to: positionWithEffect
+	positionWithEffect := effectRoulette spin applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer knowing: lockers.
+	(playersWithPositions at: currentPlayer) moveTo: positionWithEffect knowing: lockers.
+	self assertTheWinnerIs: currentPlayer.
 ]
 
 { #category : #playing }

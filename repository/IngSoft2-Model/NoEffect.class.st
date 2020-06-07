@@ -3,11 +3,11 @@ I'm No Effect, if i am chosen by the Effect Roulette, nothing happens.
 "
 Class {
 	#name : #NoEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #playing }
-NoEffect >> applyEffectTo: aPosition knowing: players and: aCurrentPlayer inThe: anUCABoardGame [ 
+NoEffect >> applyEffectTo: aPosition knowing: players and: aCurrentPlayer knowing: finishline [  
 	^ aPosition.
 ]

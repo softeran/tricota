@@ -47,6 +47,17 @@ CurrentPosition >> decreaseLap [
 	laps:= laps-1.
 ]
 
+{ #category : #'move forward' }
+CurrentPosition >> forwardTo: nextPosition changingLapIfCrossing: finishline [
+	
+	self moveForwardTo: nextPosition ifDoesNotCross: finishline.
+	self moveForwardTo: nextPosition ifCrosses: finishline.
+
+	
+
+	
+]
+
 { #category : #'instance initialization' }
 CurrentPosition >> hash [
 	
@@ -82,9 +93,95 @@ CurrentPosition >> moveBackwards: moveTo [
 	
 ]
 
+{ #category : #'move backwards' }
+CurrentPosition >> moveBackwardsAmountOf: aNumberOflockers knowing: finishline [
+	
+	
+	| nextPosition |
+
+	nextPosition := locker - aNumberOflockers.
+	self moveBackwardsTo: nextPosition ifDoesNotCross: finishline.
+	self moveBackwardsTo: nextPosition ifCrosses: finishline.
+
+	
+]
+
+{ #category : #'move backwards' }
+CurrentPosition >> moveBackwardsTo: nextPosition changingLapIfCrossing: finishline [ 
+		
+	self moveBackwardsTo: nextPosition ifDoesNotCross: finishline.
+	self moveBackwardsTo: nextPosition ifCrosses: finishline.
+
+]
+
+{ #category : #'move backwards' }
+CurrentPosition >> moveBackwardsTo: nextPosition ifCrosses: finishLine [
+
+	| followingPosition|
+
+	(nextPosition < 0 and: laps > 0 )
+		ifTrue: [ 
+			followingPosition := finishLine + nextPosition.
+			self moveBackwards: followingPosition.
+			self decreaseLap].
+	(nextPosition < 0 and: (laps == 0 ))
+		ifTrue: [ 
+			self moveBackwards: 0.
+			 ].
+]
+
+{ #category : #'move backwards' }
+CurrentPosition >> moveBackwardsTo: nextPosition ifDoesNotCross: finishLine [
+
+	(nextPosition >=0)
+		ifTrue: [ self moveBackwards: nextPosition ]
+]
+
 { #category : #playerPosition }
 CurrentPosition >> moveForward: moveTo [
 	
 	locker:= moveTo.
 	
+]
+
+{ #category : #'move forward' }
+CurrentPosition >> moveForwardTo: nextPosition ifCrosses: finishLine [
+
+	(nextPosition >= finishLine)
+	
+		ifTrue: [ self moveForward: (nextPosition - finishLine).
+			self increaseLap ].
+]
+
+{ #category : #'move forward' }
+CurrentPosition >> moveForwardTo: nextPosition ifDoesNotCross: finishLine [
+
+	(nextPosition >= finishLine)
+		ifFalse: [ self moveForward: nextPosition ]
+]
+
+{ #category : #playing }
+CurrentPosition >> moveTo: nextPosition knowing: finishline [
+	self whenIsGoingForwardMoveTo: nextPosition knowing: finishline.
+	self whenIsGoingBackwardsMoveTo: nextPosition knowing: finishline
+]
+
+{ #category : #'move backwards' }
+CurrentPosition >> whenIsGoingBackwardsMoveTo: nextPosition knowing: finishline [  
+
+	(locker > nextPosition)
+	ifTrue: [
+		self
+			moveBackwardsTo: nextPosition
+			changingLapIfCrossing: finishline]
+]
+
+{ #category : #'move forward' }
+CurrentPosition >> whenIsGoingForwardMoveTo: nextPosition knowing: finishline [ 
+	
+	(locker < nextPosition)
+	ifTrue: [
+		self
+			forwardTo: nextPosition
+			changingLapIfCrossing: finishline]
 ]

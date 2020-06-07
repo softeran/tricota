@@ -5,7 +5,7 @@ N is a random number between 1 and a number that it's given me when i'm created.
 "
 Class {
 	#name : #MoonWalk,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#instVars : [
 		'maxNumberOfLockersBackwards',
 		'numberProvider'
@@ -46,9 +46,9 @@ MoonWalk class >> maxBackwards: aNumberOfLockers source: aNumberProvider [
 ]
 
 { #category : #playing }
-MoonWalk >> applyEffectTo: aPosition  knowing: players and: currentPlayer inThe: game [
+MoonWalk >> applyEffectTo: aPosition  knowing: players and: currentPlayer knowing: finishline [
 	
-	self moveAll: players except: currentPlayer inThe: game.
+	self moveAll: players except: currentPlayer knowing: finishline.
 	^ aPosition.
 ]
 
@@ -60,11 +60,11 @@ MoonWalk >> initializeMaxBackwards: aNumberOfLockers source: aNumberProvider [
 ]
 
 { #category : #'as yet unclassified' }
-MoonWalk >> moveAll: players except: currentPlayer inThe: game [
+MoonWalk >> moveAll: players except: currentPlayer knowing: finishline [
 
 	| lockers |
 	lockers := self moveBackwards.
-	players keysAndValuesDo: [:player :position | player ~= currentPlayer ifTrue: [ game moveBackwards: player amountOf: lockers  ] ] .
+	players keysAndValuesDo: [:player :position | player ~= currentPlayer ifTrue: [ position moveBackwardsAmountOf: lockers knowing: finishline] ] .
 ]
 
 { #category : #playing }

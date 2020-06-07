@@ -13,23 +13,18 @@ Class {
 	#category : #'IngSoft2-Model-Game'
 }
 
-{ #category : #'instance creation' }
-SequentialPlayersProvider class >> assertOnlyPlayersIn: aSequence [
+{ #category : #'as yet unclassified' }
+SequentialPlayersProvider class >> enoughPlayers: aSequence [
 
-	(aSequence
-		anySatisfy:
-			[ :player | (player class) = Player ])
-		ifFalse: [ InstanceCreationFailed
-				signal: 'Sequence must have only players' ]
+	aSequence size < 2
+		ifTrue: [ InstanceCreationFailed
+				signal: 'Not enough players. Need at least 2 players' ].
 ]
 
 { #category : #'instance creation' }
 SequentialPlayersProvider class >> providing: aSequence [
 
-	aSequence size < 2
-		ifTrue: [ InstanceCreationFailed
-				signal: 'Not enough players. Need at least 2 players' ].
-	self assertOnlyPlayersIn: aSequence.
+	self enoughPlayers: aSequence.
 
 	^ self new initializeProviding: aSequence
 ]
