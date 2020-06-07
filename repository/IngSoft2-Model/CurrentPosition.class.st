@@ -11,10 +11,16 @@ Class {
 	#category : #'IngSoft2-Model-Game'
 }
 
-{ #category : #'instance creation' }
-CurrentPosition class >> atLocker: number atLap: numberOfLaps [
+{ #category : #accessing }
+CurrentPosition class >> atLocker: aLocker atLap: aLap [
 
-	^self new initializeAtLocker: number atLap: numberOfLaps.
+	^self new initializeAtLocker: 0 atLap: 0.
+]
+
+{ #category : #'instance creation' }
+CurrentPosition class >> startingAtZero [
+
+	^self new initializeAtLocker: 0 atLap: 0.
 ]
 
 { #category : #'instance initialization' }
@@ -77,7 +83,7 @@ CurrentPosition >> moveBackwards: moveTo [
 ]
 
 { #category : #playerPosition }
-CurrentPosition >> moveFoward: moveTo [
+CurrentPosition >> moveForward: moveTo [
 	
 	locker:= moveTo.
 	

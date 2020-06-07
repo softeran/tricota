@@ -26,6 +26,7 @@ PositionTable >> atPosition: anIndex [
 { #category : #initialization }
 PositionTable >> initializeFilledWith: players [
 	
-	table:= SortedCollection sortBlock: [:player1 :player2 | player1 currentPosition >= player2 	currentPosition ].
-	players do: [ :player | table add: player ].
+	table:= SortedCollection sortBlock: [:player1 :player2 | (players at: player1) >= (players at: player2) ].
+	players keysAndValuesDo: [ :player :position | table add: player ].
+	
 ]

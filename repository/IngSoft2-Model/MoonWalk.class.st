@@ -64,7 +64,7 @@ MoonWalk >> moveAll: players except: currentPlayer inThe: game [
 
 	| lockers |
 	lockers := self moveBackwards.
-	players do: [:player | player ~= currentPlayer ifTrue: [ game moveBackwards: player amountOf: lockers  ] ] .
+	players keysAndValuesDo: [:player :position | player ~= currentPlayer ifTrue: [ game moveBackwards: player amountOf: lockers  ] ] .
 ]
 
 { #category : #playing }

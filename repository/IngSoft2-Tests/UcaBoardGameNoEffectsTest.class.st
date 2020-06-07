@@ -90,63 +90,63 @@ UcaBoardGameNoEffectsTest >> testHappyPathNoEffects [
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:0;
-		assert: juan lockerPosition equals: 0;
-		assert: nico lockerPosition equals: 0.
+		assert: (game lockerNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 0.
 	game nextTurn.
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:0;
-		assert: juan lockerPosition equals: 3;
-		assert: nico lockerPosition equals: 0.
+		assert: (game lockerNumberOf: juan) equals: 3;
+		assert: (game lockerNumberOf: nico) equals: 0.
 		
 	game nextTurn.
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:0;
-		assert: juan lockerPosition equals: 3;
-		assert: nico lockerPosition equals: 4.
+		assert: (game lockerNumberOf: juan) equals: 3;
+		assert: (game lockerNumberOf: nico) equals: 4.
 		
 	game nextTurn.
 
 	self 
 		assert: (game lapNumberOf: juan) equals:1;
 		assert: (game lapNumberOf: nico) equals:0;
-		assert: juan lockerPosition equals: 0;
-		assert: nico lockerPosition equals: 4.
+		assert: (game lockerNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 4.
 		
 	game nextTurn.
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:1;
 		assert: (game lapNumberOf: nico) equals:0;
-		assert: juan lockerPosition equals: 0;
-		assert: nico lockerPosition equals: 5.
+		assert: (game lockerNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 5.
 		
 	game nextTurn.
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:1;
 		assert: (game lapNumberOf: nico) equals:0;
-		assert: juan lockerPosition equals: 4;
-		assert: nico lockerPosition equals: 5.
+		assert: (game lockerNumberOf: juan) equals: 4;
+		assert: (game lockerNumberOf: nico) equals: 5.
 		
 	game nextTurn.
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:1;
 		assert: (game lapNumberOf: nico) equals:1;
-		assert: juan lockerPosition equals: 4;
-		assert: nico lockerPosition equals: 0.
+		assert: (game lockerNumberOf: juan) equals: 4;
+		assert: (game lockerNumberOf: nico) equals: 0.
 		
 	game nextTurn.
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:2;
 		assert: (game lapNumberOf: nico) equals:1;
-		assert: juan lockerPosition equals: 2;
-		assert: nico lockerPosition equals: 0.
+		assert: (game lockerNumberOf: juan) equals: 2;
+		assert: (game lockerNumberOf: nico) equals: 0.
 		
 		
 	self assert: game winner equals: juan
@@ -175,9 +175,9 @@ UcaBoardGameNoEffectsTest >> testLockerNumberOfPlayer [
 	| game |
 		
 	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 andEffects: effectRoulette.
-	self assert: juan lockerPosition equals: 0.
+	self assert: (game lockerNumberOf: juan) equals: 0.
 	game nextTurn.
-	self assert: juan lockerPosition equals: 3.
+	self assert: (game lockerNumberOf: juan) equals: 3.
 	
 	
 ]
@@ -189,17 +189,17 @@ UcaBoardGameNoEffectsTest >> testPlayerFinishedOneLap [
 		
 	die := Die of: 4 rolling: #(3 4 4).
 	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 andEffects: effectRoulette.
-	self assert: juan lapNumber equals: 0.
+	self assert: (game lapNumberOf: juan) equals: 0.
 	self play: game amountOfTurns:3.
-	self assert: juan lapNumber equals: 1.
+	self assert: (game lapNumberOf: juan) equals: 1.
 	
 	
 ]
 
 { #category : #tests }
 UcaBoardGameNoEffectsTest >> testPlayersPositions [
-
-	|game|
+		
+	| game |
 		
 	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 andEffects: effectRoulette.
 	self play:game amountOfTurns:2.

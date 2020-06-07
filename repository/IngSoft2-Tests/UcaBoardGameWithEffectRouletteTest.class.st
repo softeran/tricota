@@ -60,8 +60,8 @@ UcaBoardGameWithEffectRouletteTest >> testAtomicBomb [
 	game nextTurn.
 	
 	self 
-		assert: juan lockerPosition equals: 0;
-	 	assert: juan lapNumber  equals: 0.
+		assert: (game lockerNumberOf: juan) equals: 0;
+	 	assert: (game lapNumberOf: juan)  equals: 0.
 	
 	
 ]
@@ -75,8 +75,8 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalk [
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
-	self assert: nico lapNumber equals: 0;
-		assert: nico lockerPosition equals: 0.
+	self assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 0.
 		
 	
 ]
@@ -90,7 +90,7 @@ UcaBoardGameWithEffectRouletteTest >> testSpeedUp [
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
-	self assert: juan lockerPosition equals: 11.
+	self assert: (game lockerNumberOf: juan) equals: 11.
 	
 ]
 
@@ -103,7 +103,7 @@ UcaBoardGameWithEffectRouletteTest >> testWormHole [
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
-	self assert: juan lockerPosition equals: 3.
+	self assert: (game lockerNumberOf: juan) equals: 3.
 	
 ]
 
@@ -117,7 +117,7 @@ UcaBoardGameWithEffectRouletteTest >> testWormHoleDecreasingLap [
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	
-	self assert: juan lapNumber equals: 0;
-		assert: juan lockerPosition equals: 0.
+	self assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 0.
 	
 ]

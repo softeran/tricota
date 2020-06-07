@@ -9,11 +9,11 @@ Class {
 	#instVars : [
 		'dice',
 		'sequenceOfPlayers',
-		'players',
 		'winner',
 		'lockers',
 		'laps',
-		'effectRoulette'
+		'effectRoulette',
+		'playersWithPositions'
 	],
 	#category : #'IngSoft2-Model-Game'
 }
@@ -37,29 +37,45 @@ UCABoardGame >> assertTheGameHasNotFinished [
 ]
 
 { #category : #assertions }
-UCABoardGame >> assertTheWinnerIs: currentPlayer [
+UCABoardGame >> assertTheWinnerIs: aPlayer [
 	
-	(currentPlayer lapNumber == laps)
-	ifTrue:[winner:= currentPlayer].
+	((self currentPositionOf: aPlayer) lapNumber == laps)
+	ifTrue:[winner:= aPlayer ].
 	
 	
 	
+]
+
+{ #category : #playing }
+UCABoardGame >> currentPositionOf: aPlayer [ 
+
+	^playersWithPositions at: aPlayer.
+
 ]
 
 { #category : #assertions }
 UCABoardGame >> hasFinished [
 	
-	^ players detect: [ :player | player lapNumber = laps]  				
-					ifFound: [true] 				
-					ifNone: [false].
+	^ (playersWithPositions values) detect: [ :position | position lapNumber = laps]  				
+		ifFound: [true] 				
+		ifNone: [false].
 	
 	
+]
+
+{ #category : #initialization }
+UCABoardGame >> initializeDictionaryOfPositions: aGroupOfPlayers [
+
+	|players|
+	players := Dictionary new.
+	aGroupOfPlayers do: [ :player | players at: player put: (CurrentPosition startingAtZero)].
+	^ players
 ]
 
 { #category : #'instance initialization' }
 UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette [
 	dice:= aDice.
-	players:= aGroupOfPlayers.
+	playersWithPositions:= self initializeDictionaryOfPositions: aGroupOfPlayers.
 	sequenceOfPlayers:= (SequentialPlayersProvider providing: aGroupOfPlayers).
 	lockers:= aNumberOfLockers.
 	laps:= aNumberOfLaps.
@@ -69,7 +85,12 @@ UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberO
 
 { #category : #position }
 UCABoardGame >> lapNumberOf: aPlayer [ 
-	^ aPlayer lapNumber.
+	^ (self currentPositionOf: aPlayer) lapNumber.
+]
+
+{ #category : #position }
+UCABoardGame >> lockerNumberOf: aPlayer [ 
+	^ (self currentPositionOf: aPlayer) lockerPosition.
 ]
 
 { #category : #'move backwards' }
@@ -100,15 +121,15 @@ UCABoardGame >> move: currentPlayer to: nextPosition [
 ]
 
 { #category : #'move backwards' }
-UCABoardGame >> move: aCurrentPlayer whenIsGoingBackwardsTo: nextPosition [  
+UCABoardGame >> move: aPlayer whenIsGoingBackwardsTo: nextPosition [  
 
 	
 	| finishLine |
-	(aCurrentPlayer lockerPosition > nextPosition)
+	((self currentPositionOf: aPlayer) lockerPosition > nextPosition)
 	ifTrue: [
 		finishLine := lockers.
 		self
-			move: aCurrentPlayer
+			move: aPlayer
 			backwardsTo: nextPosition
 			changingLapIfCrossing: finishLine]
 ]
@@ -118,7 +139,7 @@ UCABoardGame >> move: currentPlayer whenIsGoingForwardTo: nextPosition [
 	
 	| finishLine |
 	
-	(currentPlayer lockerPosition < nextPosition)
+	((self currentPositionOf: currentPlayer)lockerPosition < nextPosition)
 	ifTrue: [
 		finishLine := lockers.
 		self
@@ -133,7 +154,7 @@ UCABoardGame >> moveBackwards: aPlayer amountOf: aNumberOflockers [
 	
 	| finishLine nextPosition |
 	finishLine := lockers.
-	nextPosition := aPlayer lockerPosition - aNumberOflockers.
+	nextPosition := (self currentPositionOf: aPlayer) lockerPosition - aNumberOflockers.
 	self moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLine.
 	self moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine.
 
@@ -143,15 +164,16 @@ UCABoardGame >> moveBackwards: aPlayer amountOf: aNumberOflockers [
 { #category : #'move backwards' }
 UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifCrosses: finishLine [
 
-	| followingPosotion |
-	(nextPosition < 0 and: aPlayer lapNumber>0 )
+	| followingPosotion positionOfCurrentPlayer|
+	positionOfCurrentPlayer := (self currentPositionOf: aPlayer).
+	(nextPosition < 0 and: positionOfCurrentPlayer lapNumber>0 )
 		ifTrue: [ 
 			followingPosotion := finishLine + nextPosition.
-			aPlayer moveBackwards: followingPosotion.
-			aPlayer decreaseLap].
-	(nextPosition < 0 and: (aPlayer lapNumber == 0 ))
+			positionOfCurrentPlayer moveBackwards: followingPosotion.
+			positionOfCurrentPlayer decreaseLap].
+	(nextPosition < 0 and: (positionOfCurrentPlayer lapNumber == 0 ))
 		ifTrue: [ 
-			aPlayer moveBackwards: 0.
+			positionOfCurrentPlayer moveBackwards: 0.
 			 ].
 ]
 
@@ -163,40 +185,40 @@ UCABoardGame >> moveBackwards: aPlayer to: nextPosition ifDoesNotCross: finishLi
 ]
 
 { #category : #'move forward' }
-UCABoardGame >> moveForward: currentPlayer to: nextPosition ifCrosses: finishLine [
+UCABoardGame >> moveForward: aPlayer to: nextPosition ifCrosses: finishLine [
 
 	(nextPosition >= finishLine)
 	
-		ifTrue: [ currentPlayer moveForward: (nextPosition - finishLine).
-			currentPlayer increaseLap ].
+		ifTrue: [ (self currentPositionOf: aPlayer) moveForward: (nextPosition - finishLine).
+			(self currentPositionOf: aPlayer) increaseLap ].
 ]
 
 { #category : #'move forward' }
-UCABoardGame >> moveForward: currentPlayer to: nextPosition ifDoesNotCross: finishLine [
+UCABoardGame >> moveForward: aPlayer to: nextPosition ifDoesNotCross: finishLine [
 
 	(nextPosition >= finishLine)
-		ifFalse: [ currentPlayer moveForward: nextPosition ]
+		ifFalse: [ (self currentPositionOf: aPlayer) moveForward: nextPosition ]
 ]
 
 { #category : #playing }
 UCABoardGame >> nextTurn [
-	
-	|currentPlayer nextPosition positionWithEffect |
+	| currentPlayer nextPosition positionWithEffect |
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
-	nextPosition := currentPlayer lockerPosition + dice roll.
-	positionWithEffect := effectRoulette spin applyEffectTo: nextPosition knowing: players and: currentPlayer inThe: self. 
+	nextPosition := (playersWithPositions at: currentPlayer) lockerPosition + dice roll.
+	positionWithEffect := effectRoulette spin applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer inThe: self.
+	self move: currentPlayer to: positionWithEffect
+]
 
-	self move: currentPlayer to: positionWithEffect.
-
-	
-	
+{ #category : #playing }
+UCABoardGame >> players [
+	^ playersWithPositions keys
 ]
 
 { #category : #position }
 UCABoardGame >> playersPositions [
 	
-	^ PositionTable filledWith: players.
+	^ PositionTable filledWith: playersWithPositions.
 ]
 
 { #category : #playing }

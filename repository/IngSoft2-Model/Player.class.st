@@ -6,8 +6,7 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'name',
-		'position'
+		'name'
 	],
 	#category : #'IngSoft2-Model-Player'
 }
@@ -27,48 +26,10 @@ Player class >> named: aString [
 	^self new initializeWithName: aString.
 ]
 
-{ #category : #position }
-Player >> currentPosition [
-	^position .
-]
-
-{ #category : #move }
-Player >> decreaseLap [
-	 position decreaseLap.
-]
-
-{ #category : #move }
-Player >> increaseLap [
-	 position increaseLap.
-]
-
 { #category : #'instance initialization' }
 Player >> initializeWithName: aString [ 
 	name:= aString.
-	position:= CurrentPosition atLocker:0 atLap:0.
 	
-]
-
-{ #category : #position }
-Player >> lapNumber [
-	^position lapNumber.
-]
-
-{ #category : #position }
-Player >> lockerPosition [
-	^position lockerPosition .
-]
-
-{ #category : #move }
-Player >> moveBackwards: moveTo [ 
-	
-	position moveBackwards: moveTo.
-]
-
-{ #category : #move }
-Player >> moveForward: moveTo [ 
-	
-	position moveFoward: moveTo.
 ]
 
 { #category : #name }
