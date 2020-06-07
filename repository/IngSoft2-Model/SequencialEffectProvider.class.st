@@ -23,5 +23,9 @@ SequencialEffectProvider >> initializeProviding: aSequenceOfEffects [
 
 { #category : #providing }
 SequencialEffectProvider >> nextEffect [
-	^ sequence next.
+
+	| next |
+	next := sequence current.
+	sequence next.
+	^ next
 ]
