@@ -13,7 +13,8 @@ Class {
 		'lockers',
 		'laps',
 		'effectRoulette',
-		'playersWithPositions'
+		'playersWithPositions',
+		'lastEffect'
 	],
 	#category : #'IngSoft2-Model-Game'
 }
@@ -22,6 +23,12 @@ Class {
 UCABoardGame class >> rolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette [.
 
 	^self new initializeRolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette.
+]
+
+{ #category : #playing }
+UCABoardGame >> assertSomeoneRolledDice [
+	(lastEffect = 'No effect yet')
+		ifTrue: [ InvalideRequest signal: 'Nobody rolled the dice yet' ]
 ]
 
 { #category : #assertions }
@@ -81,6 +88,7 @@ UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberO
 	laps:= aNumberOfLaps.
 	effectRoulette:= anEffectRoulette.
 	winner := 'No Winner'.
+	lastEffect := 'No effect yet'.
 ]
 
 { #category : #position }
@@ -99,9 +107,17 @@ UCABoardGame >> nextTurn [
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := (playersWithPositions at: currentPlayer) lockerPosition + dice roll.
-	positionWithEffect := effectRoulette spin applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer knowing: lockers.
+	lastEffect := effectRoulette spin.
+	positionWithEffect := lastEffect applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer knowing: lockers.
 	(playersWithPositions at: currentPlayer) moveTo: positionWithEffect knowing: lockers.
 	self assertTheWinnerIs: currentPlayer.
+]
+
+{ #category : #playing }
+UCABoardGame >> player: aPlayer throw: cardEffect to: playerTarget [ 
+	
+	self assertSomeoneRolledDice.
+	aPlayer apply: cardEffect to: (playersWithPositions at: playerTarget) knowing: lastEffect
 ]
 
 { #category : #playing }

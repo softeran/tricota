@@ -116,6 +116,49 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkbbbbbbbbbbbbbbbbbbbb [
 ]
 
 { #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testPickUpCard [
+
+	| game effectRoulette |
+	
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: PickUpCard new.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
+	game nextTurn.
+	
+	self assert: juan numberOfCards equals: 1.
+	
+]
+
+{ #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testRepeat [
+
+	| game effectRoulette effects|
+	effects:= OrderedCollection new.
+	effects add: PickUpCard new;
+			add: SpeedUp  new;
+			add: NoEffect new.
+	effectRoulette := EffectRouletteBuilder new with: effects.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
+	
+	game nextTurn.
+	self assert: juan numberOfCards equals: 1.
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 8.
+	game player: juan throw: Repeat new to: juan.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 11;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 8.
+
+	
+	
+]
+
+{ #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testSpeedUp [
 
 	| game effectRoulette |

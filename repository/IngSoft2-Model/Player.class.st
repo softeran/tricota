@@ -6,7 +6,8 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'name'
+		'name',
+		'cards'
 	],
 	#category : #'IngSoft2-Model-Player'
 }
@@ -26,13 +27,38 @@ Player class >> named: aString [
 	^self new initializeWithName: aString.
 ]
 
+{ #category : #playing }
+Player >> addCard: aCard [ 
+	cards add: aCard
+]
+
+{ #category : #playing }
+Player >> apply: aCard to: playerTargetPosition knowing: lastEffect [ 
+	self assertIHaveCard: aCard.
+	aCard applyTo: playerTargetPosition knowing: lastEffect.
+	self cardPlayed: aCard.
+]
+
+{ #category : #assertions }
+Player >> assertIHaveCard: aCard [ 
+	cards detect: [ :card | card class = aCard class ] 
+			ifNone: [ InvalideRequest signal: 'Player doesnt have that card' ]  .
+		
+]
+
 { #category : #'instance initialization' }
 Player >> initializeWithName: aString [ 
 	name:= aString.
+	cards:= OrderedCollection new.
 	
 ]
 
 { #category : #name }
 Player >> name [
 	^name.
+]
+
+{ #category : #playing }
+Player >> numberOfCards [
+	^ cards size.
 ]
