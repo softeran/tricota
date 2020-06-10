@@ -7,28 +7,34 @@ Class {
 { #category : #'as yet unclassified' }
 EffectRouletteTest >> effectsWithProbabilities [
 
-	| atomicBomb speedUp wormHole moonWalk noEffect effects |
+	| atomicBomb speedUp wormHole moonWalk noEffect effectRouletteBuilder |
 	atomicBomb := AtomicBomb new.
 	speedUp := SpeedUp new.
 	wormHole := WormHole new.
 	moonWalk := MoonWalk maxBackwards: 5.
 	noEffect := NoEffect new.
-	effects:=Dictionary  new.
-	effects at: atomicBomb put: 2.
-	effects at: speedUp put: 20.
-	effects at: wormHole put: 20.
-	effects at: moonWalk put: 10.
-	effects at: noEffect put: 48.
+	effectRouletteBuilder:= EffectRouletteBuilder buildingProbabilisticRoulette.
 	
-	^effects.
+	effectRouletteBuilder add: atomicBomb withPercentage:10.
+	effectRouletteBuilder add: speedUp withPercentage:20.
+	effectRouletteBuilder add: wormHole withPercentage:20.
+	effectRouletteBuilder add: moonWalk withPercentage:10.
+	effectRouletteBuilder add: noEffect withPercentage:48.
+	
+	^effectRouletteBuilder buildProbabilistic .
 ]
 
 { #category : #tests }
 EffectRouletteTest >> testSpin [
 
-	| effects effectRoulette |
-	effects := self effectsWithProbabilities.
-	effectRoulette := EffectRouletteBuilder new withProbabilities: effects.
-
-	1 to: 100 do: [ :iteration | self assert: (effects keys includes: effectRoulette spin ) ].
+	| effectRoulette  effects |
+	effectRoulette:= self effectsWithProbabilities.
+	effects:= OrderedCollection new.
+	effects 
+		add: AtomicBomb new ;
+		add: SpeedUp new;
+		add: WormHole new ;
+		add: (MoonWalk maxBackwards: 5); 
+		add: NoEffect new.
+	1 to: 100 do: [ :iteration | self assert: (effects includes: effectRoulette spin ) ].
 ]

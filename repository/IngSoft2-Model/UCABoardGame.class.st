@@ -10,11 +10,12 @@ Class {
 		'dice',
 		'sequenceOfPlayers',
 		'winner',
-		'lockers',
 		'laps',
 		'effectRoulette',
 		'playersWithPositions',
-		'lastEffect'
+		'lastEffect',
+		'finishLine',
+		'activeCards'
 	],
 	#category : #'IngSoft2-Model-Game'
 }
@@ -84,9 +85,10 @@ UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberO
 	dice:= aDice.
 	playersWithPositions:= self initializeDictionaryOfPositions: aGroupOfPlayers.
 	sequenceOfPlayers:= (SequentialPlayersProvider providing: aGroupOfPlayers).
-	lockers:= aNumberOfLockers.
+	finishLine:= aNumberOfLockers.
 	laps:= aNumberOfLaps.
 	effectRoulette:= anEffectRoulette.
+	activeCards := OrderedCollection new.
 	winner := 'No Winner'.
 	lastEffect := 'No effect yet'.
 ]
@@ -103,21 +105,36 @@ UCABoardGame >> lockerNumberOf: aPlayer [
 
 { #category : #playing }
 UCABoardGame >> nextTurn [
-	| currentPlayer nextPosition positionWithEffect |
+	| currentPlayer nextPosition positionWithEffect positionWithEffectAndCards |
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	nextPosition := (playersWithPositions at: currentPlayer) lockerPosition + dice roll.
 	lastEffect := effectRoulette spin.
-	positionWithEffect := lastEffect applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer knowing: lockers.
-	(playersWithPositions at: currentPlayer) moveTo: positionWithEffect knowing: lockers.
+	positionWithEffect := lastEffect applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer knowing: finishLine.
+	positionWithEffectAndCards:=0.
+	(activeCards size > 0 )
+	ifTrue:[positionWithEffectAndCards:= (activeCards sum:[ :card | card effect: currentPlayer ])].
+	
+	(playersWithPositions at: currentPlayer) moveTo: (positionWithEffectAndCards + positionWithEffect) knowing: finishLine.
 	self assertTheWinnerIs: currentPlayer.
+]
+
+{ #category : #playing }
+UCABoardGame >> player: aPlayer throw: cardEffect [ 
+ 	
+	self savePermanentCard: cardEffect.
+	
+	
 ]
 
 { #category : #playing }
 UCABoardGame >> player: aPlayer throw: cardEffect to: playerTarget [ 
 	
 	self assertSomeoneRolledDice.
-	aPlayer apply: cardEffect to: (playersWithPositions at: playerTarget) knowing: lastEffect
+	aPlayer apply: cardEffect to: playerTarget within: playersWithPositions  knowing: lastEffect and: finishLine.
+	
+	self assertTheWinnerIs: playerTarget .
+
 ]
 
 { #category : #playing }
@@ -129,6 +146,12 @@ UCABoardGame >> players [
 UCABoardGame >> playersPositions [
 	
 	^ PositionTable filledWith: playersWithPositions.
+]
+
+{ #category : #playing }
+UCABoardGame >> savePermanentCard: aCard [
+
+	aCard isPermanent ifTrue: [ activeCards add: aCard ].
 ]
 
 { #category : #playing }

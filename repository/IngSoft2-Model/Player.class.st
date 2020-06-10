@@ -33,17 +33,25 @@ Player >> addCard: aCard [
 ]
 
 { #category : #playing }
-Player >> apply: aCard to: playerTargetPosition knowing: lastEffect [ 
+Player >> apply: aCard to: aPlayerTarget within: aPlayersWithProbabilities knowing: lastEffedt and: finishLine [
+	
 	self assertIHaveCard: aCard.
-	aCard applyTo: playerTargetPosition knowing: lastEffect.
+	aCard applyTo: aPlayerTarget within: aPlayersWithProbabilities knowing: lastEffedt and: finishLine.
 	self cardPlayed: aCard.
 ]
 
 { #category : #assertions }
 Player >> assertIHaveCard: aCard [ 
-	cards detect: [ :card | card class = aCard class ] 
+	cards detect: [ :card | card  = aCard ] 
 			ifNone: [ InvalideRequest signal: 'Player doesnt have that card' ]  .
 		
+]
+
+{ #category : #playing }
+Player >> cardPlayed: aCard [
+
+	cards remove: aCard.
+	
 ]
 
 { #category : #'instance initialization' }

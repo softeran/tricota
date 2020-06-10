@@ -1,12 +1,14 @@
 Class {
 	#name : #Repeat,
-	#superclass : #Object,
+	#superclass : #Card,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #playing }
-Repeat >> applyTo: playerTargetPosition knowing: lastEffect [ 
-	"
-	positionWithEffect := lastEffect applyEffectTo: aNumberOfLocker knowing: playersWithPositions and: currentPlayer knowing: lockers.
-	(playersWithPositions at: currentPlayer) moveTo: positionWithEffect knowing: lockers."
+Repeat >> applyTo: aPlayerTarget within: playersWithPositions knowing: lastEffect and: finishLine [
+		
+	| actualPosition positionWithEffect |
+	actualPosition:= (playersWithPositions at: aPlayerTarget) lockerPosition.
+	positionWithEffect := lastEffect applyEffectTo: actualPosition knowing: playersWithPositions and: aPlayerTarget knowing: finishLine .
+	(playersWithPositions at: aPlayerTarget) moveTo: positionWithEffect knowing: finishLine .
 ]
