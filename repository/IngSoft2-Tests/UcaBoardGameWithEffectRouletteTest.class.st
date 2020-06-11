@@ -55,13 +55,16 @@ UcaBoardGameWithEffectRouletteTest >> setUp [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testAccelerationCard [
 
-	| game effectRoulette effects|
-	effects:= OrderedCollection new.
-	effects 	add: PickUpCard new;
+	| game effectRoulette effectRouletteBuilder |
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: PickUpCard new;
 				add: NoEffect  new;
 				add: NoEffect  new;
 				add: NoEffect new.
-	effectRoulette := EffectRouletteBuilder new with: effects.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	
 	game nextTurn.
@@ -109,12 +112,15 @@ UcaBoardGameWithEffectRouletteTest >> testAtomicBomb [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testMoonWalkaaaaaaaaaaaaaaaaaaaaaaaaaa [
 
-	| game effectRoulette effects sofi|
-	effects:= OrderedCollection new.
-	effects add: NoEffect new;
-			add: NoEffect new;
-			add: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2 4)).
-	effectRoulette := EffectRouletteBuilder new with: effects.
+	| game effectRoulette  sofi effectRouletteBuilder|
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: NoEffect new;
+				add: NoEffect new;
+				add: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2 4)).
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
 	sofi := Player named: 'Sofi'.
 	players add: sofi.
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
@@ -125,7 +131,7 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkaaaaaaaaaaaaaaaaaaaaaaaaaa [
 		assert: (game lapNumberOf: nico) equals:0;
 		assert: (game lapNumberOf: sofi) equals:0;
 		assert: (game lockerNumberOf: juan) equals: 7;
-		assert: (game lockerNumberOf: nico) equals: 4;
+		assert: (game lockerNumberOf: nico) equals: 9;
 		assert: (game lockerNumberOf: sofi) equals: 0.
 	game nextTurn.
 	self 
@@ -133,7 +139,7 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkaaaaaaaaaaaaaaaaaaaaaaaaaa [
 		assert: (game lapNumberOf: nico) equals:0;
 		assert: (game lapNumberOf: sofi) equals:0;
 		assert: (game lockerNumberOf: juan) equals: 5;
-		assert: (game lockerNumberOf: nico) equals: 2;
+		assert: (game lockerNumberOf: nico) equals: 7;
 		assert: (game lockerNumberOf: sofi) equals: 3.
 		
 	
@@ -170,12 +176,14 @@ UcaBoardGameWithEffectRouletteTest >> testPickUpCard [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testRepeatMoonWalk [
 
-	| game effectRoulette effects|
-	effects:= OrderedCollection new.
-	effects add: PickUpCard new;
-			add: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2));
-			add: NoEffect new.
-	effectRoulette := EffectRouletteBuilder new with: effects.
+	| game effectRoulette effectRouletteBuilder|
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: PickUpCard new;
+				add: (MoonWalk maxBackwards: 5 aNumberOfLockersSequence: #(2));
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	
 	game nextTurn.
@@ -200,12 +208,14 @@ UcaBoardGameWithEffectRouletteTest >> testRepeatMoonWalk [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testRepeatNoEffect [
 
-	| game effectRoulette effects|
-	effects:= OrderedCollection new.
-	effects add: PickUpCard new;
+	| game effectRoulette  effectRouletteBuilder|
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+			add: PickUpCard new;
 			add: NoEffect new;
 			add: NoEffect new.
-	effectRoulette := EffectRouletteBuilder new with: effects.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	
 	game nextTurn.
@@ -230,12 +240,14 @@ UcaBoardGameWithEffectRouletteTest >> testRepeatNoEffect [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testRepeatSpeedUp [
 
-	| game effectRoulette effects|
-	effects:= OrderedCollection new.
-	effects add: PickUpCard new;
-			add: SpeedUp  new;
-			add: NoEffect new.
-	effectRoulette := EffectRouletteBuilder new with: effects.
+	| game effectRoulette effectRouletteBuilder|
+
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add:PickUpCard new;
+				add: SpeedUp  new;
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	
 	game nextTurn.
@@ -260,12 +272,14 @@ UcaBoardGameWithEffectRouletteTest >> testRepeatSpeedUp [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testRepeatWormHole [
 
-	| game effectRoulette effects|
-	effects:= OrderedCollection new.
-	effects add: PickUpCard new;
-			add: WormHole   new;
-			add: NoEffect new.
-	effectRoulette := EffectRouletteBuilder new with: effects.
+	| game effectRoulette effectRouletteBuilder|
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add:PickUpCard new;
+				add: WormHole   new;
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 andEffects: effectRoulette.
 	
 	game nextTurn.
@@ -303,21 +317,21 @@ UcaBoardGameWithEffectRouletteTest >> testSpeedUp [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testSpeedUpAndWinaaaaaaaaaaaaaaaaaaaaaaaa [
 
-	| game effectRoulette effects |
-
-	effects:= OrderedCollection new.
-	effects add: NoEffect new;
+	| game effectRoulette effectRouletteBuilder |
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+			add: NoEffect new;
 			add: NoEffect new;
 			add: SpeedUp new.
-	effectRoulette := EffectRouletteBuilder new with: effects.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
 	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 andEffects: effectRoulette.
 	game nextTurn.
 	game nextTurn.
 	self 
 		assert: (game lapNumberOf: juan) equals:1;
-		assert: (game lapNumberOf: nico) equals:0;
+		assert: (game lapNumberOf: nico) equals:1;
 		assert: (game lockerNumberOf: juan) equals: 1;
-		assert: (game lockerNumberOf: nico) equals: 4.
+		assert: (game lockerNumberOf: nico) equals: 3.
 	game nextTurn.
 	self assert: game winner equals: juan.
 	
