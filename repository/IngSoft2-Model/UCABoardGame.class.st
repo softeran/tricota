@@ -21,9 +21,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-UCABoardGame class >> rolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette [.
+UCABoardGame class >> rolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps effects: effectRoulette and: cards [
 
-	^self new initializeRolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette.
+	^self new initializeRolling: aDie with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps effects: effectRoulette and: cards.
+]
+
+{ #category : #'as yet unclassified' }
+UCABoardGame class >> rolling: aDie with: players lockers: numberOfLockers laps: numberOfLaps effects: anEffectRoulette andDeterministic: sequenceOfCards [ 
+	^self new initializeRolling: aDie with: players lockers: numberOfLockers  laps: numberOfLaps  effects: anEffectRoulette andDeterministic: sequenceOfCards.
 ]
 
 { #category : #playing }
@@ -61,6 +66,38 @@ UCABoardGame >> currentPositionOf: aPlayer [
 
 ]
 
+{ #category : #playing }
+UCABoardGame >> deal: cards [ 
+|random index|
+	random:= Random new.
+	playersWithPositions keysDo: [ :player | 
+		index:= random nextInt: cards size.
+		player addCard: (cards at: index).
+	index:= random nextInt: cards size.
+		player addCard: (cards at: index)]
+
+]
+
+{ #category : #playing }
+UCABoardGame >> deterministicDeal: cards [ 
+|index sizeOfCards|
+	index:=1.
+	sizeOfCards:= cards size.
+		playersWithPositions keysDo: [ :player | 
+		player addCard: (cards at: index).
+		index:= self following: index lowerThan: sizeOfCards.
+		player addCard: (cards at: index).
+		index:= self following: index lowerThan: sizeOfCards.]
+
+]
+
+{ #category : #playing }
+UCABoardGame >> following: index lowerThan: sizeOfCards [.
+
+	(index = sizeOfCards ) ifTrue:[^1] ifFalse:[^index +1].
+
+]
+
 { #category : #assertions }
 UCABoardGame >> hasFinished [
 	
@@ -81,7 +118,7 @@ UCABoardGame >> initializeDictionaryOfPositions: aGroupOfPlayers [
 ]
 
 { #category : #'instance initialization' }
-UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps andEffects: anEffectRoulette [
+UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps effects: anEffectRoulette and: cards [
 	dice:= aDice.
 	playersWithPositions:= self initializeDictionaryOfPositions: aGroupOfPlayers.
 	sequenceOfPlayers:= (SequentialPlayersProvider providing: aGroupOfPlayers).
@@ -91,6 +128,22 @@ UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberO
 	activeCards := OrderedCollection new.
 	winner := 'No Winner'.
 	lastEffect := 'No effect yet'.
+	self deal: cards.
+]
+
+{ #category : #initialization }
+UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberOfLockers  laps: aNumberOfLaps  effects: anEffectRoulette andDeterministic: sequenceOfCards [
+	
+	dice:= aDice.
+	playersWithPositions:= self initializeDictionaryOfPositions: aGroupOfPlayers.
+	sequenceOfPlayers:= (SequentialPlayersProvider providing: aGroupOfPlayers).
+	finishLine:= aNumberOfLockers.
+	laps:= aNumberOfLaps.
+	effectRoulette:= anEffectRoulette.
+	activeCards := OrderedCollection new.
+	winner := 'No Winner'.
+	lastEffect := 'No effect yet'.
+	self deterministicDeal: sequenceOfCards.
 ]
 
 { #category : #position }
