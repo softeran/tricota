@@ -44,7 +44,7 @@ Player >> apply: aCard to: aPlayerTarget within: aPlayersWithProbabilities knowi
 Player >> assertIHaveCard: aCard [ 
 	cards detect: [ :card | card  = aCard ] 
 			ifFound: [ ^true]
-			ifNone: [ InvalideRequest signal: 'Player doesnt have that card' ]  .
+			ifNone: [ InvalideRequest signal: 'Player doesnt have that card']  .
 		
 ]
 

@@ -80,21 +80,40 @@ UCABoardGame >> deal: cards [
 
 { #category : #playing }
 UCABoardGame >> deterministicDeal: cards [ 
-|index sizeOfCards|
-	index:=1.
+| aaa sizeOfCards|
+	aaa:=1.
 	sizeOfCards:= cards size.
 		playersWithPositions keysDo: [ :player | 
-		player addCard: (cards at: index).
-		index:= self following: index lowerThan: sizeOfCards.
-		player addCard: (cards at: index).
-		index:= self following: index lowerThan: sizeOfCards.]
+		player addCard: (cards at: aaa).
+		"(aaa = sizeOfCards ) ifTrue:[aaa:=1] ifFalse:[aaa:= aaa+1]".
+		aaa:= self following: aaa lowerThan: sizeOfCards.
+		player addCard: (cards at: aaa).
+		"(aaa = sizeOfCards ) ifTrue:[aaa:=1] ifFalse:[aaa:= aaa+1]"
+		aaa:= self following: aaa lowerThan: sizeOfCards]
+	
+
+
+]
+
+{ #category : #playing }
+UCABoardGame >> deterministicDeal: cards and: aGroupOfPlayers [ 
+| aaa sizeOfCards|
+	aaa:=1.
+	sizeOfCards:= cards size.
+		aGroupOfPlayers  do: [ :player | 
+		player addCard: (cards at: aaa).
+		aaa:= self following: aaa lowerThan: sizeOfCards.
+		player addCard: (cards at: aaa).
+		aaa:= self following: aaa lowerThan: sizeOfCards.]
+	
+
 
 ]
 
 { #category : #playing }
 UCABoardGame >> following: index lowerThan: sizeOfCards [.
 
-	(index = sizeOfCards ) ifTrue:[^1] ifFalse:[^index +1].
+	(index = sizeOfCards ) ifTrue:[^1] ifFalse:[^(index +1)].
 
 ]
 
@@ -143,7 +162,7 @@ UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberO
 	activeCards := OrderedCollection new.
 	winner := 'No Winner'.
 	lastEffect := 'No effect yet'.
-	self deterministicDeal: sequenceOfCards.
+	self deterministicDeal: sequenceOfCards and: aGroupOfPlayers.
 ]
 
 { #category : #position }
@@ -175,7 +194,9 @@ UCABoardGame >> nextTurn [
 { #category : #playing }
 UCABoardGame >> player: aPlayer throw: cardEffect [ 
  	
+	aPlayer assertIHaveCard: cardEffect.
 	self savePermanentCard: cardEffect.
+	aPlayer cardPlayed: cardEffect.
 	
 	
 ]
@@ -186,6 +207,7 @@ UCABoardGame >> player: aPlayer throw: cardEffect to: playerTarget [
 	self assertSomeoneRolledDice.
 	aPlayer apply: cardEffect to: playerTarget within: playersWithPositions  knowing: lastEffect and: finishLine.
 	
+	self savePermanentCard: cardEffect.
 	self assertTheWinnerIs: playerTarget .
 
 ]

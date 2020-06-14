@@ -56,10 +56,9 @@ UcaBoardGameWithEffectRouletteTest >> setUp [
 UcaBoardGameWithEffectRouletteTest >> testAccelerationCard [
 
 	| game effectRoulette effectRouletteBuilder cards|
-	
 	cards:= OrderedCollection new.
 	cards 
-	add: Repeat new.
+	add: Acceleration new.
 	
 	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
 	effectRouletteBuilder 
@@ -72,26 +71,33 @@ UcaBoardGameWithEffectRouletteTest >> testAccelerationCard [
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: cards.
 	
 	game nextTurn.
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7.
+		
+	game player: nico throw: Acceleration new.
+	
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: nico) equals: 9.
+		assert: (game lockerNumberOf: nico) equals: 10.
 		
 	game player: juan throw: Acceleration new.
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
-		assert: (game lockerNumberOf: juan) equals: 11;
+		assert: (game lockerNumberOf: juan) equals: 12;
 		assert: (game lapNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: nico) equals: 9.
+		assert: (game lockerNumberOf: nico) equals: 10.
+	
 game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
-		assert: (game lockerNumberOf: juan) equals: 11;
+		assert: (game lockerNumberOf: juan) equals: 12;
 		assert: (game lapNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: nico) equals: 17.
+		assert: (game lockerNumberOf: nico) equals: 19.
 	
 	
 ]
@@ -131,7 +137,7 @@ UcaBoardGameWithEffectRouletteTest >> testInitializeGameDealingCardsDeterministi
 	self assert:( juan assertIHaveCard: Repeat new).
 	self assert:( juan assertIHaveCard: Overload new).
 	self assert: nico numberOfCards equals:2.
-	"self assert:( nico assertIHaveCard: Acceleration new)."
+	self assert:( nico assertIHaveCard: Acceleration new).
 	self assert:( nico assertIHaveCard: Repeat new).
 	
 	
@@ -189,6 +195,50 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkbbbbbbbbbbbbbbbbbbbb [
 	self assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
 		
+	
+]
+
+{ #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testOverloadCard [
+
+	| game effectRoulette effectRouletteBuilder cards|
+	cards:= OrderedCollection new.
+	cards 
+	add: Overload new.
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: (PickUpCard withRandom: cards);
+				add: NoEffect  new;
+				add: NoEffect  new;
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: cards.
+	
+	game nextTurn.
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7.
+		
+	game player: nico throw: (Overload target: juan).
+	
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 9.
+		
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 8;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 9.
+	
+
+	
 	
 ]
 
