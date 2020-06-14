@@ -13,3 +13,8 @@ Acceleration >> effect: aPlayer [
 Acceleration >> isPermanent [
 	^true.
 ]
+
+{ #category : #playing }
+Acceleration >> redoCard [
+	^self class new
+]

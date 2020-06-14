@@ -15,7 +15,8 @@ Class {
 		'playersWithPositions',
 		'lastEffect',
 		'finishLine',
-		'activeCards'
+		'activeCards',
+		'lastCardPlayed'
 	],
 	#category : #'IngSoft2-Model-Game'
 }
@@ -147,6 +148,7 @@ UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberO
 	activeCards := OrderedCollection new.
 	winner := 'No Winner'.
 	lastEffect := 'No effect yet'.
+	lastCardPlayed:= 'No card has been played yet'.
 	self deal: cards.
 ]
 
@@ -193,10 +195,14 @@ UCABoardGame >> nextTurn [
 
 { #category : #playing }
 UCABoardGame >> player: aPlayer throw: cardEffect [ 
- 	
+ 	|thisCard|
+	thisCard:= cardEffect.
 	aPlayer assertIHaveCard: cardEffect.
-	self savePermanentCard: cardEffect.
+	(cardEffect = Redo new) ifTrue:[ thisCard:= cardEffect changeTo: lastCardPlayed].
+	(thisCard  isPermanent) ifFalse:[ aPlayer apply: thisCard  within: playersWithPositions  knowing: activeCards  the:lastEffect  and: finishLine].
+	self savePermanentCard: thisCard .
 	aPlayer cardPlayed: cardEffect.
+	lastCardPlayed := thisCard .
 	
 	
 ]

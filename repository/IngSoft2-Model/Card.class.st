@@ -4,6 +4,11 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #accessing }
+Card class >> target: aCollectionOfPlayer [ 
+	^self new initializeTarget: aCollectionOfPlayer.
+]
+
 { #category : #comparing }
 Card >> = anObject [ 
 

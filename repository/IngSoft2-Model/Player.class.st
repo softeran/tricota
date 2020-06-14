@@ -40,6 +40,12 @@ Player >> apply: aCard to: aPlayerTarget within: aPlayersWithProbabilities knowi
 	self cardPlayed: aCard.
 ]
 
+{ #category : #playing }
+Player >> apply: aCard within: aPlayersWithPositions  knowing: activeCards  the: lastEffect and: finishLine [
+
+	aCard applyWithin: aPlayersWithPositions  knowing: activeCards the:lastEffect and: finishLine.
+]
+
 { #category : #assertions }
 Player >> assertIHaveCard: aCard [ 
 	cards detect: [ :card | card  = aCard ] 
