@@ -464,6 +464,44 @@ UcaBoardGameWithEffectRouletteTest >> testRepeatWormHole [
 ]
 
 { #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testSpeedCard [
+
+	| game effectRoulette effectRouletteBuilder cards|
+	cards:= OrderedCollection new.
+	cards 
+	add: Speed new.
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: (PickUpCard withRandom: cards);
+				add: NoEffect  new;
+				add: NoEffect  new;
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: cards.
+	
+	game nextTurn.
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7.
+		
+	game player: nico throw: (Speed target: nico).
+	
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 10.
+		
+
+
+	
+	
+]
+
+{ #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testSpeedUp [
 
 	| game effectRoulette cards|

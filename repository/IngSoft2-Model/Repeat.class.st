@@ -12,3 +12,8 @@ Repeat >> applyTo: aPlayerTarget within: playersWithPositions knowing: lastEffec
 	positionWithEffect := lastEffect applyEffectTo: actualPosition knowing: playersWithPositions and: aPlayerTarget knowing: finishLine .
 	(playersWithPositions at: aPlayerTarget) moveTo: positionWithEffect knowing: finishLine .
 ]
+
+{ #category : #playing }
+Repeat >> isPermanent [
+	^false.
+]
