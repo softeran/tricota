@@ -14,15 +14,6 @@ Repeat class >> target: aPlayer [
 ]
 
 { #category : #playing }
-Repeat >> applyTo: aPlayerTarget within: playersWithPositions knowing: lastEffect and: finishLine [
-		
-	| actualPosition positionWithEffect |
-	actualPosition:= (playersWithPositions at: aPlayerTarget) lockerPosition.
-	positionWithEffect := lastEffect applyEffectTo: actualPosition knowing: playersWithPositions and: aPlayerTarget knowing: finishLine .
-	(playersWithPositions at: aPlayerTarget) moveTo: positionWithEffect knowing: finishLine .
-]
-
-{ #category : #playing }
 Repeat >> applyWithin: playersWithPositions knowing: activeCards  the: lastEffect and: finishLine [
 		
 	| actualPosition positionWithEffect |
@@ -39,14 +30,4 @@ Repeat >> initializeTarget: aTarget [
 { #category : #playing }
 Repeat >> isPermanent [
 	^false.
-]
-
-{ #category : #playing }
-Repeat >> redoCard [
-	self shouldBeImplemented.
-]
-
-{ #category : #playing }
-Repeat >> redoCardTo: aPlayer [ 
-	^self class target: aPlayer.
 ]

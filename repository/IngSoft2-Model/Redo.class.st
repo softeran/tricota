@@ -28,19 +28,8 @@ Redo >> card [
 	^ card
 ]
 
-{ #category : #playing }
-Redo >> changeTo: aCard [
-	
-	^aCard redoCardTo: target.
-]
-
 { #category : #initialization }
 Redo >> initializeOfCard: aCard [
 	card:= aCard.
 	
-]
-
-{ #category : #initialization }
-Redo >> initializeTarget: aTarget [
-	target:= aTarget.
 ]

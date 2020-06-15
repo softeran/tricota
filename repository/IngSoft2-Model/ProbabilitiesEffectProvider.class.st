@@ -23,8 +23,5 @@ ProbabilitiesEffectProvider >> nextEffect [
 
 		| randomValue |
 	randomValue := Random new nextInt: 100.
-	dictionary 
-		keysAndValuesDo: [ :key :value | 
-			(value includes: randomValue)
-				ifTrue: [ ^ key ] ]
+	dictionary keysAndValuesDo: [ :key :value | (value includes: randomValue)ifTrue: [ ^ key ] ]
 ]

@@ -16,11 +16,6 @@ Overload class >> target: aPlayer [
 ]
 
 { #category : #playing }
-Overload >> applyTo: aPlayer within: aCollection knowing: aPickUpCard and: anInteger [ 
-	^true.
-]
-
-{ #category : #playing }
 Overload >> effect: aPlayer [ 
 	(target includes: aPlayer) ifTrue:[^-2] ifFalse:[^0].
 ]
@@ -33,4 +28,9 @@ Overload >> initializeTarget: aTarget [
 { #category : #playing }
 Overload >> isPermanent [
 	^true.
+]
+
+{ #category : #accessing }
+Overload >> target [
+	^ target.
 ]

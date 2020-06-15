@@ -80,23 +80,6 @@ UCABoardGame >> deal: cards [
 ]
 
 { #category : #playing }
-UCABoardGame >> deterministicDeal: cards [ 
-| aaa sizeOfCards|
-	aaa:=1.
-	sizeOfCards:= cards size.
-		playersWithPositions keysDo: [ :player | 
-		player addCard: (cards at: aaa).
-		"(aaa = sizeOfCards ) ifTrue:[aaa:=1] ifFalse:[aaa:= aaa+1]".
-		aaa:= self following: aaa lowerThan: sizeOfCards.
-		player addCard: (cards at: aaa).
-		"(aaa = sizeOfCards ) ifTrue:[aaa:=1] ifFalse:[aaa:= aaa+1]"
-		aaa:= self following: aaa lowerThan: sizeOfCards]
-	
-
-
-]
-
-{ #category : #playing }
 UCABoardGame >> deterministicDeal: cards and: aGroupOfPlayers [ 
 | aaa sizeOfCards|
 	aaa:=1.
@@ -186,8 +169,8 @@ UCABoardGame >> nextTurn [
 	lastEffect := effectRoulette spin.
 	positionWithEffect := lastEffect applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer knowing: finishLine.
 	positionWithEffectAndCards:=0.
-	(activeCards size > 0 )
-	ifTrue:[positionWithEffectAndCards:= (activeCards sum:[ :card | card effect: currentPlayer ])].
+	(activeCards isEmpty)
+	ifFalse:[positionWithEffectAndCards:= (activeCards sum:[ :card | card effect: currentPlayer ])].
 	
 	(playersWithPositions at: currentPlayer) moveTo: (positionWithEffectAndCards + positionWithEffect) knowing: finishLine.
 	self assertTheWinnerIs: currentPlayer.
