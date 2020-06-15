@@ -28,6 +28,12 @@ Player class >> named: aString [
 ]
 
 { #category : #playing }
+Player >> = anObject [ 
+	name = anObject name ifFalse: [ ^false ].
+ ^true
+]
+
+{ #category : #playing }
 Player >> addCard: aCard [ 
 	cards add: aCard
 ]
@@ -51,6 +57,13 @@ Player >> cardPlayed: aCard [
 
 	cards remove: aCard.
 	
+]
+
+{ #category : #playing }
+Player >> hash [
+	
+	^self species hash bitXor: (self  name hash ).
+
 ]
 
 { #category : #'instance initialization' }

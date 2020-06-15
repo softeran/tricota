@@ -166,6 +166,108 @@ UcaBoardGameWithEffectRouletteTest >> testCancellation [
 ]
 
 { #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testCancellationSpeed [
+
+	| game effectRoulette effectRouletteBuilder cards|
+	cards:= OrderedCollection new.
+	cards 
+	add: Speed new;
+	add: Cancellation new.
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: (PickUpCard withRandom: cards);
+				add: NoEffect  new;
+				add: NoEffect  new;
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
+	
+	game player: juan throw: (Speed target: juan).
+	game nextTurn.
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 8.
+		
+	game player: nico throw: (Speed target: nico).
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 8;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 10.
+		
+	game player: juan throw: (Cancellation selectCard: (Speed target: nico)).
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 12;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 10.
+		
+	game nextTurn.
+		self 
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 12;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 17.
+
+	
+]
+
+{ #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testCancellationSpeedBIS [
+
+	| game effectRoulette effectRouletteBuilder cards|
+	cards:= OrderedCollection new.
+	cards 
+	add: Speed new;
+	add: Cancellation new.
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: (PickUpCard withRandom: cards);
+				add: NoEffect  new;
+				add: NoEffect  new;
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
+	
+	game player: juan throw: (Speed target: nico).
+	game nextTurn.
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7.
+		
+	game player: nico throw: (Speed target: nico).
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 11.
+		
+	game player: juan throw: (Cancellation selectCard: (Speed target: nico)).
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 10;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 11.
+		
+	game nextTurn.
+		self 
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 10;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 19.
+
+	
+]
+
+{ #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testInitializeGameDealingCardsDeterministicOOOO [
 |cards game effectRoulette |
 	cards:= OrderedCollection new.

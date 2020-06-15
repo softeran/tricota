@@ -15,7 +15,9 @@ Cancellation class >> selectCard: aCard [
 { #category : #playing }
 Cancellation >> applyWithin: aPlayersWithPositions  knowing: activeCards  the: lastEffect and: finishLine [ 
 	
-  activeCards remove: selectedCard.
+  activeCards doWithIndex:[:card :i| (card = selectedCard and: card target = selectedCard target )ifTrue:[activeCards removeAt:i .
+		^true]].
+
 ]
 
 { #category : #initialization }

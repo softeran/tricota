@@ -24,3 +24,8 @@ Speed >> effect: aPlayer [
 Speed >> isPermanent [
 	^true.
 ]
+
+{ #category : #playing }
+Speed >> target [
+	^ target.
+]
