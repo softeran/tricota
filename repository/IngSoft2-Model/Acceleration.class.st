@@ -21,11 +21,6 @@ Acceleration >> isPermanent [
 ]
 
 { #category : #playing }
-Acceleration >> redoCard [
-	^self class new
-]
-
-{ #category : #playing }
 Acceleration >> redoCardTo: aTarget [
 	^self class new.
 ]

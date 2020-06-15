@@ -78,11 +78,11 @@ UcaBoardGameWithEffectRouletteTest >> testAccelerationCard [
 	game player: nico throw: Acceleration new.
 	
 	game nextTurn.
-	self
-		assert: (game lapNumberOf: juan) equals: 0;
-		assert: (game lockerNumberOf: juan) equals: 7;
-		assert: (game lapNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: nico) equals: 10.
+		self
+			assert: (game lapNumberOf: juan) equals: 0;
+			assert: (game lockerNumberOf: juan) equals: 7;
+			assert: (game lapNumberOf: nico) equals: 0;
+			assert: (game lockerNumberOf: nico) equals: 10.
 		
 	game player: juan throw: Acceleration new.
 	game nextTurn.
@@ -92,7 +92,7 @@ UcaBoardGameWithEffectRouletteTest >> testAccelerationCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 10.
 	
-game nextTurn.
+	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 12;
@@ -462,7 +462,7 @@ UcaBoardGameWithEffectRouletteTest >> testRedo [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 10.
 		
-	game player: juan throw: Redo new.
+	game player: juan throw:(Redo ofCard:Acceleration new).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -530,28 +530,25 @@ UcaBoardGameWithEffectRouletteTest >> testRedoCancellation [
 { #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testRedoRepeat [
 
-	| game effectRoulette effectRouletteBuilder cards|
+	|game effectRoulette effectRouletteBuilder cards|
 	cards:= OrderedCollection new.
 	cards 
 	add: Acceleration new;
 	add: Repeat new;
 	add: Redo new.
-	
 	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
 	effectRouletteBuilder 
 				add: (PickUpCard withRandom: cards);
 				add: NoEffect  new;
 				add: SpeedUp  new.
 	effectRoulette:= effectRouletteBuilder buildDeterministic. 
-	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
-	
 	game nextTurn.
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7.
 		
-	game player: juan throw: (Repeat target: juan).
+game player: juan throw: (Repeat target: juan).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -559,7 +556,6 @@ UcaBoardGameWithEffectRouletteTest >> testRedoRepeat [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 9.
 		
-	
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -567,7 +563,7 @@ UcaBoardGameWithEffectRouletteTest >> testRedoRepeat [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 9.
 		
-	game player: nico throw: (Redo target: nico).
+	game player: nico throw: (Redo ofCard:(Repeat target:nico)).
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 14;
