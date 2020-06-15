@@ -4,8 +4,14 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #accessing }
+Redo class >> target: aPlayer [ 
+	^self new initializeTarget: aPlayer .
+
+]
+
 { #category : #playing }
 Redo >> changeTo: aCard [
 	
-	^aCard redoCard.
+	^aCard redoCardTo: target.
 ]

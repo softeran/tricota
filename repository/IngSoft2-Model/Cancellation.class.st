@@ -27,3 +27,9 @@ Cancellation >> initializeSelectCard: aCard [
 Cancellation >> isPermanent [
 	^false.
 ]
+
+{ #category : #playing }
+Cancellation >> redoCardTo: aCard [
+
+	^self class selectCard: selectedCard.
+]

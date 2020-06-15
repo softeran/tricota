@@ -208,17 +208,6 @@ UCABoardGame >> player: aPlayer throw: cardEffect [
 ]
 
 { #category : #playing }
-UCABoardGame >> player: aPlayer throw: cardEffect to: playerTarget [ 
-	
-	self assertSomeoneRolledDice.
-	aPlayer apply: cardEffect to: playerTarget within: playersWithPositions  knowing: lastEffect and: finishLine.
-	
-	self savePermanentCard: cardEffect.
-	self assertTheWinnerIs: playerTarget .
-
-]
-
-{ #category : #playing }
 UCABoardGame >> players [
 	^ playersWithPositions keys
 ]

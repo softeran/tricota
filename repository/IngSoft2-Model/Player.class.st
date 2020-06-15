@@ -33,14 +33,6 @@ Player >> addCard: aCard [
 ]
 
 { #category : #playing }
-Player >> apply: aCard to: aPlayerTarget within: aPlayersWithProbabilities knowing: lastEffedt and: finishLine [
-	
-	self assertIHaveCard: aCard.
-	aCard applyTo: aPlayerTarget within: aPlayersWithProbabilities knowing: lastEffedt and: finishLine.
-	self cardPlayed: aCard.
-]
-
-{ #category : #playing }
 Player >> apply: aCard within: aPlayersWithPositions  knowing: activeCards  the: lastEffect and: finishLine [
 
 	aCard applyWithin: aPlayersWithPositions  knowing: activeCards the:lastEffect and: finishLine.

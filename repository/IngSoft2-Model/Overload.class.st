@@ -9,7 +9,10 @@ Class {
 
 { #category : #'instance creation' }
 Overload class >> target: aPlayer [ 
-	^self new initializeTarget: aPlayer.
+|orderCollectionPlayer|
+	orderCollectionPlayer:= OrderedCollection new .
+	orderCollectionPlayer add: aPlayer.
+	^self new initializeTarget: orderCollectionPlayer.
 ]
 
 { #category : #playing }
@@ -19,12 +22,7 @@ Overload >> applyTo: aPlayer within: aCollection knowing: aPickUpCard and: anInt
 
 { #category : #playing }
 Overload >> effect: aPlayer [ 
-	(target = aPlayer) ifTrue:[^-2] ifFalse:[^0].
-]
-
-{ #category : #initialization }
-Overload >> initializeTarget: aPlayer [ 
-	target:= aPlayer.
+	(target includes: aPlayer) ifTrue:[^-2] ifFalse:[^0].
 ]
 
 { #category : #playing }
