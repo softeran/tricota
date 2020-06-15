@@ -23,13 +23,13 @@ Redo >> assertCardIs: aCard [
 	(card = aCard)ifFalse: [ InvalideRequest signal: 'That was not the last card played' ].
 ]
 
-{ #category : #playing }
-Redo >> card [
-	^ card
-]
-
 { #category : #initialization }
 Redo >> initializeOfCard: aCard [
 	card:= aCard.
 	
+]
+
+{ #category : #playing }
+Redo >> toRedo [
+	^ card
 ]

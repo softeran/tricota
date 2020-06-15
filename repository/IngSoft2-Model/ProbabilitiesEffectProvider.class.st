@@ -20,8 +20,15 @@ ProbabilitiesEffectProvider >> initializeWith: aDictionaryOfEffects [
 
 { #category : #playing }
 ProbabilitiesEffectProvider >> nextEffect [
-
-		| randomValue |
+	| randomValue |
 	randomValue := Random new nextInt: 100.
-	dictionary keysAndValuesDo: [ :key :value | (value includes: randomValue)ifTrue: [ ^ key ] ]
+	^ self searchForEffectAt: randomValue
+]
+
+{ #category : #playing }
+ProbabilitiesEffectProvider >> searchForEffectAt: randomValue [
+	dictionary
+		keysAndValuesDo: [ :key :value | 
+			(value includes: randomValue)
+				ifTrue: [ ^ key ] ]
 ]

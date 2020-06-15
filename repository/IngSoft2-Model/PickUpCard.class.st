@@ -18,8 +18,8 @@ PickUpCard class >> withSequence: aSequenceOfCards [
 ]
 
 { #category : #playing }
-PickUpCard >> applyEffectTo: aPosition knowing: players and: aCurrentPlayer knowing: finishline [  
-	aCurrentPlayer addCard: cardsProvider nextCard.
+PickUpCard >> applyEffectTo: aPosition knowing: players the: currentPlayer and: finishline [  
+	currentPlayer addCard: cardsProvider nextCard.
 	^aPosition.
 ]
 

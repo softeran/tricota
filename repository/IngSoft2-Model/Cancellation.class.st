@@ -13,11 +13,8 @@ Cancellation class >> selectCard: aCard [
 ]
 
 { #category : #playing }
-Cancellation >> applyWithin: aPlayersWithPositions  knowing: activeCards  the: lastEffect and: finishLine [ 
-	
-  activeCards doWithIndex:[:card :i| (card = selectedCard and: card target = selectedCard target )ifTrue:[activeCards removeAt:i .
-		^true]].
-
+Cancellation >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine [
+	^ self removeCardFrom: activeCards
 ]
 
 { #category : #initialization }
@@ -28,4 +25,13 @@ Cancellation >> initializeSelectCard: aCard [
 { #category : #playing }
 Cancellation >> isPermanent [
 	^false.
+]
+
+{ #category : #playing }
+Cancellation >> removeCardFrom: activeCards [
+	activeCards
+		doWithIndex: [ :card :i | 
+			(card = selectedCard and: card target = selectedCard target)
+				ifTrue: [ activeCards removeAt: i.
+					^ true ] ]
 ]

@@ -9,3 +9,9 @@ Card >> = anObject [
 
 	self class = anObject class ifTrue: [ ^true ] ifFalse: [ ^false ].	
 ]
+
+{ #category : #comparing }
+Card >> isPermanent [
+
+	Error signal: 'This message should be override'.
+]

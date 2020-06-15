@@ -38,14 +38,8 @@ Player >> addCard: aCard [
 	cards add: aCard
 ]
 
-{ #category : #playing }
-Player >> apply: aCard within: aPlayersWithPositions  knowing: activeCards  the: lastEffect and: finishLine [
-
-	aCard applyWithin: aPlayersWithPositions  knowing: activeCards the:lastEffect and: finishLine.
-]
-
 { #category : #assertions }
-Player >> assertIHaveCard: aCard [ 
+Player >> assertHasCard: aCard [ 
 	cards detect: [ :card | card  = aCard ] 
 			ifFound: [ ^true]
 			ifNone: [ InvalideRequest signal: 'Player doesnt have that card']  .

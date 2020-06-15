@@ -16,10 +16,15 @@ Repeat class >> target: aPlayer [
 { #category : #playing }
 Repeat >> applyWithin: playersWithPositions knowing: activeCards  the: lastEffect and: finishLine [
 		
-	| actualPosition positionWithEffect |
-	actualPosition:= (playersWithPositions at: target )lockerPosition.
-	positionWithEffect := lastEffect applyEffectTo: actualPosition knowing: playersWithPositions and: target knowing: finishLine .
-	(playersWithPositions at: target) moveTo: positionWithEffect knowing: finishLine .
+	|actualPosition positionWithEffect|
+	actualPosition:= (self currentPositionOfTargetIn: playersWithPositions)lockerPosition.
+	positionWithEffect := lastEffect applyEffectTo: actualPosition knowing: playersWithPositions the: target and: finishLine .
+	(self currentPositionOfTargetIn: playersWithPositions) moveTo: positionWithEffect knowing: finishLine .
+]
+
+{ #category : #playing }
+Repeat >> currentPositionOfTargetIn: playersWithPositions [
+	^ playersWithPositions at: target
 ]
 
 { #category : #initialization }

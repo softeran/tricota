@@ -42,13 +42,14 @@ UcaBoardGameNoEffectsTest >> playerNamed: aName [
 
 { #category : #running }
 UcaBoardGameNoEffectsTest >> setUp [
-	| aSequenceOfEffects|
+	|effectRouletteBuilder|
 	cards:= OrderedCollection new.
 	cards 
 	add: Repeat new.
-	aSequenceOfEffects := OrderedCollection new.
-	aSequenceOfEffects add: NoEffect new.
-	effectRoulette := EffectRouletteBuilder new with: aSequenceOfEffects.
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic.
+	
 	die := Die of: 4 rolling: #(3 4 3 1 4 1 4).
 	juan := self juan.
 	nico := self nico.

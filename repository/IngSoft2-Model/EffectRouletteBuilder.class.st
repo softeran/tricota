@@ -61,12 +61,6 @@ EffectRouletteBuilder >> initializeBuildingProbabilisticRoulette [
 	sequenceOfEffects := Dictionary new. 
 ]
 
-{ #category : #building }
-EffectRouletteBuilder >> with: aSequenceOfEffects [ 
-	^ EffectRoulette source:(SequencialEffectProvider providing: aSequenceOfEffects).
-	
-]
-
 { #category : #'as yet unclassified' }
 EffectRouletteBuilder >> withProbabilities: dictionaryEffectsProbabilities [
 	^ EffectRoulette source:( ProbabilitiesEffectProvider with:(self createDictionaryEffectsAndProbabilities: dictionaryEffectsProbabilities)).

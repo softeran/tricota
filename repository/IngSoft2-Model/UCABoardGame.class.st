@@ -33,6 +33,33 @@ UCABoardGame class >> rolling: aDie with: players lockers: numberOfLockers laps:
 ]
 
 { #category : #playing }
+UCABoardGame >> amountOfLockersThatActiveCardsMove: currentPlayer [
+|amountOfLockers|
+	amountOfLockers:=0.
+	(activeCards isEmpty)
+	ifFalse:[amountOfLockers:= (activeCards sum:[ :card | card effect: currentPlayer ])].
+	^amountOfLockers.
+]
+
+{ #category : #playing }
+UCABoardGame >> applyEffectTo: positionAfterRollingDice of: currentPlayer [
+
+	lastEffect := effectRoulette spin.
+	
+	^lastEffect applyEffectTo: positionAfterRollingDice	knowing: playersWithPositions the: currentPlayer and: finishLine.
+]
+
+{ #category : #playing }
+UCABoardGame >> applyInstant: thisCard [
+	thisCard isPermanent
+		ifFalse: [ thisCard
+				applyWithin: playersWithPositions
+				knowing: activeCards
+				the: lastEffect
+				and: finishLine ]
+]
+
+{ #category : #playing }
 UCABoardGame >> assertSomeoneRolledDice [
 	(lastEffect = 'No effect yet')
 		ifTrue: [ InvalideRequest signal: 'Nobody rolled the dice yet' ]
@@ -61,6 +88,17 @@ UCABoardGame >> assertTheWinnerIs: aPlayer [
 ]
 
 { #category : #playing }
+UCABoardGame >> cardToApplyKnowingThe: card [
+
+	card = Redo new 
+	ifTrue: 
+	[ card assertCardIs: lastCardPlayed. 
+	^card toRedo]
+	ifFalse:
+	[^card].
+]
+
+{ #category : #playing }
 UCABoardGame >> currentPositionOf: aPlayer [ 
 
 	^playersWithPositions at: aPlayer.
@@ -68,30 +106,38 @@ UCABoardGame >> currentPositionOf: aPlayer [
 ]
 
 { #category : #playing }
-UCABoardGame >> deal: cards [ 
-|random index|
-	random:= Random new.
-	playersWithPositions keysDo: [ :player | 
-		index:= random nextInt: cards size.
-		player addCard: (cards at: index).
-	index:= random nextInt: cards size.
-		player addCard: (cards at: index)]
-
+UCABoardGame >> deal: deck [
+	self dealTwoCardsToEachPlayerFrom: deck.
 ]
 
 { #category : #playing }
-UCABoardGame >> deterministicDeal: cards and: aGroupOfPlayers [ 
-| aaa sizeOfCards|
-	aaa:=1.
-	sizeOfCards:= cards size.
-		aGroupOfPlayers  do: [ :player | 
-		player addCard: (cards at: aaa).
-		aaa:= self following: aaa lowerThan: sizeOfCards.
-		player addCard: (cards at: aaa).
-		aaa:= self following: aaa lowerThan: sizeOfCards.]
-	
+UCABoardGame >> dealTwoCardsInOrderToEachPlayerIn: aGroupOfPlayers from: cards [
+	| index sizeOfCards |
+	index := 1.
+	sizeOfCards := cards size.
+	aGroupOfPlayers
+		do: [ :player | 
+			player addCard: (cards at: index).
+			index := self following: index lowerThan: sizeOfCards.
+			player addCard: (cards at: index).
+			index := self following: index lowerThan: sizeOfCards ]
+]
 
+{ #category : #playing }
+UCABoardGame >> dealTwoCardsToEachPlayerFrom: cards [
+	| random index |
+	random := Random new.
+	playersWithPositions
+		keysDo: [ :player | 
+			index := random nextInt: cards size.
+			player addCard: (cards at: index).
+			index := random nextInt: cards size.
+			player addCard: (cards at: index) ]
+]
 
+{ #category : #playing }
+UCABoardGame >> deterministicDeal: deck and: aGroupOfPlayers [
+	self dealTwoCardsInOrderToEachPlayerIn: aGroupOfPlayers from: deck.
 ]
 
 { #category : #playing }
@@ -162,32 +208,27 @@ UCABoardGame >> lockerNumberOf: aPlayer [
 
 { #category : #playing }
 UCABoardGame >> nextTurn [
-	| currentPlayer nextPosition positionWithEffect positionWithEffectAndCards |
+
+	| currentPlayer positionAfterRollingDice positionAfterEffect positionAfterEffectAndCards currentPlayerPosition |
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
-	nextPosition := (playersWithPositions at: currentPlayer) lockerPosition + dice roll.
-	lastEffect := effectRoulette spin.
-	positionWithEffect := lastEffect applyEffectTo: nextPosition knowing: playersWithPositions and: currentPlayer knowing: finishLine.
-	positionWithEffectAndCards:=0.
-	(activeCards isEmpty)
-	ifFalse:[positionWithEffectAndCards:= (activeCards sum:[ :card | card effect: currentPlayer ])].
-	
-	(playersWithPositions at: currentPlayer) moveTo: (positionWithEffectAndCards + positionWithEffect) knowing: finishLine.
-	self assertTheWinnerIs: currentPlayer.
+	currentPlayerPosition:= playersWithPositions at: currentPlayer.
+	positionAfterRollingDice := (self currentPositionOf: currentPlayer)lockerPosition + dice roll.
+	positionAfterEffect := self applyEffectTo: positionAfterRollingDice of: currentPlayer.
+	positionAfterEffectAndCards := (self amountOfLockersThatActiveCardsMove: currentPlayer)+ positionAfterEffect.
+	currentPlayerPosition moveTo: positionAfterEffectAndCards knowing: finishLine.
+	self assertTheWinnerIs: currentPlayer
 ]
 
 { #category : #playing }
-UCABoardGame >> player: aPlayer throw: cardEffect [ 
- 	|thisCard|
-	thisCard:= cardEffect.
-	aPlayer assertIHaveCard: cardEffect.
-	(cardEffect = Redo new) ifTrue:[ cardEffect assertCardIs:lastCardPlayed. thisCard:= cardEffect card ].
-	(thisCard  isPermanent) ifFalse:[ aPlayer apply: thisCard  within: playersWithPositions  knowing: activeCards  the:lastEffect  and: finishLine].
-	self savePermanentCard: thisCard .
-	aPlayer cardPlayed: cardEffect.
-	lastCardPlayed := thisCard .
-	
-	
+UCABoardGame >> player: aPlayer throw: card [
+	| thisCard |
+	aPlayer assertHasCard: card.
+	thisCard:= self cardToApplyKnowingThe: card.
+	self applyInstant: thisCard.
+	self savePermanentCard: thisCard.
+	aPlayer cardPlayed: card.
+	lastCardPlayed := thisCard.
 ]
 
 { #category : #playing }

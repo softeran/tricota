@@ -280,11 +280,11 @@ UcaBoardGameWithEffectRouletteTest >> testInitializeGameDealingCardsDeterministi
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
 
 	self assert: juan numberOfCards equals: 2.
-	self assert:( juan assertIHaveCard: Repeat new).
-	self assert:( juan assertIHaveCard: Overload new).
+	self assert:( juan assertHasCard: Repeat new).
+	self assert:( juan assertHasCard: Overload new).
 	self assert: nico numberOfCards equals:2.
-	self assert:( nico assertIHaveCard: Acceleration new).
-	self assert:( nico assertIHaveCard: Repeat new).
+	self assert:( nico assertHasCard: Acceleration new).
+	self assert:( nico assertHasCard: Repeat new).
 	
 	
 ]
@@ -404,11 +404,11 @@ UcaBoardGameWithEffectRouletteTest >> testPickUpCard [
 	
 	game nextTurn.
 	self assert: juan numberOfCards equals: 3.
-	self assert: (juan assertIHaveCard: Repeat new ).
+	self assert: (juan assertHasCard: Repeat new ).
 
 	game nextTurn.
 	self assert: nico numberOfCards equals: 3.
-	self assert: (nico assertIHaveCard: Overload new ).
+	self assert: (nico assertHasCard: Overload new ).
 	
 ]
 
