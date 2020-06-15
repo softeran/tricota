@@ -25,6 +25,11 @@ Overload >> effect: aPlayer [
 	(target includes: aPlayer) ifTrue:[^-2] ifFalse:[^0].
 ]
 
+{ #category : #initialization }
+Overload >> initializeTarget: aTarget [
+	target:= aTarget.
+]
+
 { #category : #playing }
 Overload >> isPermanent [
 	^true.

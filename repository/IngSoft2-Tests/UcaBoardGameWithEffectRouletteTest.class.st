@@ -516,7 +516,7 @@ UcaBoardGameWithEffectRouletteTest >> testRedoCancellation [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 11.
 		
-	game player: nico throw: Redo new.
+	game player: nico throw: (Redo ofCard:(Cancellation selectCard: Acceleration new)).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;

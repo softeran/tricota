@@ -29,3 +29,8 @@ Acceleration >> redoCard [
 Acceleration >> redoCardTo: aTarget [
 	^self class new.
 ]
+
+{ #category : #playing }
+Acceleration >> target [
+	^'everyone'.
+]

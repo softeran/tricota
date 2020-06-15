@@ -198,7 +198,7 @@ UCABoardGame >> player: aPlayer throw: cardEffect [
  	|thisCard|
 	thisCard:= cardEffect.
 	aPlayer assertIHaveCard: cardEffect.
-	(cardEffect = Redo new) ifTrue:[ thisCard:= cardEffect changeTo: lastCardPlayed].
+	(cardEffect = Redo new) ifTrue:[ cardEffect assertCardIs:lastCardPlayed. thisCard:= cardEffect card ].
 	(thisCard  isPermanent) ifFalse:[ aPlayer apply: thisCard  within: playersWithPositions  knowing: activeCards  the:lastEffect  and: finishLine].
 	self savePermanentCard: thisCard .
 	aPlayer cardPlayed: cardEffect.

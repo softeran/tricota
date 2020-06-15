@@ -20,6 +20,11 @@ Speed >> effect: aPlayer [
 	(target includes: aPlayer) ifTrue:[^1] ifFalse:[^0].
 ]
 
+{ #category : #initialization }
+Speed >> initializeTarget: aTarget [
+	target:= aTarget.
+]
+
 { #category : #playing }
 Speed >> isPermanent [
 	^true.
