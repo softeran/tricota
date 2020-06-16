@@ -8,7 +8,7 @@ Class {
 		'locker',
 		'laps'
 	],
-	#category : #'IngSoft2-Model-Game'
+	#category : #'IngSoft2-Model-Player'
 }
 
 { #category : #accessing }
@@ -23,7 +23,7 @@ CurrentPosition class >> startingAtZero [
 	^self new initializeAtLocker: 0 atLap: 0.
 ]
 
-{ #category : #'instance initialization' }
+{ #category : #comparing }
 CurrentPosition >> = anObject [ 
 	laps = anObject lapNumber ifFalse: [ ^false ].
 	locker = anObject lockerPosition ifFalse: [ ^false ].
@@ -32,7 +32,7 @@ CurrentPosition >> = anObject [
 
 ]
 
-{ #category : #'instance initialization' }
+{ #category : #comparing }
 CurrentPosition >> >= aCurrentPosition [ 
 	laps > aCurrentPosition lapNumber ifTrue: [ ^true].
 	laps < aCurrentPosition lapNumber ifTrue: [ ^false].
@@ -58,7 +58,7 @@ CurrentPosition >> forwardTo: nextPosition changingLapIfCrossing: finishline [
 	
 ]
 
-{ #category : #'instance initialization' }
+{ #category : #comparing }
 CurrentPosition >> hash [
 	
 	^self species hash bitXor: (self  lapNumber hash bitXor: self lockerPosition hash).
@@ -70,7 +70,7 @@ CurrentPosition >> increaseLap [
 	laps:= laps+1.
 ]
 
-{ #category : #'instance initialization' }
+{ #category : #' initialization' }
 CurrentPosition >> initializeAtLocker: number atLap: numberOfLaps [
 	locker:= number.
 	laps:= numberOfLaps.

@@ -4,7 +4,7 @@ I'm Atomic Bomb, if i am chosen by the Effect Roulette, everybody goes back to p
 Class {
 	#name : #AtomicBomb,
 	#superclass : #Effect,
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #playing }

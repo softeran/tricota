@@ -1,7 +1,7 @@
 Class {
 	#name : #CurrentPositionTest,
 	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests-Game-Tests'
+	#category : #'IngSoft2-Tests-Player-Tests'
 }
 
 { #category : #tests }

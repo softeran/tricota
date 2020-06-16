@@ -7,7 +7,7 @@ Class {
 		'nico',
 		'players'
 	],
-	#category : #'IngSoft2-Tests-Effects-Tests'
+	#category : #'IngSoft2-Tests-Card-Test'
 }
 
 { #category : #tests }
@@ -395,6 +395,58 @@ UcaBoardGameWithCardsTest >> testRedoCancellationCard [
 		assert: (game lockerNumberOf: juan) equals: 12;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 18.
+
+	
+]
+
+{ #category : #tests }
+UcaBoardGameWithCardsTest >> testRedoRedoCard [
+
+	| game effectRoulette effectRouletteBuilder cards|
+	cards:= OrderedCollection new.
+	cards 
+	add: Acceleration new;
+	add: Redo new.
+	
+	effectRouletteBuilder:= EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder 
+				add: (PickUpCard withRandom: cards);
+				add: NoEffect  new;
+				add: NoEffect  new;
+				add: NoEffect new.
+	effectRoulette:= effectRouletteBuilder buildDeterministic. 
+	
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
+	
+	game player: juan throw: Acceleration new.
+	game nextTurn.
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 8.
+
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 8;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 10.
+		
+	game player: juan throw:(Redo ofCard:Acceleration new).
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 13;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 10.
+		
+	game player: nico throw:(Redo ofCard:(Redo ofCard:Acceleration new)).
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 13;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 20.
+	
 
 	
 ]

@@ -27,7 +27,7 @@ Player class >> named: aString [
 	^self new initializeWithName: aString.
 ]
 
-{ #category : #playing }
+{ #category : #comparing }
 Player >> = anObject [ 
 	name = anObject name ifFalse: [ ^false ].
  ^true
@@ -53,14 +53,14 @@ Player >> cardPlayed: aCard [
 	
 ]
 
-{ #category : #playing }
+{ #category : #comparing }
 Player >> hash [
 	
 	^self species hash bitXor: (self  name hash ).
 
 ]
 
-{ #category : #'instance initialization' }
+{ #category : #initialization }
 Player >> initializeWithName: aString [ 
 	name:= aString.
 	cards:= OrderedCollection new.

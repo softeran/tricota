@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'target'
 	],
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Card'
 }
 
 { #category : #'instance creation' }
@@ -30,7 +30,7 @@ Overload >> isPermanent [
 	^true.
 ]
 
-{ #category : #accessing }
+{ #category : #playing }
 Overload >> target [
 	^ target.
 ]

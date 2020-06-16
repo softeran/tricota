@@ -13,13 +13,8 @@ Class {
 		'sofi',
 		'deck'
 	],
-	#category : #'IngSoft2-Tests-Game-Tests'
+	#category : #'IngSoft2-Tests-HappyPath-Test'
 }
-
-{ #category : #tests }
-HappyPathTest >> finish: game [
-	self play: game amountOfTurns: 7
-]
 
 { #category : #accessing }
 HappyPathTest >> juan [
@@ -29,11 +24,6 @@ HappyPathTest >> juan [
 { #category : #accessing }
 HappyPathTest >> nico [
 	^ self playerNamed: 'Nico'.
-]
-
-{ #category : #tests }
-HappyPathTest >> play: anUCABoardGame amountOfTurns: anInteger [ 
-	1 to: anInteger do: [ :number | anUCABoardGame nextTurn ].
 ]
 
 { #category : #running }

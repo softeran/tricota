@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'cards'
 	],
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Card'
 }
 
 { #category : #providing }

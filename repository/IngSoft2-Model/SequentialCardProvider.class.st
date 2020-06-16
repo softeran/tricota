@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'sequenceOfCards'
 	],
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Card'
 }
 
 { #category : #'intance creation' }

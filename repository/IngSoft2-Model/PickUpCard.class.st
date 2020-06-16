@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'cardsProvider'
 	],
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #instanceCreation }

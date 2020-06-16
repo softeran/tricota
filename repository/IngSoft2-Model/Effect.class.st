@@ -1,7 +1,7 @@
 Class {
 	#name : #Effect,
 	#superclass : #Object,
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #playing }

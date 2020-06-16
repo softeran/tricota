@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'card'
 	],
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Card'
 }
 
 { #category : #'instance creation' }
@@ -14,7 +14,7 @@ Redo class >> ofCard: card [
 
 { #category : #playing }
 Redo >> assertCardIs: aCard [
-	(card = aCard)ifFalse: [ InvalideRequest signal: 'That was not the last card played' ].
+	(card assertCardIs:aCard)"ifFalse: [ InvalideRequest signal: 'That was not the last card played' ]."
 ]
 
 { #category : #initialization }
@@ -25,5 +25,5 @@ Redo >> initializeOfCard: aCard [
 
 { #category : #playing }
 Redo >> toRedo [
-	^ card
+	^ card toRedo.
 ]

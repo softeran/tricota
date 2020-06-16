@@ -1,14 +1,8 @@
 Class {
 	#name : #Acceleration,
 	#superclass : #Card,
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Card'
 }
-
-{ #category : #accessing }
-Acceleration class >> target: players [
-
-	^self new initializeTarget: players.
-]
 
 { #category : #playing }
 Acceleration >> effect: aPlayer [ 
@@ -27,5 +21,5 @@ Acceleration >> redoCardTo: aTarget [
 
 { #category : #playing }
 Acceleration >> target [
-	^'everyone'.
+	^'Everyone'.
 ]

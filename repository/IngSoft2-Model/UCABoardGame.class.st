@@ -49,7 +49,7 @@ UCABoardGame >> applyEffectTo: positionAfterRollingDice of: currentPlayer [
 	^lastEffect applyEffectTo: positionAfterRollingDice	knowing: playersWithPositions the: currentPlayer and: finishLine.
 ]
 
-{ #category : #playing }
+{ #category : #cards }
 UCABoardGame >> applyInstant: thisCard [
 	thisCard isPermanent
 		ifFalse: [ thisCard
@@ -59,7 +59,7 @@ UCABoardGame >> applyInstant: thisCard [
 				and: finishLine ]
 ]
 
-{ #category : #playing }
+{ #category : #assertions }
 UCABoardGame >> assertSomeoneRolledDice [
 	(lastEffect = 'No effect yet')
 		ifTrue: [ InvalideRequest signal: 'Nobody rolled the dice yet' ]
@@ -87,7 +87,7 @@ UCABoardGame >> assertTheWinnerIs: aPlayer [
 	
 ]
 
-{ #category : #playing }
+{ #category : #cards }
 UCABoardGame >> cardToApplyKnowingThe: card [
 
 	card = Redo new 
@@ -98,19 +98,19 @@ UCABoardGame >> cardToApplyKnowingThe: card [
 	[^card].
 ]
 
-{ #category : #playing }
+{ #category : #position }
 UCABoardGame >> currentPositionOf: aPlayer [ 
 
 	^playersWithPositions at: aPlayer.
 
 ]
 
-{ #category : #playing }
+{ #category : #cards }
 UCABoardGame >> deal: deck [
 	self dealTwoCardsToEachPlayerFrom: deck.
 ]
 
-{ #category : #playing }
+{ #category : #cards }
 UCABoardGame >> dealTwoCardsInOrderToEachPlayerIn: aGroupOfPlayers from: cards [
 	| index sizeOfCards |
 	index := 1.
@@ -123,7 +123,7 @@ UCABoardGame >> dealTwoCardsInOrderToEachPlayerIn: aGroupOfPlayers from: cards [
 			index := self following: index lowerThan: sizeOfCards ]
 ]
 
-{ #category : #playing }
+{ #category : #cards }
 UCABoardGame >> dealTwoCardsToEachPlayerFrom: cards [
 	| random index |
 	random := Random new.
@@ -135,7 +135,7 @@ UCABoardGame >> dealTwoCardsToEachPlayerFrom: cards [
 			player addCard: (cards at: index) ]
 ]
 
-{ #category : #playing }
+{ #category : #cards }
 UCABoardGame >> deterministicDeal: deck and: aGroupOfPlayers [
 	self dealTwoCardsInOrderToEachPlayerIn: aGroupOfPlayers from: deck.
 ]
@@ -166,7 +166,7 @@ UCABoardGame >> initializeDictionaryOfPositions: aGroupOfPlayers [
 	^ players
 ]
 
-{ #category : #'instance initialization' }
+{ #category : #initialization }
 UCABoardGame >> initializeRolling: aDice with: aGroupOfPlayers lockers: aNumberOfLockers laps: aNumberOfLaps effects: anEffectRoulette and: cards [
 	dice:= aDice.
 	playersWithPositions:= self initializeDictionaryOfPositions: aGroupOfPlayers.
@@ -242,7 +242,7 @@ UCABoardGame >> playersPositions [
 	^ PositionTable filledWith: playersWithPositions.
 ]
 
-{ #category : #playing }
+{ #category : #cards }
 UCABoardGame >> savePermanentCard: aCard [
 
 	aCard isPermanent ifTrue: [ activeCards add: aCard ].

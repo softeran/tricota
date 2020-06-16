@@ -4,7 +4,7 @@ I'm Speed Up, if i am chosen by the Effect Roulette, the player who spinned the 
 Class {
 	#name : #SpeedUp,
 	#superclass : #Effect,
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #playing }

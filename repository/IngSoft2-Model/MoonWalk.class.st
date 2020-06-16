@@ -10,7 +10,7 @@ Class {
 		'maxNumberOfLockersBackwards',
 		'numberProvider'
 	],
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #'instance creation' }
@@ -52,14 +52,14 @@ MoonWalk >> applyEffectTo: aPosition  knowing: players the: currentPlayer and: f
 	^ aPosition.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 MoonWalk >> initializeMaxBackwards: aNumberOfLockers source: aNumberProvider [
 
 	maxNumberOfLockersBackwards := aNumberOfLockers.
 	numberProvider := aNumberProvider.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #playing }
 MoonWalk >> moveAll: players except: currentPlayer knowing: finishline [
 
 	| lockers |

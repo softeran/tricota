@@ -4,7 +4,7 @@ I'm No Effect, if i am chosen by the Effect Roulette, nothing happens.
 Class {
 	#name : #NoEffect,
 	#superclass : #Effect,
-	#category : #'IngSoft2-Model'
+	#category : #'IngSoft2-Model-Effects'
 }
 
 { #category : #playing }

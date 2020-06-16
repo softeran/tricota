@@ -60,8 +60,3 @@ EffectRouletteBuilder >> initializeBuildingDeterministicRoulette [
 EffectRouletteBuilder >> initializeBuildingProbabilisticRoulette [
 	sequenceOfEffects := Dictionary new. 
 ]
-
-{ #category : #'as yet unclassified' }
-EffectRouletteBuilder >> withProbabilities: dictionaryEffectsProbabilities [
-	^ EffectRoulette source:( ProbabilitiesEffectProvider with:(self createDictionaryEffectsAndProbabilities: dictionaryEffectsProbabilities)).
-]
