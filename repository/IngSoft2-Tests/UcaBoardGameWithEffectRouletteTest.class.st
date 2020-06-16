@@ -69,6 +69,32 @@ UcaBoardGameWithEffectRouletteTest >> testAtomicBombMaintaningLaps [
 ]
 
 { #category : #tests }
+UcaBoardGameWithEffectRouletteTest >> testDeterministicPickUpCardEffect [
+
+	| game effectRoulette pickUpcards gameCards |
+	pickUpcards:= OrderedCollection new.
+	pickUpcards 
+	add: Repeat new;
+	add: Overload new.
+	gameCards := OrderedCollection new.
+	gameCards add: Acceleration new.
+	effectRoulette := self aEffectRouletteWith100ProbabilityOf: (PickUpCard withSequence: pickUpcards).
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: gameCards.
+	
+	self assert: juan numberOfCards equals: 2.
+	self assert: nico numberOfCards equals: 2.
+	
+	game nextTurn.
+	self assert: juan numberOfCards equals: 3.
+	self assert: (juan assertHasCard: Repeat new ).
+
+	game nextTurn.
+	self assert: nico numberOfCards equals: 3.
+	self assert: (nico assertHasCard: Overload new ).
+	
+]
+
+{ #category : #tests }
 UcaBoardGameWithEffectRouletteTest >> testMoonWalkMovesEveryoneExceptCurrentPlayer [
 
 	| game effectRoulette  sofi effectRouletteBuilder cards|

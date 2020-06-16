@@ -51,18 +51,14 @@ UCABoardGame >> applyEffectTo: positionAfterRollingDice of: currentPlayer [
 
 { #category : #cards }
 UCABoardGame >> applyInstant: thisCard [
+ 	
 	thisCard isPermanent
-		ifFalse: [ thisCard
+		ifFalse: [ 
+				thisCard
 				applyWithin: playersWithPositions
 				knowing: activeCards
 				the: lastEffect
 				and: finishLine ]
-]
-
-{ #category : #assertions }
-UCABoardGame >> assertSomeoneRolledDice [
-	(lastEffect = 'No effect yet')
-		ifTrue: [ InvalideRequest signal: 'Nobody rolled the dice yet' ]
 ]
 
 { #category : #assertions }
@@ -223,6 +219,7 @@ UCABoardGame >> nextTurn [
 { #category : #playing }
 UCABoardGame >> player: aPlayer throw: card [
 	| thisCard |
+	self assertTheGameHasNotFinished.
 	aPlayer assertHasCard: card.
 	thisCard:= self cardToApplyKnowingThe: card.
 	self applyInstant: thisCard.
