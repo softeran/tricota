@@ -209,13 +209,13 @@ UCABoardGame >> lockerNumberOf: aPlayer [
 { #category : #playing }
 UCABoardGame >> nextTurn [
 
-	| currentPlayer positionAfterRollingDice positionAfterEffect positionAfterEffectAndCards currentPlayerPosition |
+	| currentPlayer positionAfterRollingDice positionAfterCards positionAfterEffectAndCards currentPlayerPosition |
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	currentPlayerPosition:= playersWithPositions at: currentPlayer.
 	positionAfterRollingDice := (self currentPositionOf: currentPlayer)lockerPosition + dice roll.
-	positionAfterEffect := self applyEffectTo: positionAfterRollingDice of: currentPlayer.
-	positionAfterEffectAndCards := (self amountOfLockersThatActiveCardsMove: currentPlayer)+ positionAfterEffect.
+	positionAfterCards := (self amountOfLockersThatActiveCardsMove: currentPlayer)+ positionAfterRollingDice .
+	positionAfterEffectAndCards := self applyEffectTo: positionAfterCards of: currentPlayer.
 	currentPlayerPosition moveTo: positionAfterEffectAndCards knowing: finishLine.
 	self assertTheWinnerIs: currentPlayer
 ]

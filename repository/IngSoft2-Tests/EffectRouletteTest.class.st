@@ -7,11 +7,12 @@ Class {
 { #category : #'as yet unclassified' }
 EffectRouletteTest >> effectsWithProbabilities [
 
-	| atomicBomb speedUp wormHole moonWalk noEffect effectRouletteBuilder |
+	| atomicBomb speedUp wormHole moonWalk noEffect effectRouletteBuilder pickUpCard |
 	atomicBomb := AtomicBomb new.
 	speedUp := SpeedUp new.
 	wormHole := WormHole new.
 	moonWalk := MoonWalk maxBackwards: 5.
+	pickUpCard:= PickUpCard new.
 	noEffect := NoEffect new.
 	effectRouletteBuilder:= EffectRouletteBuilder buildingProbabilisticRoulette.
 	
@@ -19,7 +20,8 @@ EffectRouletteTest >> effectsWithProbabilities [
 	effectRouletteBuilder add: speedUp withPercentage:20.
 	effectRouletteBuilder add: wormHole withPercentage:20.
 	effectRouletteBuilder add: moonWalk withPercentage:10.
-	effectRouletteBuilder add: noEffect withPercentage:48.
+	effectRouletteBuilder add: pickUpCard  withPercentage:10.
+	effectRouletteBuilder add: noEffect withPercentage:38.
 	
 	^effectRouletteBuilder buildProbabilistic .
 ]
@@ -35,6 +37,7 @@ EffectRouletteTest >> testSpin [
 		add: SpeedUp new;
 		add: WormHole new ;
 		add: (MoonWalk maxBackwards: 5); 
+		add: PickUpCard new;
 		add: NoEffect new.
 	1 to: 100 do: [ :iteration | self assert: (effects includes: effectRoulette spin ) ].
 ]

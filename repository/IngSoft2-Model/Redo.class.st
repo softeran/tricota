@@ -12,12 +12,6 @@ Redo class >> ofCard: card [
 	^self new initializeOfCard: card.
 ]
 
-{ #category : #accessing }
-Redo class >> target: aPlayer [ 
-	^self new initializeTarget: aPlayer .
-
-]
-
 { #category : #playing }
 Redo >> assertCardIs: aCard [
 	(card = aCard)ifFalse: [ InvalideRequest signal: 'That was not the last card played' ].
