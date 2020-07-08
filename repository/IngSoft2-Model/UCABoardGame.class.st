@@ -222,8 +222,9 @@ UCABoardGame >> player: aPlayer throw: card [
 	self assertTheGameHasNotFinished.
 	aPlayer assertHasCard: card.
 	thisCard:= self cardToApplyKnowingThe: card.
-	self applyInstant: thisCard.
-	self savePermanentCard: thisCard.
+"	self applyInstant: thisCard.
+	self savePermanentCard: thisCard."
+	thisCard applyWithin: playersWithPositions knowing: activeCards the: lastEffect and: finishLine of: self.
 	aPlayer cardPlayed: card.
 	lastCardPlayed := thisCard.
 ]
@@ -242,7 +243,7 @@ UCABoardGame >> playersPositions [
 { #category : #cards }
 UCABoardGame >> savePermanentCard: aCard [
 
-	aCard isPermanent ifTrue: [ activeCards add: aCard ].
+	activeCards add: aCard
 ]
 
 { #category : #playing }

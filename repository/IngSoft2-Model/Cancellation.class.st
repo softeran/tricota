@@ -13,18 +13,13 @@ Cancellation class >> selectCard: aCard [
 ]
 
 { #category : #playing }
-Cancellation >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine [
+Cancellation >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
 	^ self removeCardFrom: activeCards
 ]
 
 { #category : #initialization }
 Cancellation >> initializeSelectCard: aCard [
 	selectedCard:= aCard.
-]
-
-{ #category : #playing }
-Cancellation >> isPermanent [
-	^false.
 ]
 
 { #category : #playing }

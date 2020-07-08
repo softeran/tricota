@@ -16,6 +16,11 @@ Overload class >> target: aPlayer [
 ]
 
 { #category : #playing }
+Overload >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
+	game savePermanentCard: self
+]
+
+{ #category : #playing }
 Overload >> effect: aPlayer [ 
 	(target includes: aPlayer) ifTrue:[^-2] ifFalse:[^0].
 ]
@@ -23,11 +28,6 @@ Overload >> effect: aPlayer [
 { #category : #initialization }
 Overload >> initializeTarget: aTarget [
 	target:= aTarget.
-]
-
-{ #category : #playing }
-Overload >> isPermanent [
-	^true.
 ]
 
 { #category : #playing }

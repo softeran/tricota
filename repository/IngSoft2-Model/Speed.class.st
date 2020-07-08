@@ -16,6 +16,11 @@ Speed class >> target: aPlayer [
 ]
 
 { #category : #playing }
+Speed >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
+	game savePermanentCard: self
+]
+
+{ #category : #playing }
 Speed >> effect: aPlayer [ 
 	(target includes: aPlayer) ifTrue:[^1] ifFalse:[^0].
 ]
@@ -23,11 +28,6 @@ Speed >> effect: aPlayer [
 { #category : #initialization }
 Speed >> initializeTarget: aTarget [
 	target:= aTarget.
-]
-
-{ #category : #playing }
-Speed >> isPermanent [
-	^true.
 ]
 
 { #category : #playing }

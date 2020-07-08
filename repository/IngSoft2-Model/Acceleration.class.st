@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #playing }
-Acceleration >> effect: aPlayer [ 
-	^1.
+Acceleration >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
+	game savePermanentCard: self
 ]
 
 { #category : #playing }
-Acceleration >> isPermanent [
-	^true.
+Acceleration >> effect: aPlayer [ 
+	^1.
 ]
 
 { #category : #playing }

@@ -14,7 +14,7 @@ Repeat class >> target: aPlayer [
 ]
 
 { #category : #playing }
-Repeat >> applyWithin: playersWithPositions knowing: activeCards  the: lastEffect and: finishLine [
+Repeat >> applyWithin: playersWithPositions knowing: activeCards  the: lastEffect and: finishLine of: game [
 	
 	|actualPosition positionWithEffect|
 	self assertSomeoneRolledDice: lastEffect .
@@ -37,9 +37,4 @@ Repeat >> currentPositionOfTargetIn: playersWithPositions [
 { #category : #initialization }
 Repeat >> initializeTarget: aTarget [
 	target:= aTarget.
-]
-
-{ #category : #playing }
-Repeat >> isPermanent [
-	^false.
 ]
