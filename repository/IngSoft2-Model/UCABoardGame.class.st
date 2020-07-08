@@ -197,6 +197,16 @@ UCABoardGame >> lapNumberOf: aPlayer [
 	^ (self currentPositionOf: aPlayer) lapNumber.
 ]
 
+{ #category : #cards }
+UCABoardGame >> lastCardPlayed [
+	^ lastCardPlayed
+]
+
+{ #category : #cards }
+UCABoardGame >> lastCardPlayed: aCard [
+	lastCardPlayed := aCard
+]
+
 { #category : #position }
 UCABoardGame >> lockerNumberOf: aPlayer [ 
 	^ (self currentPositionOf: aPlayer) lockerPosition.
@@ -218,15 +228,15 @@ UCABoardGame >> nextTurn [
 
 { #category : #playing }
 UCABoardGame >> player: aPlayer throw: card [
-	| thisCard |
+
 	self assertTheGameHasNotFinished.
 	aPlayer assertHasCard: card.
-	thisCard:= self cardToApplyKnowingThe: card.
+	"thisCard:= self cardToApplyKnowingThe: card."
 "	self applyInstant: thisCard.
 	self savePermanentCard: thisCard."
-	thisCard applyWithin: playersWithPositions knowing: activeCards the: lastEffect and: finishLine of: self.
+	card applyWithin: playersWithPositions knowing: activeCards the: lastEffect and: finishLine of: self.
 	aPlayer cardPlayed: card.
-	lastCardPlayed := thisCard.
+	"lastCardPlayed := card."
 ]
 
 { #category : #playing }

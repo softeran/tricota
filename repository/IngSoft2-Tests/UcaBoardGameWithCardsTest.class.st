@@ -74,7 +74,7 @@ UcaBoardGameWithCardsTest >> testAccelerationCard [
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 7.		
-	game player: nico throw: Acceleration new.
+	game player: nico throw: (Acceleration card: NullObject new target: NullObject new ).
 	game nextTurn.
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
@@ -108,13 +108,13 @@ UcaBoardGameWithCardsTest >> testCancellationAfterTwoSpeedCardSelectingOne [
 	add: Cancellation new.
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
 	
-	game player: juan throw: (Speed target: nico).
+	game player: juan throw: (Speed card: NullObject new target: nico).
 	game nextTurn.
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7.
 		
-	game player: nico throw: (Speed target: nico).
+	game player: nico throw: (Speed card: NullObject target: nico).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -122,7 +122,7 @@ UcaBoardGameWithCardsTest >> testCancellationAfterTwoSpeedCardSelectingOne [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 11.
 		
-	game player: juan throw: (Cancellation selectCard: (Speed target: nico)).
+	game player: juan throw: (Cancellation selectCard: (Speed card: NullObject target: nico)).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -291,7 +291,7 @@ UcaBoardGameWithCardsTest >> testRedoAccelerationCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 10.
 		
-	game player: juan throw:(Redo ofCard:Acceleration new).
+	game player: juan throw: (Redo card: NullObject new target: NullObject new ).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -336,7 +336,8 @@ UcaBoardGameWithCardsTest >> testRedoCancellationCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 11.
 		
-	game player: nico throw: (Redo ofCard:(Cancellation selectCard: Acceleration new)).
+	"game player: nico throw: (Redo ofCard:(Cancellation selectCard: Acceleration new))."
+	game player: nico throw: (Redo card: Acceleration new target: NullObject new).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -379,7 +380,7 @@ UcaBoardGameWithCardsTest >> testRedoRedoCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 10.
 		
-	game player: nico throw:(Redo ofCard:(Redo ofCard:Acceleration new)).
+	game player: nico throw:Redo new.
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;

@@ -1,8 +1,17 @@
 Class {
 	#name : #Card,
 	#superclass : #Object,
+	#instVars : [
+		'card',
+		'target'
+	],
 	#category : #'IngSoft2-Model-Card'
 }
+
+{ #category : #'instance creation' }
+Card class >> card: aCard target: aPlayer [
+	^ self new initializeCard: aCard target: aPlayer
+]
 
 { #category : #comparing }
 Card >> = anObject [ 
@@ -13,6 +22,12 @@ Card >> = anObject [
 { #category : #playing }
 Card >> assertCardIs: aCard [
 	self = aCard ifFalse:[ InvalideRequest signal:'That was not the last card played'].
+]
+
+{ #category : #initialization }
+Card >> initializeCard: aCard target: aPlayer [ 
+	card:= aCard.
+	target:= aPlayer 
 ]
 
 { #category : #playing }

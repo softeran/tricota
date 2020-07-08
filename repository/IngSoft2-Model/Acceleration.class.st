@@ -6,7 +6,8 @@ Class {
 
 { #category : #playing }
 Acceleration >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
-	game savePermanentCard: self
+	game savePermanentCard: self.
+	game lastCardPlayed: self.
 ]
 
 { #category : #playing }

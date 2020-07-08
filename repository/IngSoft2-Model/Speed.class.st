@@ -1,9 +1,6 @@
 Class {
 	#name : #Speed,
 	#superclass : #Card,
-	#instVars : [
-		'target'
-	],
 	#category : #'IngSoft2-Model-Card'
 }
 
@@ -17,12 +14,13 @@ Speed class >> target: aPlayer [
 
 { #category : #playing }
 Speed >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
-	game savePermanentCard: self
+	game savePermanentCard: self.
+	game lastCardPlayed: self.
 ]
 
 { #category : #playing }
 Speed >> effect: aPlayer [ 
-	(target includes: aPlayer) ifTrue:[^1] ifFalse:[^0].
+	(target = aPlayer) ifTrue:[^1] ifFalse:[^0].
 ]
 
 { #category : #initialization }

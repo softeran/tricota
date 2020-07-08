@@ -21,6 +21,7 @@ Repeat >> applyWithin: playersWithPositions knowing: activeCards  the: lastEffec
 	actualPosition:= (self currentPositionOfTargetIn: playersWithPositions)lockerPosition.
 	positionWithEffect := lastEffect applyEffectTo: actualPosition knowing: playersWithPositions the: target and: finishLine .
 	(self currentPositionOfTargetIn: playersWithPositions) moveTo: positionWithEffect knowing: finishLine .
+	game lastCardPlayed: self.
 ]
 
 { #category : #assertions }
