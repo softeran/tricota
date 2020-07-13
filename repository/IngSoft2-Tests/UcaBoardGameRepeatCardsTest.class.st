@@ -86,7 +86,7 @@ UcaBoardGameRepeatCardsTest >> testRepeatAtomicBomb [
 		assert: (game lockerNumberOf: juan) equals: 0;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
-	game player: juan throw: (Repeat target: juan).
+	game player: juan throw: (Repeat card: NullObject new target: juan).
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 0;
@@ -111,7 +111,7 @@ UcaBoardGameRepeatCardsTest >> testRepeatMoonWalk [
 		assert: (game lockerNumberOf: juan) equals: 5;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 9.
-	game player: juan throw: (Repeat target: juan).
+	game player: juan throw: (Repeat card: NullObject new target: juan).
 	
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -137,7 +137,7 @@ UcaBoardGameRepeatCardsTest >> testRepeatNoEffect [
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 9.
-	game player: juan throw: (Repeat target: nico).
+	game player: juan throw: (Repeat card: NullObject new target: nico).
 	
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -162,7 +162,7 @@ UcaBoardGameRepeatCardsTest >> testRepeatPickUpCard [
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: juan numberOfCards equals: 3.
 		
-	game player: juan throw: (Repeat target: juan).
+	game player: juan throw: (Repeat card: NullObject target: juan).
 	self
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: juan numberOfCards equals: 3.
@@ -186,7 +186,7 @@ UcaBoardGameRepeatCardsTest >> testRepeatSpeedUp [
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 13.
-	game player: juan throw: (Repeat target: juan).
+	game player: juan throw: (Repeat card: NullObject new target: juan).
 	
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -213,7 +213,7 @@ UcaBoardGameRepeatCardsTest >> testRepeatWormHole [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 5.
 		
-	game player: juan throw: (Repeat target: nico).
+	game player: juan throw: (Repeat card: NullObject new target: nico).
 	
 	self
 		assert: (game lapNumberOf: juan) equals: 0;

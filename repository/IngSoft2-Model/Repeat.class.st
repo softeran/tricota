@@ -1,17 +1,8 @@
 Class {
 	#name : #Repeat,
 	#superclass : #Card,
-	#instVars : [
-		'target'
-	],
 	#category : #'IngSoft2-Model-Card'
 }
-
-{ #category : #accessing }
-Repeat class >> target: aPlayer [
-
-	^self new initializeTarget: aPlayer.
-]
 
 { #category : #playing }
 Repeat >> applyWithin: playersWithPositions knowing: activeCards  the: lastEffect and: finishLine of: game [
@@ -33,9 +24,4 @@ Repeat >> assertSomeoneRolledDice: lastEffect [
 { #category : #playing }
 Repeat >> currentPositionOfTargetIn: playersWithPositions [
 	^ playersWithPositions at: target
-]
-
-{ #category : #initialization }
-Repeat >> initializeTarget: aTarget [
-	target:= aTarget.
 ]

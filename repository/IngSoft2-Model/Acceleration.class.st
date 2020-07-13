@@ -14,13 +14,3 @@ Acceleration >> applyWithin: aPlayersWithPositions knowing: activeCards the: las
 Acceleration >> effect: aPlayer [ 
 	^1.
 ]
-
-{ #category : #playing }
-Acceleration >> redoCardTo: aTarget [
-	^self class new.
-]
-
-{ #category : #playing }
-Acceleration >> target [
-	^'Everyone'.
-]

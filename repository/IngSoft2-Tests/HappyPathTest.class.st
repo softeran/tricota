@@ -99,7 +99,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: sofi) equals: 0.
 		
-	game player: sofi throw: (Repeat target: sofi). "Sofi threw Repeat Card and the last effect was SpeedUp"
+	game player: sofi throw: (Repeat card: NullObject new target: sofi). "Sofi threw Repeat Card and the last effect was SpeedUp"
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
@@ -129,7 +129,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 9;
 		assert: (game lockerNumberOf: sofi) equals: 11.
 		
-	game player: juan throw: Acceleration new.
+	game player: juan throw: (Acceleration card: NullObject new target: NullObject new).
 	game nextTurn. "In this Turn Juan rolled 4 and the effect was no effect. As the Acceleration Card was active, he moves 5 lockers forward"
 		
 	self 
@@ -140,8 +140,8 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 9;
 		assert: (game lockerNumberOf: sofi) equals: 11.
 		
-	game player: nico throw: (Speed target: nico).
-	game player: nico throw:(Overload target:juan ).
+	game player: nico throw: (Speed card: NullObject new target: nico).
+	game player: nico throw:(Overload card: NullObject new target:juan ).
 	game nextTurn. "In this Turn Nico rolled 5 and the effect was Pick Up card. He picked up a Redo Card. Nico moves 7 lockers forward because of the speed card and the acceleration card"
 		
 	self 
@@ -161,7 +161,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: sofi) equals: 0.
 		
-	game player: juan throw:(Cancellation selectCard:( Speed target: nico) ).
+	game player: juan throw:(Cancellation card: Speed new target: nico) .
 	game nextTurn. "In this Turn Juan rolled 8 and the effect was WormHole.As he had an Acceleration card and an Overload Card he only ended up moving 3 lockers forward "
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
@@ -178,7 +178,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: juan) equals: 3;
 		assert: (game lockerNumberOf: nico) equals: 4;
 		assert: (game lockerNumberOf: sofi) equals: 0.
-	game player: nico throw:(Redo ofCard:( Cancellation selectCard: Acceleration new)).
+	game player: nico throw:(Redo card: Acceleration new target: NullObject new).
 		
 	game nextTurn. "In this Turn Sofi rolled 9 and the effect was No effect."
 	self 

@@ -7,11 +7,6 @@ Class {
 	#category : #'IngSoft2-Model-Card'
 }
 
-{ #category : #'instance creation' }
-Cancellation class >> selectCard: aCard [
-	^self new initializeSelectCard: aCard.
-]
-
 { #category : #playing }
 Cancellation >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
 	
@@ -20,16 +15,11 @@ Cancellation >> applyWithin: aPlayersWithPositions knowing: activeCards the: las
 	
 ]
 
-{ #category : #initialization }
-Cancellation >> initializeSelectCard: aCard [
-	selectedCard:= aCard.
-]
-
 { #category : #playing }
 Cancellation >> removeCardFrom: activeCards [
 	activeCards
 		doWithIndex: [ :currentCard :i | 
-			(currentCard = selectedCard and: currentCard target = selectedCard target)
+			(currentCard = card and: currentCard target = target)
 				ifTrue: [ activeCards removeAt: i.
 					^ true ] ]
 ]

@@ -49,18 +49,6 @@ UCABoardGame >> applyEffectTo: positionAfterRollingDice of: currentPlayer [
 	^lastEffect applyEffectTo: positionAfterRollingDice	knowing: playersWithPositions the: currentPlayer and: finishLine.
 ]
 
-{ #category : #cards }
-UCABoardGame >> applyInstant: thisCard [
- 	
-	thisCard isPermanent
-		ifFalse: [ 
-				thisCard
-				applyWithin: playersWithPositions
-				knowing: activeCards
-				the: lastEffect
-				and: finishLine ]
-]
-
 { #category : #assertions }
 UCABoardGame >> assertTheGameHasFinished [
 	(self hasFinished)
@@ -81,17 +69,6 @@ UCABoardGame >> assertTheWinnerIs: aPlayer [
 	
 	
 	
-]
-
-{ #category : #cards }
-UCABoardGame >> cardToApplyKnowingThe: card [
-
-	card = Redo new 
-	ifTrue: 
-	[ card assertCardIs: lastCardPlayed. 
-	^card toRedo]
-	ifFalse:
-	[^card].
 ]
 
 { #category : #position }
@@ -231,12 +208,8 @@ UCABoardGame >> player: aPlayer throw: card [
 
 	self assertTheGameHasNotFinished.
 	aPlayer assertHasCard: card.
-	"thisCard:= self cardToApplyKnowingThe: card."
-"	self applyInstant: thisCard.
-	self savePermanentCard: thisCard."
 	card applyWithin: playersWithPositions knowing: activeCards the: lastEffect and: finishLine of: self.
 	aPlayer cardPlayed: card.
-	"lastCardPlayed := card."
 ]
 
 { #category : #playing }

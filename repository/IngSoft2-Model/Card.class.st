@@ -19,11 +19,6 @@ Card >> = anObject [
 	self class = anObject class ifTrue: [ ^true ] ifFalse: [ ^false ].	
 ]
 
-{ #category : #playing }
-Card >> assertCardIs: aCard [
-	self = aCard ifFalse:[ InvalideRequest signal:'That was not the last card played'].
-]
-
 { #category : #initialization }
 Card >> initializeCard: aCard target: aPlayer [ 
 	card:= aCard.
@@ -31,12 +26,6 @@ Card >> initializeCard: aCard target: aPlayer [
 ]
 
 { #category : #playing }
-Card >> isPermanent [
-
-	Error signal: 'This message should be override'.
-]
-
-{ #category : #playing }
-Card >> toRedo [
- ^self.
+Card >> target [
+	^target.
 ]

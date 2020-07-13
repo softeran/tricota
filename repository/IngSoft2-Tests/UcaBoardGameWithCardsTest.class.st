@@ -81,7 +81,7 @@ UcaBoardGameWithCardsTest >> testAccelerationCard [
 			assert: (game lockerNumberOf: juan) equals: 7;
 			assert: (game lapNumberOf: nico) equals: 0;
 			assert: (game lockerNumberOf: nico) equals: 10.
-	game player: juan throw: Acceleration new.
+	game player: juan throw: (Acceleration card: NullObject new target: NullObject new ).
 	game nextTurn.
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
@@ -122,7 +122,7 @@ UcaBoardGameWithCardsTest >> testCancellationAfterTwoSpeedCardSelectingOne [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 11.
 		
-	game player: juan throw: (Cancellation selectCard: (Speed card: NullObject target: nico)).
+	game player: juan throw: (Cancellation card: Speed new target: nico).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -150,7 +150,7 @@ UcaBoardGameWithCardsTest >> testCancellationOfAccelerationCard [
 	add: Cancellation new.
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
 	
-	game player: juan throw: Acceleration new.
+	game player: juan throw: (Acceleration card: NullObject new target: NullObject new ).
 	game nextTurn.
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -163,7 +163,7 @@ UcaBoardGameWithCardsTest >> testCancellationOfAccelerationCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 10.
 		
-	game player: nico throw: (Cancellation selectCard: Acceleration new).
+	game player: nico throw: (Cancellation card: Acceleration new target: NullObject new).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -228,7 +228,7 @@ UcaBoardGameWithCardsTest >> testOverloadCard [
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7.
 		
-	game player: nico throw: (Overload target: juan).
+	game player: nico throw: (Overload card: NullObject new target: juan).
 	
 	game nextTurn.
 	self
@@ -261,7 +261,7 @@ UcaBoardGameWithCardsTest >> testPlayerCanNotThrowCardAfterTheGameHasFinished [
 	game:= UCABoardGame rolling: die with: players lockers: 8 laps: 2 effects: effectRoulette andDeterministic: cards.
 	self finish: game.
 	self 
-	should: [ game player: juan throw: Acceleration new ]
+	should: [ game player: juan throw: (Acceleration card: NullObject new target: NullObject new ) ]
 		raise: InvalideRequest
 		withMessageText: 'The game has finished'.
 	
@@ -278,7 +278,7 @@ UcaBoardGameWithCardsTest >> testRedoAccelerationCard [
 	add: Redo new.
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
 	
-	game player: juan throw: Acceleration new.
+	game player: juan throw: (Acceleration card: NullObject new target: NullObject new).
 	game nextTurn.
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -314,13 +314,13 @@ UcaBoardGameWithCardsTest >> testRedoCancellationCard [
 	add: Redo new.
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
 	
-	game player: juan throw: Acceleration new.
+	game player: juan throw: (Acceleration card: NullObject new target: NullObject new).
 	game nextTurn.
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 8.
 		
-	game player: nico throw: Acceleration new.
+	game player: nico throw: (Acceleration card: NullObject new target: NullObject new).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -328,7 +328,7 @@ UcaBoardGameWithCardsTest >> testRedoCancellationCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 11.
 		
-	game player: juan throw: (Cancellation selectCard: Acceleration new).
+	game player: juan throw: (Cancellation card: Acceleration new target: NullObject new).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -359,7 +359,7 @@ UcaBoardGameWithCardsTest >> testRedoRedoCard [
 	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
 	
-	game player: juan throw: Acceleration new.
+	game player: juan throw: (Acceleration card: NullObject new target: NullObject new).
 	game nextTurn.
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -372,7 +372,7 @@ UcaBoardGameWithCardsTest >> testRedoRedoCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 10.
 		
-	game player: juan throw:(Redo ofCard:Acceleration new).
+	game player: juan throw:(Redo card: NullObject new target: NullObject new).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -380,7 +380,7 @@ UcaBoardGameWithCardsTest >> testRedoRedoCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 10.
 		
-	game player: nico throw:Redo new.
+	game player: nico throw:(Redo card: NullObject new target: NullObject new).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -412,7 +412,7 @@ UcaBoardGameWithCardsTest >> testRedoRepeatCard [
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7.
 		
-game player: juan throw: (Repeat target: juan).
+game player: juan throw: (Repeat card: NullObject new target: juan).
 	game nextTurn.
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
@@ -427,7 +427,7 @@ game player: juan throw: (Repeat target: juan).
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 9.
 		
-	game player: nico throw: (Redo ofCard:(Repeat target:nico)).
+	game player: nico throw: (Redo card: NullObject new target:nico).
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 14;
@@ -452,7 +452,7 @@ UcaBoardGameWithCardsTest >> testSpeedCard [
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7.
 		
-	game player: nico throw: (Speed target: nico).
+	game player: nico throw: (Speed card: NullObject new target: nico).
 	
 	game nextTurn.
 	self
@@ -478,7 +478,7 @@ UcaBoardGameWithCardsTest >> testTryToThrowRepeatCardBeforeNobodyRolledDice [
 	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: cards.
 	self 
-	should: [ game player: juan throw: (Repeat target: juan) ]
+	should: [ game player: juan throw: (Repeat card: NullObject new target: juan) ]
 		raise: InvalideRequest
 		withMessageText: 'Nobody rolled the dice yet'.
 		
