@@ -99,6 +99,31 @@ UcaBoardGameWithCardsTest >> testAccelerationCard [
 ]
 
 { #category : #tests }
+UcaBoardGameWithCardsTest >> testAccelerationCardInvalidArgumentsInInicializationMessage [
+
+	| game cards|
+	cards:= OrderedCollection new.
+	cards add: Acceleration new.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette andDeterministic: cards.
+	
+	self 
+	should: [ game player: juan throw: (Acceleration card: Speed new target: NullObject new ) ]
+		raise: InstanceCreationFailed 
+		withMessageText: 'Invalid Arguments in message'.
+		
+	self 
+	should: [ game player: juan throw: (Acceleration card: NullObject new target: nico ) ]
+		raise: InstanceCreationFailed 
+		withMessageText: 'Invalid Arguments in message'.
+		
+	self 
+	should: [ game player: juan throw: (Acceleration card: Speed new target: nico ) ]
+		raise: InstanceCreationFailed 
+		withMessageText: 'Invalid Arguments in message'.
+	
+]
+
+{ #category : #tests }
 UcaBoardGameWithCardsTest >> testCancellationAfterTwoSpeedCardSelectingOne [
 
 	| game cards|
@@ -464,6 +489,37 @@ UcaBoardGameWithCardsTest >> testSpeedCard [
 
 
 	
+	
+]
+
+{ #category : #tests }
+UcaBoardGameWithCardsTest >> testTryToThrowRedoCardBeforeNobodyThrewAnyCard [
+
+	| game cards |
+	
+	cards:= OrderedCollection new.
+	cards 
+	add: Redo new.
+	
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: cards.
+	
+	game nextTurn.
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7.
+	
+	game nextTurn.
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 7;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 9.
+
+	self 
+	should: [ game player: juan throw: (Redo card: NullObject new target: NullObject new ) ]
+		raise: InvalideRequest
+		withMessageText: 'Nobody threw a card yet'.
+		
 	
 ]
 
