@@ -2,30 +2,44 @@ Class {
 	#name : #Card,
 	#superclass : #Object,
 	#instVars : [
-		'card',
+		'type',
 		'target'
 	],
 	#category : #'IngSoft2-Model-Card'
 }
 
 { #category : #'instance creation' }
-Card class >> card: aCard target: aPlayer [
-	^ self new initializeCard: aCard target: aPlayer
+Card class >> type: aType [  
+	^ self type: aType target: NoTarget new.
 ]
 
-{ #category : #comparing }
-Card >> = anObject [ 
-
-	self class = anObject class ifTrue: [ ^true ] ifFalse: [ ^false ].	
-]
-
-{ #category : #initialization }
-Card >> initializeCard: aCard target: aPlayer [ 
-	card:= aCard.
-	target:= aPlayer 
+{ #category : #'instance creation' }
+Card class >> type: aType target: aTarget [ 
+	^ self new initializeType: aType target: aTarget
 ]
 
 { #category : #playing }
-Card >> target [
-	^target.
+Card >> applyIn: game [
+	Error signal: 'This message should be override'.
+]
+
+{ #category : #inicialization }
+Card >> initializeType: aType target: aTarget [ 
+	type := aType .
+	target := aTarget.
+]
+
+{ #category : #playing }
+Card >> isSameType: aCard [ 
+	^ type = aCard type .
+]
+
+{ #category : #playing }
+Card >> thrownBy: aPlayer inTheTurnOf: playerTurn [
+	Error signal: 'This message should be override'.
+]
+
+{ #category : #playing }
+Card >> type [
+	^ type
 ]

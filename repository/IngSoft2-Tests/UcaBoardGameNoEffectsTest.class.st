@@ -9,7 +9,7 @@ Class {
 		'effectRoulette',
 		'effects',
 		'noEffect',
-		'cards'
+		'deck'
 	],
 	#category : #'IngSoft2-Tests-Game-Tests'
 }
@@ -42,10 +42,11 @@ UcaBoardGameNoEffectsTest >> playerNamed: aName [
 
 { #category : #running }
 UcaBoardGameNoEffectsTest >> setUp [
-	|effectRouletteBuilder|
-	cards:= OrderedCollection new.
-	cards 
-	add: Repeat new.
+	|effectRouletteBuilder deckBuilder|
+	deckBuilder:= DeckBuilder startBuilding.
+	deckBuilder add: Acceleration .
+	deck:= deckBuilder buildDeterministic .
+	
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
 	effectRouletteBuilder add: NoEffect new.
 	effectRoulette:= effectRouletteBuilder buildDeterministic.
@@ -64,34 +65,54 @@ UcaBoardGameNoEffectsTest >> testAskForWinnerBeforeFinishing [
 
 	| game |
 		
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	
 	self
 		should: [ game winner   ]
-		raise: InvalideRequest
+		raise: InvalidRequest
 		withMessageText: 'The game has not finished yet'.
 		
 	self play: game amountOfTurns:2.
 
 	self
 		should: [ game winner   ]
-		raise: InvalideRequest
+		raise: InvalidRequest
 		withMessageText: 'The game has not finished yet'
 ]
 
 { #category : #tests }
 UcaBoardGameNoEffectsTest >> testGameHasFinished [
 	| game |
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	self finish:game.
 	self assert: game hasFinished
+]
+
+{ #category : #tests }
+UcaBoardGameNoEffectsTest >> testIncreaseTwoLapsInOneTurn [
+
+	| game |
+	game:= UCABoardGame rolling: die with: players lockers: 2 laps: 5 effects: effectRoulette and: deck.
+	game nextTurn.
+	self 
+		assert: (game lapNumberOf: juan) equals:1;
+		assert: (game lockerNumberOf: juan) equals:1;
+		assert: (game lapNumberOf: nico) equals:0;
+		assert: (game lockerNumberOf: nico) equals:0.
+	game nextTurn.
+	self 
+		assert: (game lapNumberOf: juan) equals:1;
+		assert: (game lockerNumberOf: juan) equals:1;
+		assert: (game lapNumberOf: nico) equals:2;
+		assert: (game lockerNumberOf: nico) equals:0.
+	
 ]
 
 { #category : #tests }
 UcaBoardGameNoEffectsTest >> testLapNumberOfPlayer [
 
 	| game |
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	self play: game amountOfTurns:3.
 	self 
 		assert: (game lapNumberOf: juan) equals:1;
@@ -101,11 +122,21 @@ UcaBoardGameNoEffectsTest >> testLapNumberOfPlayer [
 ]
 
 { #category : #tests }
+UcaBoardGameNoEffectsTest >> testLapssMustBeGreaterOrEqualToOne [
+
+	-2 to: 0 do: [ :invalidLockers | 
+		self
+			should: [ UCABoardGame rolling: die with: players lockers: 5 laps: invalidLockers effects: effectRoulette and: deck  ]
+			raise: InstanceCreationFailed
+			withMessageText: 'Need at least one lap' ]
+]
+
+{ #category : #tests }
 UcaBoardGameNoEffectsTest >> testLockerNumberOfPlayer [
 
 	| game |
 		
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	self assert: (game lockerNumberOf: juan) equals: 0.
 	game nextTurn.
 	self assert: (game lockerNumberOf: juan) equals: 3.
@@ -114,12 +145,22 @@ UcaBoardGameNoEffectsTest >> testLockerNumberOfPlayer [
 ]
 
 { #category : #tests }
+UcaBoardGameNoEffectsTest >> testLockersMustBeGreaterOrEqualToOne [
+
+	-2 to: 0 do: [ :invalidLockers | 
+		self
+			should: [ UCABoardGame rolling: die with: players lockers: invalidLockers laps: 2 effects: effectRoulette and: deck  ]
+			raise: InstanceCreationFailed
+			withMessageText: 'Need at least one locker' ]
+]
+
+{ #category : #tests }
 UcaBoardGameNoEffectsTest >> testPlayerFinishedOneLap [
 
 	| game |
 		
 	die := Die of: 4 rolling: #(3 4 4).
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	self assert: (game lapNumberOf: juan) equals: 0.
 	self play: game amountOfTurns:3.
 	self assert: (game lapNumberOf: juan) equals: 1.
@@ -128,13 +169,14 @@ UcaBoardGameNoEffectsTest >> testPlayerFinishedOneLap [
 ]
 
 { #category : #tests }
-UcaBoardGameNoEffectsTest >> testPlayersPositions [
+UcaBoardGameNoEffectsTest >> testPlayersPositionsTable [
 		
 	| game |
 		
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	self play:game amountOfTurns:2.
-	self assert:(game playersPositions atPosition: 1 ) equals: nico.
+	self assert:(game playersPositionsTable atPosition: 1 ) equals: nico;
+		assert:(game playersPositionsTable atPosition: 2 ) equals: juan.
 	
 	
 ]
@@ -143,19 +185,19 @@ UcaBoardGameNoEffectsTest >> testPlayersPositions [
 UcaBoardGameNoEffectsTest >> testTryToKeepPlayingAfterGameEnded [
 
 	| game |
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	self finish: game.
 	
 	self
 		should: [ game nextTurn ]
-		raise: InvalideRequest 
+		raise: InvalidRequest 
 		withMessageText: 'The game has finished'
 ]
 
 { #category : #tests }
 UcaBoardGameNoEffectsTest >> testWinnersName [
 	| game |
-	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: cards.
+	game:= UCABoardGame rolling: die with: players lockers: 6 laps: 2 effects: effectRoulette and: deck.
 	self finish: game.
 	self assert: game winner equals: juan
 ]

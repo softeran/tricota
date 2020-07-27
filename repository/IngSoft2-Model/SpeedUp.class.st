@@ -8,6 +8,6 @@ Class {
 }
 
 { #category : #playing }
-SpeedUp >> applyEffectTo: aPosition knowing: players the: currentPlayer and: finishline [  
+SpeedUp >> applyEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
 	^ aPosition + 4.
 ]

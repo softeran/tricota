@@ -8,6 +8,6 @@ Class {
 }
 
 { #category : #playing }
-NoEffect >> applyEffectTo: aPosition knowing: players the: currentPlayer and: finishline [  
+NoEffect >> applyEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
 	^ aPosition.
 ]

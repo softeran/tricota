@@ -11,7 +11,7 @@ Class {
 	#category : #'IngSoft2-Model-Player'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 CurrentPosition class >> atLocker: aLocker atLap: aLap [
 
 	^self new initializeAtLocker: 0 atLap: 0.
@@ -43,19 +43,14 @@ CurrentPosition >> >= aCurrentPosition [
 ]
 
 { #category : #lap }
-CurrentPosition >> decreaseLap [
-	laps:= laps-1.
+CurrentPosition >> assertNoNegativeLap [
+	(laps < 0) ifTrue: [ laps:= 0 ]
 ]
 
-{ #category : #'move forward' }
-CurrentPosition >> forwardTo: nextPosition changingLapIfCrossing: finishline [
-	
-	self moveForwardTo: nextPosition ifDoesNotCross: finishline.
-	self moveForwardTo: nextPosition ifCrosses: finishline.
-
-	
-
-	
+{ #category : #lap }
+CurrentPosition >> decreaseLap: number [
+	laps:= laps+number.
+	self assertNoNegativeLap.
 ]
 
 { #category : #comparing }
@@ -66,8 +61,8 @@ CurrentPosition >> hash [
 ]
 
 { #category : #lap }
-CurrentPosition >> increaseLap [
-	laps:= laps+1.
+CurrentPosition >> increaseLap: numberToIncrease [
+	laps:= laps+numberToIncrease.
 ]
 
 { #category : #' initialization' }
@@ -86,7 +81,7 @@ CurrentPosition >> lockerPosition [
 	^locker
 ]
 
-{ #category : #playerPosition }
+{ #category : #'move backwards' }
 CurrentPosition >> moveBackwards: moveTo [
 	
 	locker:= moveTo.
@@ -100,32 +95,31 @@ CurrentPosition >> moveBackwardsAmountOf: aNumberOflockers knowing: finishline [
 	| nextPosition |
 
 	nextPosition := locker - aNumberOflockers.
-	self moveBackwardsTo: nextPosition ifDoesNotCross: finishline.
-	self moveBackwardsTo: nextPosition ifCrosses: finishline.
+	self moveBackwardsTo: nextPosition changingLapIfCrossing: finishline 
 
 	
 ]
 
 { #category : #'move backwards' }
 CurrentPosition >> moveBackwardsTo: nextPosition changingLapIfCrossing: finishline [ 
-		
-	self moveBackwardsTo: nextPosition ifDoesNotCross: finishline.
-	self moveBackwardsTo: nextPosition ifCrosses: finishline.
+	
+	(nextPosition < 0)
+		ifTrue: [self moveBackwardsTo: nextPosition ifCrosses: finishline]
+		ifFalse: [ self moveBackwardsTo: nextPosition ifDoesNotCross: finishline]
 
 ]
 
 { #category : #'move backwards' }
-CurrentPosition >> moveBackwardsTo: nextPosition ifCrosses: finishLine [
+CurrentPosition >> moveBackwardsTo: nextPosition ifCrosses: finishline [
 
 	| followingPosition|
 
-	(nextPosition < 0 and: laps > 0 )
+	(laps > 0 )
 		ifTrue: [ 
-			followingPosition := finishLine + nextPosition.
+			followingPosition := (nextPosition\\finishline).
 			self moveBackwards: followingPosition.
-			self decreaseLap].
-	(nextPosition < 0 and: (laps == 0 ))
-		ifTrue: [ 
+			self decreaseLap: nextPosition //finishline ]
+		ifFalse: [ 
 			self moveBackwards: 0.
 			 ].
 ]
@@ -137,7 +131,7 @@ CurrentPosition >> moveBackwardsTo: nextPosition ifDoesNotCross: finishLine [
 		ifTrue: [ self moveBackwards: nextPosition ]
 ]
 
-{ #category : #playerPosition }
+{ #category : #'move forward' }
 CurrentPosition >> moveForward: moveTo [
 	
 	locker:= moveTo.
@@ -145,12 +139,26 @@ CurrentPosition >> moveForward: moveTo [
 ]
 
 { #category : #'move forward' }
+CurrentPosition >> moveForwardTo: nextPosition changingLapIfCrossing: finishline [
+	
+	self moveForwardTo: nextPosition ifDoesNotCross: finishline.
+	self moveForwardTo: nextPosition ifCrosses: finishline.
+
+	
+
+	
+]
+
+{ #category : #'move forward' }
 CurrentPosition >> moveForwardTo: nextPosition ifCrosses: finishLine [
 
+	|lapsToIncrease|
 	(nextPosition >= finishLine)
 	
-		ifTrue: [ self moveForward: (nextPosition - finishLine).
-			self increaseLap ].
+		ifTrue: [ 
+			lapsToIncrease:= nextPosition //finishLine .
+			self moveForward: (nextPosition \\ finishLine).
+			self increaseLap: lapsToIncrease  ].
 ]
 
 { #category : #'move forward' }
@@ -182,6 +190,6 @@ CurrentPosition >> whenIsGoingForwardMoveTo: nextPosition knowing: finishline [
 	(locker < nextPosition)
 	ifTrue: [
 		self
-			forwardTo: nextPosition
+			moveForwardTo: nextPosition
 			changingLapIfCrossing: finishline]
 ]

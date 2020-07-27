@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'sequence',
-		'dictionary'
+		'dictionary',
+		'randomValue'
 	],
 	#category : #'IngSoft2-Model-Effects'
 }
@@ -16,13 +17,13 @@ ProbabilitiesEffectProvider class >> with: aDictionaryOfEffects [
 { #category : #initialization }
 ProbabilitiesEffectProvider >> initializeWith: aDictionaryOfEffects [ 
 	dictionary:= aDictionaryOfEffects.
+	randomValue := Random new.
 ]
 
 { #category : #playing }
 ProbabilitiesEffectProvider >> nextEffect [
-	| randomValue |
-	randomValue := Random new nextInt: 100.
-	^ self searchForEffectAt: randomValue
+
+	^ self searchForEffectAt: (randomValue nextInt: 100).
 ]
 
 { #category : #playing }

@@ -1,15 +1,15 @@
 Class {
 	#name : #Overload,
-	#superclass : #Card,
+	#superclass : #PermanentTypeCard,
 	#category : #'IngSoft2-Model-Card'
 }
 
-{ #category : #playing }
-Overload >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
-	game savePermanentCard: self
+{ #category : #initialization }
+Overload class >> initializeCard [
+	^PermanentCard type: self new.
 ]
 
 { #category : #playing }
 Overload >> effect: aPlayer [ 
-	(target = aPlayer) ifTrue:[^-2] ifFalse:[^0].
+	^ -2.
 ]

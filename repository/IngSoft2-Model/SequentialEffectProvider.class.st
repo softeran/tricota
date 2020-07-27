@@ -1,5 +1,5 @@
 Class {
-	#name : #SequencialEffectProvider,
+	#name : #SequentialEffectProvider,
 	#superclass : #Object,
 	#instVars : [
 		'sequence'
@@ -7,8 +7,8 @@ Class {
 	#category : #'IngSoft2-Model-Effects'
 }
 
-{ #category : #providing }
-SequencialEffectProvider class >> providing: aSequenceOfEffects [ 
+{ #category : #'instance creation' }
+SequentialEffectProvider class >> providing: aSequenceOfEffects [ 
 	aSequenceOfEffects  size < 1
 		ifTrue: [ InstanceCreationFailed
 				signal: 'Not enough effects, there must be one at least' ].
@@ -16,13 +16,13 @@ SequencialEffectProvider class >> providing: aSequenceOfEffects [
 ]
 
 { #category : #initialization }
-SequencialEffectProvider >> initializeProviding: aSequenceOfEffects [ 
+SequentialEffectProvider >> initializeProviding: aSequenceOfEffects [ 
 
 	sequence := (CircularIterator cyclingOver: aSequenceOfEffects ).
 ]
 
 { #category : #providing }
-SequencialEffectProvider >> nextEffect [
+SequentialEffectProvider >> nextEffect [
 
 	| next |
 	next := sequence current.

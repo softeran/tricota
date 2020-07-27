@@ -40,16 +40,17 @@ Player >> addCard: aCard [
 
 { #category : #assertions }
 Player >> assertHasCard: aCard [ 
-	cards detect: [ :card | card  = aCard ] 
+	cards detect: [ :card | card isSameType: aCard] 
 			ifFound: [ ^true]
-			ifNone: [ InvalideRequest signal: 'Player doesnt have that card']  .
+			ifNone: [ InvalidRequest signal: 'Player doesnt have that card']  .
 		
 ]
 
 { #category : #playing }
 Player >> cardPlayed: aCard [
 
-	cards remove: aCard.
+	cards detect: [ :card | card isSameType: aCard]
+		ifFound: [ :card | cards remove: card].
 	
 ]
 
@@ -65,6 +66,11 @@ Player >> initializeWithName: aString [
 	name:= aString.
 	cards:= OrderedCollection new.
 	
+]
+
+{ #category : #comparing }
+Player >> is: aPlayer [ 
+	^self = aPlayer 
 ]
 
 { #category : #name }

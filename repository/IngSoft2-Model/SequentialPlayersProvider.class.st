@@ -13,7 +13,7 @@ Class {
 	#category : #'IngSoft2-Model-Game'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 SequentialPlayersProvider class >> enoughPlayers: aSequence [
 
 	aSequence size < 2
@@ -29,17 +29,28 @@ SequentialPlayersProvider class >> providing: aSequence [
 	^ self new initializeProviding: aSequence
 ]
 
+{ #category : #playing }
+SequentialPlayersProvider >> changeCourse [
+	sequence changeCourse.
+]
+
 { #category : #initialization }
 SequentialPlayersProvider >> initializeProviding: aSequence [
 
-	sequence := (CircularIterator cyclingOver: aSequence ) 
+	sequence := (CircularIterator cyclingOver: aSequence ).
+
 ]
 
 { #category : #providing }
 SequentialPlayersProvider >> nextPlayer [
-
-	| next |
-	next := sequence current.
+	| nextPlayer |
+	nextPlayer := sequence current.
 	sequence next.
-	^ next
+	^ nextPlayer
+]
+
+{ #category : #providing }
+SequentialPlayersProvider >> nextPlayerWithoutChangingCurrent [
+
+	^ sequence current 
 ]

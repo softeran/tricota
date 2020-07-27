@@ -14,7 +14,7 @@ Effect >> = anObject [
 ]
 
 { #category : #playing }
-Effect >> applyEffectTo: aPosition knowing: players the: currentPlayer and: finishline [ 
+Effect >> applyEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
 
 	Error signal: 'This message should be override'.
 ]

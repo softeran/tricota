@@ -1,20 +1,22 @@
 Class {
 	#name : #Redo,
-	#superclass : #Card,
+	#superclass : #IstantTypeCard,
+	#instVars : [
+		'throwedBy',
+		'playersTurn'
+	],
 	#category : #'IngSoft2-Model-Card'
 }
 
 { #category : #playing }
-Redo >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
+Redo >> applyIn: game to: aTarget [ 
+	^game applyRedoCardTo: aTarget thrownBy: throwedBy inTheTurnOf: playersTurn 
 	
-	|lastCard|
-	self assertSomeoneThrewCard: game lastCardPlayed .
-	lastCard := (game lastCardPlayed) class card: card target: target .
-	lastCard applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game
 ]
 
 { #category : #playing }
-Redo >> assertSomeoneThrewCard: lastEffect [ 
-	(lastEffect = 'No card has been played yet')
-		ifTrue: [ InvalideRequest signal: 'Nobody threw a card yet' ]
+Redo >> thrownBy: aPlayer inTheTurnOf: playerTurn [
+	throwedBy:= aPlayer.
+	playersTurn := playerTurn 
+	
 ]

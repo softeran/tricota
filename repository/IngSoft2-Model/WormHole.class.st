@@ -8,6 +8,6 @@ Class {
 }
 
 { #category : #playing }
-WormHole >> applyEffectTo: aPosition knowing: players the: currentPlayer and: finishline [ 
+WormHole >> applyEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
 		^ aPosition - 4.
 ]

@@ -7,7 +7,7 @@ Class {
 	#category : #'IngSoft2-Model-Card'
 }
 
-{ #category : #providing }
+{ #category : #'instance creation' }
 RandomCardProvider class >> providing: cards [
 	^self new initializeProviding: cards.
 ]

@@ -27,7 +27,27 @@ EffectRouletteTest >> effectsWithProbabilities [
 ]
 
 { #category : #tests }
-EffectRouletteTest >> testSpin [
+EffectRouletteTest >> testSpinEffectRouletteDeterministic [
+
+	| effectRoulette effectRouletteBuilder|
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: NoEffect new;
+								add: AtomicBomb new;
+								add: PickUpCard new;
+								add: AtomicBomb new.
+	effectRoulette := effectRouletteBuilder buildDeterministic.
+	
+	self assert: effectRoulette spin equals: NoEffect new;
+		assert: effectRoulette spin equals: AtomicBomb new;
+		assert: effectRoulette spin equals: PickUpCard new;
+		assert: effectRoulette spin equals: AtomicBomb new;
+		assert: effectRoulette spin equals: NoEffect new;
+		assert: effectRoulette spin equals: AtomicBomb new.
+	
+]
+
+{ #category : #tests }
+EffectRouletteTest >> testSpinEffectRouletteWithProbabilities [
 
 	| effectRoulette  effects |
 	effectRoulette:= self effectsWithProbabilities.

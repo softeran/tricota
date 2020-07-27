@@ -13,7 +13,7 @@ EffectRouletteBuilder class >> buildingDeterministicRoulette [
 	^self new initializeBuildingDeterministicRoulette.
 ]
 
-{ #category : #instanceCreation }
+{ #category : #'instance creation' }
 EffectRouletteBuilder class >> buildingProbabilisticRoulette [
 	^self new initializeBuildingProbabilisticRoulette.
 ]
@@ -31,7 +31,7 @@ EffectRouletteBuilder >> add: anEffect withPercentage: aPercentage [
 
 { #category : #building }
 EffectRouletteBuilder >> buildDeterministic [ 
-	^EffectRoulette source:(SequencialEffectProvider providing: sequenceOfEffects).
+	^EffectRoulette source:(SequentialEffectProvider providing: sequenceOfEffects).
 ]
 
 { #category : #building }

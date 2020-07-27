@@ -1,6 +1,6 @@
 Class {
 	#name : #Cancellation,
-	#superclass : #Card,
+	#superclass : #IstantTypeCard,
 	#instVars : [
 		'selectedCard'
 	],
@@ -8,18 +8,12 @@ Class {
 }
 
 { #category : #playing }
-Cancellation >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
-	
-	game lastCardPlayed: self.
-	^ self removeCardFrom: activeCards.
-	
+Cancellation >> applyIn: game to: aCard [ 
+	game applyCancellationCardTo: aCard.
+	^self 
 ]
 
 { #category : #playing }
-Cancellation >> removeCardFrom: activeCards [
-	activeCards
-		doWithIndex: [ :currentCard :i | 
-			(currentCard = card and: currentCard target = target)
-				ifTrue: [ activeCards removeAt: i.
-					^ true ] ]
+Cancellation >> thrownBy: aPlayer inTheTurnOf: playerTurn [
+	"This card can be played in any moment"
 ]

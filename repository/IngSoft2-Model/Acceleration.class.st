@@ -1,13 +1,12 @@
 Class {
 	#name : #Acceleration,
-	#superclass : #Card,
+	#superclass : #PermanentTypeCard,
 	#category : #'IngSoft2-Model-Card'
 }
 
-{ #category : #playing }
-Acceleration >> applyWithin: aPlayersWithPositions knowing: activeCards the: lastEffect and: finishLine of: game [
-	game savePermanentCard: self.
-	game lastCardPlayed: self.
+{ #category : #initialization }
+Acceleration class >> initializeCard [
+	^PermanentCard type: self new target: Everyone new.
 ]
 
 { #category : #playing }
