@@ -1,7 +1,7 @@
 Class {
 	#name : #PlayerTest,
 	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests-Player-Tests'
+	#category : #'IngSoft2-Tests-Player-Test'
 }
 
 { #category : #tests }

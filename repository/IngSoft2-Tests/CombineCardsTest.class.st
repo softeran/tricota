@@ -10,7 +10,7 @@ Class {
 		'deck',
 		'sofi'
 	],
-	#category : #'IngSoft2-Tests-Card-Test'
+	#category : #'IngSoft2-Tests-Cards-Test'
 }
 
 { #category : #accessing }

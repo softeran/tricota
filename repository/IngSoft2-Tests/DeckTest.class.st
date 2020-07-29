@@ -8,7 +8,7 @@ Class {
 		'players',
 		'effectRoulette'
 	],
-	#category : #'IngSoft2-Tests-Dice-Tests'
+	#category : #'IngSoft2-Tests-Dice-Test'
 }
 
 { #category : #accessing }

@@ -18,3 +18,8 @@ Effect >> applyEffectTo: aPosition of: currentPlayer knowing: players the: deck 
 
 	Error signal: 'This message should be override'.
 ]
+
+{ #category : #playing }
+Effect >> applyReverseEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
+	Error signal: 'This message should be override'.
+]

@@ -15,6 +15,11 @@ Redo >> applyIn: game to: aTarget [
 ]
 
 { #category : #playing }
+Redo >> effect: aPlayer [ 
+	^(-1).
+]
+
+{ #category : #playing }
 Redo >> thrownBy: aPlayer inTheTurnOf: playerTurn [
 	throwedBy:= aPlayer.
 	playersTurn := playerTurn 

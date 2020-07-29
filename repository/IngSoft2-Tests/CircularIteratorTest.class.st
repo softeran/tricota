@@ -4,7 +4,7 @@ A CircularIteratorTest is a test class for testing the behavior of CircularItera
 Class {
 	#name : #CircularIteratorTest,
 	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests-Dice-Tests'
+	#category : #'IngSoft2-Tests-Dice-Test'
 }
 
 { #category : #tests }

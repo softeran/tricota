@@ -11,3 +11,8 @@ Class {
 SpeedUp >> applyEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
 	^ aPosition + 4.
 ]
+
+{ #category : #playing }
+SpeedUp >> applyReverseEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
+	^ aPosition - 4.
+]

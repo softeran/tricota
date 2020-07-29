@@ -1,7 +1,7 @@
 Class {
 	#name : #DiceTest,
 	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests-Dice-Tests'
+	#category : #'IngSoft2-Tests-Dice-Test'
 }
 
 { #category : #tests }

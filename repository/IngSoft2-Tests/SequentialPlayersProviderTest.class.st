@@ -1,7 +1,7 @@
 Class {
 	#name : #SequentialPlayersProviderTest,
 	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests-Game-Tests'
+	#category : #'IngSoft2-Tests-Game-Test'
 }
 
 { #category : #tests }

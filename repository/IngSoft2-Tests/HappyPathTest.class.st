@@ -13,7 +13,7 @@ Class {
 		'sofi',
 		'deck'
 	],
-	#category : #'IngSoft2-Tests-HappyPath-Test'
+	#category : #'IngSoft2-Tests-Happy-Test'
 }
 
 { #category : #accessing }

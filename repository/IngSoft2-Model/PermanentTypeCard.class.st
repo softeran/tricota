@@ -13,3 +13,8 @@ PermanentTypeCard class >> initializeCardWithTarget: aTarget [
 PermanentTypeCard >> effect: aPlayer [ 
 	Error signal: 'This message should be override'.
 ]
+
+{ #category : #playing }
+PermanentTypeCard >> effectLocker: aTarget [
+	^-1.
+]

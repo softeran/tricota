@@ -17,7 +17,15 @@ PermanentCard >> effect: aPlayer [
 	|lockers|
 	lockers := 0.
 	(target is: aPlayer) 
-		ifTrue:[lockers:=type effect: aPlayer].
+	ifTrue:[lockers:=type effect: aPlayer].
+	^lockers
+]
+
+{ #category : #playing }
+PermanentCard >> lockerTargetNumber [
+	|lockers|
+	lockers := 0.
+	lockers:= type effectLocker: target .
 	^lockers
 ]
 

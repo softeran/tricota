@@ -45,11 +45,12 @@ UCABoardGame class >> rolling: aDie with: aGroupOfPlayers lockers: aNumberOfLock
 ]
 
 { #category : #playing }
-UCABoardGame >> amountOfLockersThatActiveCardsMove: currentPlayer [
+UCABoardGame >> amountOfLockersThatActiveCardsMove: currentPlayer thatsIn: currentPlayersPosition [ 
 |amountOfLockers|
 	amountOfLockers:=0.
 	(activeCards isEmpty)
-	ifFalse:[amountOfLockers:= (activeCards sum:[ :card | card effect: currentPlayer ])].
+	ifFalse:[amountOfLockers:= (activeCards sum:[ :card | card effect: currentPlayer ])
+		"+ (activeCards sum: [:card | card effectLockers: currentPlayersPosition in: game])"].
 	^amountOfLockers.
 ]
 
@@ -61,15 +62,15 @@ UCABoardGame >> applyCancellationCardTo: aCard [
 	
 ]
 
-{ #category : #cards }
-UCABoardGame >> applyDoubleCard [
-	timesToRoll := timesToRoll + 1.
-]
-
 { #category : #playing }
 UCABoardGame >> applyEffectTo: positionAfterRollingDice of: currentPlayer [
-	lastEffect := effectRoulette spin.
-	^ lastEffect applyEffectTo: positionAfterRollingDice of: currentPlayer knowing: playersWithPositions the: deck and: finishLine
+|reversal|
+	lastEffect := effectRoulette spin. "aca cambia el efecto del locker en el q se esta, osea en el cual cayo el jugador"
+	reversal:= Reversal initializeCardWithTarget: (LockerTarget atLocker: 14).
+	 activeCards detect: [ :card | (card isSameType: reversal) and: (card lockerTargetNumber = positionAfterRollingDice)] 
+					ifFound: [ ^lastEffect applyReverseEffectTo: positionAfterRollingDice of: currentPlayer knowing: playersWithPositions the: deck and: finishLine] 
+					ifNone:  [ ^ lastEffect applyEffectTo: positionAfterRollingDice of: currentPlayer knowing: playersWithPositions the: deck and: finishLine] 
+	
 ]
 
 { #category : #cards }
@@ -92,18 +93,6 @@ UCABoardGame >> applyRepeatCardTo: target [
 	actualPosition := (playersWithPositions at: target) lockerPosition.
 	positionWithEffect := lastEffect applyEffectTo: actualPosition of: target knowing: playersWithPositions the: deck and: finishLine.
 	(playersWithPositions at: target) moveTo: positionWithEffect knowing: finishLine
-]
-
-{ #category : #cards }
-UCABoardGame >> applyReverseCard [
-	self changeCourse .
-	timesToRoll := 1.
-]
-
-{ #category : #cards }
-UCABoardGame >> applySkipCard [
-	self skipTurn.
-	timesToRoll := 1.
 ]
 
 { #category : #assertions }
@@ -217,6 +206,11 @@ UCABoardGame >> nextTurn [
 ]
 
 { #category : #playing }
+UCABoardGame >> player [
+^playersWithPositions.
+]
+
+{ #category : #playing }
 UCABoardGame >> player: aPlayer throw: card [
 	self assertTheGameHasNotFinished.
 	aPlayer assertHasCard: card.
@@ -233,9 +227,10 @@ UCABoardGame >> playersPositionsTable [
 
 { #category : #playing }
 UCABoardGame >> rollDiceApllyEffectsAndCardsTo: currentPlayer thatsIn: currentPlayerPosition [ 
-	| positionAfterRollingDice positionAfterCards positionAfterEffectAndCards |
+	| positionAfterRollingDice positionAfterCards positionAfterEffectAndCards positionReverseCardMoves |
 	positionAfterRollingDice := currentPlayerPosition lockerPosition + self rollDiceApropiateAmountOfTimes.
-	positionAfterCards := (self amountOfLockersThatActiveCardsMove: currentPlayer) + positionAfterRollingDice.
+	positionAfterCards := (self amountOfLockersThatActiveCardsMove: currentPlayer thatsIn: currentPlayerPosition) + positionAfterRollingDice.
+	"positionReverseCardMoves:= (self amountOfLockersReverseCardsMove: currentPlayer thatsIn:currentPlayerPosition ) + positionAfterCards. "
 	positionAfterEffectAndCards := self applyEffectTo: positionAfterCards of: currentPlayer.
 	^ positionAfterEffectAndCards
 ]
@@ -253,11 +248,6 @@ UCABoardGame >> rollDiceApropiateAmountOfTimes [
 UCABoardGame >> savePermanentCard: aCard [
 
 	activeCards add: aCard
-]
-
-{ #category : #cards }
-UCABoardGame >> skipTurn [
-	sequenceOfPlayers nextPlayer.
 ]
 
 { #category : #cards }

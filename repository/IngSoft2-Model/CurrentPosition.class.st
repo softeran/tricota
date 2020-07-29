@@ -27,7 +27,6 @@ CurrentPosition class >> startingAtZero [
 CurrentPosition >> = anObject [ 
 	laps = anObject lapNumber ifFalse: [ ^false ].
 	locker = anObject lockerPosition ifFalse: [ ^false ].
-	
  ^true
 
 ]

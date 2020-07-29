@@ -8,7 +8,7 @@ Class {
 		'players',
 		'deck'
 	],
-	#category : #'IngSoft2-Tests-Effects-Tests'
+	#category : #'IngSoft2-Tests-Effects-Test'
 }
 
 { #category : #tests }

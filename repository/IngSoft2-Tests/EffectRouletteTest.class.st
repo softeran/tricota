@@ -1,7 +1,7 @@
 Class {
 	#name : #EffectRouletteTest,
 	#superclass : #TestCase,
-	#category : #'IngSoft2-Tests-Effects-Tests'
+	#category : #'IngSoft2-Tests-Effects-Test'
 }
 
 { #category : #'as yet unclassified' }
