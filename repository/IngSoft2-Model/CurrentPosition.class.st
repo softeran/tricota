@@ -138,6 +138,16 @@ CurrentPosition >> moveForward: moveTo [
 ]
 
 { #category : #'move forward' }
+CurrentPosition >> moveForwardAmountOf: aNumberOflockers knowing: finishline [
+	| nextPosition |
+
+	nextPosition := locker + aNumberOflockers.
+	self moveForwardTo: nextPosition changingLapIfCrossing: finishline 
+
+	
+]
+
+{ #category : #'move forward' }
 CurrentPosition >> moveForwardTo: nextPosition changingLapIfCrossing: finishline [
 	
 	self moveForwardTo: nextPosition ifDoesNotCross: finishline.

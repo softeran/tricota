@@ -314,6 +314,42 @@ RedoTest >> testRedoRepeatCard [
 ]
 
 { #category : #tests }
+RedoTest >> testRedoReversalCard [
+
+	| game  deckBuilder reversalThrownByJuan redoThrownByNico effectRouletteBuilder |
+	deckBuilder := DeckBuilder startBuilding.
+	deckBuilder add: Reversal ;
+					add: Redo .
+	deck := deckBuilder buildDeterministic.
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: SpeedUp new.
+	effectRoulette := effectRouletteBuilder buildDeterministic.
+	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: deck.
+	
+	reversalThrownByJuan := Reversal initializeCardWithTarget: (LockerTarget atLocker: 7).
+	game player: juan throw: reversalThrownByJuan.
+	game nextTurn."Juan rolled 7 but landed at a SpeedUp locker with a Reversal Card applied to it"
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 3;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 0.
+
+	redoThrownByNico := Redo initializeCardWithTarget: (LockerTarget atLocker: 9) .
+	game player: nico throw: redoThrownByNico .
+	game nextTurn."Nico rolled 9 but landed at a SpeedUp locker with a Reversal Card applied to it"
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 3;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 5.
+		
+	
+
+	
+]
+
+{ #category : #tests }
 RedoTest >> testRedoSpeedCard [
 
 	| game  deckBuilder speedThrownByJuan redoThrownByNico|

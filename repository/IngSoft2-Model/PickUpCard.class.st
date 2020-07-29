@@ -15,5 +15,5 @@ PickUpCard >> applyEffectTo: aPosition of: currentPlayer knowing: players the: d
 
 { #category : #playing }
 PickUpCard >> applyReverseEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
-	^0.
+	^aPosition .
 ]

@@ -241,88 +241,9 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: sofi) equals: 0.
 	
-"	game player: sofi throw: Skip initializeCard .Nico was skipped, now its sofi's turn
-	game nextTurn. In this Turn Sofi rolled 4 and the effect was No Effect. Sofi moves 4 lockers forward 
-	self 
-		assert: (game lapNumberOf: juan) equals:1;
-		assert: (game lapNumberOf: nico) equals:1;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 0;
-		assert: (game lockerNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: sofi) equals: 4.
-		
-	game nextTurn. In this Turn Juan rolled 5 and the effect was No Effect. Juan moves 3 lockers forward because of Overload Card
-	self 
-		assert: (game lapNumberOf: juan) equals:1;
-		assert: (game lapNumberOf: nico) equals:1;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 3;
-		assert: (game lockerNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: sofi) equals: 4.
-		
-	game nextTurn. In this Turn Nico rolled 10 and the effect was Speed Up. Nico moves 14 lockers forward
-	self 
-		assert: (game lapNumberOf: juan) equals:1;
-		assert: (game lapNumberOf: nico) equals:1;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 3;
-		assert: (game lockerNumberOf: nico) equals: 14;
-		assert: (game lockerNumberOf: sofi) equals: 4.
-		
-	game player: juan throw: Reverse initializeCard . Changes the course, now its juan's turn
-	game player: juan throw: Double initializeCard . Juan throws 2 times
-	game nextTurn. In this Turn Juan rolled 7 and 9, and the effect was Speed Up. Juan moves 18 lockers forward because of Overload Card and changes lap
 
-	self 
-		assert: (game lapNumberOf: juan) equals:2;
-		assert: (game lapNumberOf: nico) equals:1;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 6;
-		assert: (game lockerNumberOf: nico) equals: 14;
-		assert: (game lockerNumberOf: sofi) equals: 4.
-		
-	game nextTurn. In this Turn Sofi rolled 8 and the effect was No Effect. Sofi moves 8 lockers forward
-	self 
-		assert: (game lapNumberOf: juan) equals:2;
-		assert: (game lapNumberOf: nico) equals:1;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 6;
-		assert: (game lockerNumberOf: nico) equals: 14;
-		assert: (game lockerNumberOf: sofi) equals: 12.
-		
-	game player: nico throw: Double initializeCard .
-	game nextTurn. In this Turn Nico rolled 5 and 10, and the effect was No Effect. Nico moves 15 lockers forward and changes lap
 
-	self 
-		assert: (game lapNumberOf: juan) equals:2;
-		assert: (game lapNumberOf: nico) equals:2;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 6;
-		assert: (game lockerNumberOf: nico) equals: 14;
-		assert: (game lockerNumberOf: sofi) equals: 12.
-		
-	game nextTurn. In this Turn Juan rolled 9 and the effect was No Effect. Nico moves 7 lockers forward because of Overload Card
-	self 
-		assert: (game lapNumberOf: juan) equals:2;
-		assert: (game lapNumberOf: nico) equals:2;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 13;
-		assert: (game lockerNumberOf: nico) equals: 14;
-		assert: (game lockerNumberOf: sofi) equals: 12.
-		
-	game nextTurn. In this Turn Sofi rolled 7 and the effect was No Effect. Nico moves 7 lockers forward, reaches lap 3 and WON the game!
-	self 
-		assert: (game lapNumberOf: juan) equals:2;
-		assert: (game lapNumberOf: nico) equals:2;
-		assert: (game lapNumberOf: sofi) equals:3;
-		assert: (game lockerNumberOf: juan) equals: 13;
-		assert: (game lockerNumberOf: nico) equals: 14;
-		assert: (game lockerNumberOf: sofi) equals: 4.
 
-	self 
-		assert: game winner equals: sofi.
-		tableOfFinalPositions:= game playersPositionsTable.
-		self assert:(tableOfFinalPositions atPosition: 1 ) equals: sofi.
-		self assert:(tableOfFinalPositions  atPosition: 2 ) equals: nico.
-		self assert:(tableOfFinalPositions  atPosition: 3 ) equals: juan."
+
+	
 ]

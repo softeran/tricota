@@ -55,16 +55,8 @@ MoonWalk >> applyEffectTo: aPosition of: currentPlayer knowing: players the: dec
 { #category : #playing }
 MoonWalk >> applyReverseEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
 	
-	self moveAll: players except: currentPlayer knowing: finishline.
+	self moveAll: players toOpositeSideExcept: currentPlayer knowing: finishline.
 	^ aPosition.
-]
-
-{ #category : #playing }
-MoonWalk >> doNotMoveAll: players except: currentPlayer knowing: finishline [
-
-	| lockers |
-	lockers := self moveBackwards.
-	players keysAndValuesDo: [:player :position | player = currentPlayer ifTrue: [ position moveBackwardsAmountOf: lockers knowing: finishline] ] .
 ]
 
 { #category : #initialization }
@@ -80,6 +72,14 @@ MoonWalk >> moveAll: players except: currentPlayer knowing: finishline [
 	| lockers |
 	lockers := self moveBackwards.
 	players keysAndValuesDo: [:player :position | player ~= currentPlayer ifTrue: [ position moveBackwardsAmountOf: lockers knowing: finishline] ] .
+]
+
+{ #category : #playing }
+MoonWalk >> moveAll: players toOpositeSideExcept: currentPlayer knowing: finishline [
+
+	| lockers |
+	lockers := self moveBackwards.
+	players keysAndValuesDo: [:player :position | player ~= currentPlayer ifTrue: [ position moveForwardAmountOf: lockers knowing: finishline] ] .
 ]
 
 { #category : #playing }

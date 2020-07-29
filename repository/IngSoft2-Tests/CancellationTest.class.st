@@ -150,6 +150,50 @@ CancellationTest >> testCancellationOfOverloadCard [
 ]
 
 { #category : #tests }
+CancellationTest >> testCancellationOfReversalCard [
+
+	| game deckBuilder reversalThrownByJuan cancellationThrownByNico effectRouletteBuilder |
+	die := Die of: 10 rolling: #(7 9 6).
+	deckBuilder := DeckBuilder startBuilding.
+	deckBuilder add: Reversal ;
+					add: Cancellation .
+	deck := deckBuilder buildDeterministic.
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: WormHole new.
+	effectRoulette := effectRouletteBuilder buildDeterministic.
+	game:= UCABoardGame rolling: die with: players lockers: 11 laps: 2 effects: effectRoulette and: deck.
+	
+	reversalThrownByJuan := Reversal initializeCardWithTarget: (LockerTarget atLocker: 9) .
+	game player: juan throw: reversalThrownByJuan .
+	game nextTurn."Juan rolled 7 but landed at a locker with wormHole effect"
+		self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 3;
+		assert: (game lapNumberOf: nico) equals: 0;
+		assert: (game lockerNumberOf: nico) equals: 0.
+
+	game nextTurn."Nico rolled 9"
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 3;
+		assert: (game lapNumberOf: nico) equals: 1;
+		assert: (game lockerNumberOf: nico) equals: 2.
+		
+	cancellationThrownByNico := Cancellation initializeCardWithTarget: reversalThrownByJuan.
+	game player: nico throw: cancellationThrownByNico .
+	
+	game nextTurn."Juan rolled 3 and the speed card was cancelled "
+	self
+		assert: (game lapNumberOf: juan) equals: 0;
+		assert: (game lockerNumberOf: juan) equals: 5;
+		assert: (game lapNumberOf: nico) equals: 1;
+		assert: (game lockerNumberOf: nico) equals: 2.
+	
+
+	
+]
+
+{ #category : #tests }
 CancellationTest >> testCancellationOfSpeedCard [
 
 	| game deckBuilder speedThrownByJuan cancellationThrownByNico|

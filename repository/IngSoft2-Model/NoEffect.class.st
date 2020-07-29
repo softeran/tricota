@@ -11,3 +11,8 @@ Class {
 NoEffect >> applyEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
 	^ aPosition.
 ]
+
+{ #category : #playing }
+NoEffect >> applyReverseEffectTo: aPosition of: currentPlayer knowing: players the: deck and: finishline [
+	^ aPosition.
+]
