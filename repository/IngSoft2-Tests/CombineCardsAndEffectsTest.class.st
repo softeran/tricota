@@ -32,21 +32,47 @@ CombineCardsAndEffectsTest >> playerNamed: aName [
 { #category : #running }
 CombineCardsAndEffectsTest >> setUp [
 
-	die := Die of: 10 rolling: #(7 9 3 1).
+	die := Die of: 10 rolling: #(7 9 3).
 	juan := self juan.
 	nico := self nico.
-	sofi := self sofi.
 	players := OrderedCollection new.
 	players
 		add: juan;
-		add: nico;
-		add: sofi.
+		add: nico.
+
 	
 ]
 
 { #category : #accessing }
 CombineCardsAndEffectsTest >> sofi [
 	^ self playerNamed: 'Sofi'.
+]
+
+{ #category : #tests }
+CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndReversalCard [
+
+	| effectRouletteBuilder deckBuilder game accelerationThrownByJuan reversalThrownByJuan |
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: SpeedUp new.
+	effectRoulette := effectRouletteBuilder buildDeterministic.
+	deckBuilder:= DeckBuilder startBuilding.
+	deckBuilder add: Acceleration; 	"Everyon has Acceleration and Reversal card"
+					add: Reversal.
+	deck:= deckBuilder buildDeterministic .
+	game:= UCABoardGame rolling: die with: players lockers: 5 laps: 5 effects: effectRoulette and: deck.
+	
+	accelerationThrownByJuan := Acceleration initializeCard .
+	game player: juan throw: accelerationThrownByJuan .
+	reversalThrownByJuan := Reversal initializeCardWithTarget:  (LockerTarget atLocker: 3).
+	game player: juan throw: reversalThrownByJuan .
+	
+	game nextTurn."Juan rolled 7 plus 1 of  active acceleration card. He changes lap, but he landed at locker three that had a ReversalCard applied to it, so he went back to lap 0 "
+		self
+			assert: (game lapNumberOf: juan) equals: 0;
+			assert: (game lockerNumberOf: juan) equals: 4;
+			assert: (game lapNumberOf: nico) equals: 0;
+			assert: (game lockerNumberOf: nico) equals: 0.
+	
 ]
 
 { #category : #tests }
@@ -72,9 +98,8 @@ CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndSpeedCardIncreasesTw
 			assert: (game lapNumberOf: juan) equals: 2;
 			assert: (game lockerNumberOf: juan) equals: 3;
 			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+			assert: (game lockerNumberOf: nico) equals: 0.
+		
 ]
 
 { #category : #tests }
@@ -98,18 +123,14 @@ CombineCardsAndEffectsTest >> testWithOverloadCardPlayerDoesntReachNextLapAndEff
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 7;
 			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
-			
+			assert: (game lockerNumberOf: nico) equals: 0.	
 	game nextTurn."Nico rolled 9 minus 2 for being target of one active overload card. He doesnt reach lap 1 and the effect was Atomic bomb so que goes back to lap 0 locker 0"
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 0;
-			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+			assert: (game lapNumberOf: nico) equals: 1;
+			assert: (game lockerNumberOf: nico) equals: 0.
+	
 ]
 
 { #category : #tests }
@@ -134,9 +155,8 @@ CombineCardsAndEffectsTest >> testWithTwoAccelerationCardsPlayerReachNextLapAndE
 			assert: (game lapNumberOf: juan) equals: 1;
 			assert: (game lockerNumberOf: juan) equals: 0;
 			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+			assert: (game lockerNumberOf: nico) equals: 0.
+
 ]
 
 { #category : #tests }
@@ -160,23 +180,65 @@ CombineCardsAndEffectsTest >> testWormHolePlusOverloadCardAvoidPlayerToWin [
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 3;
 			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+			assert: (game lockerNumberOf: nico) equals: 0.
+	
 	
 	game nextTurn."Nico rolled 9 minus 2 for being target of active speed card and minus 4 becaus the effect was wormhole. He moves to locker 3"
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 3;
 			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 3;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+			assert: (game lockerNumberOf: nico) equals: 3.
+		
 
 ]
 
 { #category : #tests }
-CombineCardsAndEffectsTest >> testWormHolePlusThreeOverloadCardsDecreasesTwoLapsInOneTurn [
+CombineCardsAndEffectsTest >> testWormHolePlusThreeOverloadCardsAndReversalCard [
+
+	| effectRouletteBuilder deckBuilder game reversalThrownByJuan overloadThrownByNico  |
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: NoEffect new;
+								add: WormHole new.	
+	effectRoulette := effectRouletteBuilder buildDeterministic.
+	deckBuilder:= DeckBuilder startBuilding.
+	deckBuilder add: Overload ;
+					add: Reversal.  	"Everyon has an Overload Card and a Reversal one "
+	deck:= deckBuilder buildDeterministic .
+	game:= UCABoardGame rolling: die with: players lockers: 7 laps: 3 effects: effectRoulette and: deck.
+	reversalThrownByJuan:= Reversal initializeCardWithTarget: (LockerTarget atLocker: 2).
+	game player: juan throw: reversalThrownByJuan.
+	game nextTurn."Juan rolled 7 "
+		self
+			assert: (game lapNumberOf: juan) equals: 1;
+			assert: (game lockerNumberOf: juan) equals: 0;
+			assert: (game lapNumberOf: nico) equals: 0;
+			assert: (game lockerNumberOf: nico) equals: 0.
+		
+	
+	overloadThrownByNico:= Overload initializeCardWithTarget: juan.
+	game player: nico throw: overloadThrownByNico.
+	game nextTurn."Nico rolled 9 "
+		self
+			assert: (game lapNumberOf: juan) equals: 1;
+			assert: (game lockerNumberOf: juan) equals: 0;
+			assert: (game lapNumberOf: nico) equals: 1;
+			assert: (game lockerNumberOf: nico) equals: 6.
+	
+			
+	game nextTurn. "Juan rolled 3 but was target of an overload card, so he went back 2 "
+		self
+			assert: (game lapNumberOf: juan) equals: 1;
+			assert: (game lockerNumberOf: juan) equals: 1;
+			assert: (game lapNumberOf: nico) equals: 1;
+			assert: (game lockerNumberOf: nico) equals: 6.
+		
+
+	
+]
+
+{ #category : #tests }
+CombineCardsAndEffectsTest >> testWormHolePlusTwoOverloadCardsDecreasesTwoLapsInOneTurn [
 
 	| effectRouletteBuilder deckBuilder game firstOverloadThrownByNico secondOverloadThrownByNico overloadThrownBySofi |
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
@@ -195,9 +257,8 @@ CombineCardsAndEffectsTest >> testWormHolePlusThreeOverloadCardsDecreasesTwoLaps
 			assert: (game lapNumberOf: juan) equals: 2;
 			assert: (game lockerNumberOf: juan) equals: 1;
 			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+			assert: (game lockerNumberOf: nico) equals: 0.
+
 	
 	firstOverloadThrownByNico:= Overload initializeCardWithTarget: juan.
 	game player: nico throw: firstOverloadThrownByNico.
@@ -208,28 +269,9 @@ CombineCardsAndEffectsTest >> testWormHolePlusThreeOverloadCardsDecreasesTwoLaps
 			assert: (game lapNumberOf: juan) equals: 2;
 			assert: (game lockerNumberOf: juan) equals: 1;
 			assert: (game lapNumberOf: nico) equals: 3;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 0;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+			assert: (game lockerNumberOf: nico) equals: 0.
 			
-	overloadThrownBySofi:= Overload initializeCardWithTarget: juan.
-	game player: sofi throw: overloadThrownBySofi.
-	game nextTurn."Sofi rolled 3 and increases 1 laps"
-		self
-			assert: (game lapNumberOf: juan) equals: 2;
-			assert: (game lockerNumberOf: juan) equals: 1;
-			assert: (game lapNumberOf: nico) equals: 3;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 1;
-			assert: (game lockerNumberOf: sofi) equals: 0.
-
-	game nextTurn."Juan rolled 1 minus 4 of WormHole effect minus 6 for being target of three active Overload cards"
-		self
-			assert: (game lapNumberOf: juan) equals: 0;
-			assert: (game lockerNumberOf: juan) equals: 1;
-			assert: (game lapNumberOf: nico) equals: 3;
-			assert: (game lockerNumberOf: nico) equals: 0;
-			assert: (game lapNumberOf: sofi) equals: 1;
-			assert: (game lockerNumberOf: sofi) equals: 0.
+	
+		
 	
 ]

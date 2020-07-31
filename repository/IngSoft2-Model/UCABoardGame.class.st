@@ -49,8 +49,7 @@ UCABoardGame >> amountOfLockersThatActiveCardsMove: currentPlayer thatsIn: curre
 |amountOfLockers|
 	amountOfLockers:=0.
 	(activeCards isEmpty)
-	ifFalse:[amountOfLockers:= (activeCards sum:[ :card | card effect: currentPlayer ])
-		"+ (activeCards sum: [:card | card effectLockers: currentPlayersPosition in: game])"].
+	ifFalse:[amountOfLockers:= (activeCards sum:[ :card | card effect: currentPlayer ])].
 	^amountOfLockers.
 ]
 
@@ -129,13 +128,6 @@ UCABoardGame >> assertTheWinnerIs: aPlayer [
 	
 ]
 
-{ #category : #cards }
-UCABoardGame >> changeCourse [
-	sequenceOfPlayers changeCourse.
-	sequenceOfPlayers nextPlayer .
-	sequenceOfPlayers nextPlayer .
-]
-
 { #category : #position }
 UCABoardGame >> currentPositionOf: aPlayer [ 
 
@@ -196,12 +188,14 @@ UCABoardGame >> lockerNumberOf: aPlayer [
 
 { #category : #playing }
 UCABoardGame >> nextTurn [
-	| currentPlayer positionAfterEffectAndCards currentPlayerPosition |
+	| currentPlayer positionAfterEffectAndCards currentPlayerPosition positionAfterRollingDice|
 	self assertTheGameHasNotFinished.
 	currentPlayer := sequenceOfPlayers nextPlayer.
 	currentPlayerPosition := self currentPositionOf: currentPlayer.
+	positionAfterRollingDice:= self rollDiceAndMove: currentPlayer thatsIn: currentPlayerPosition.
+	currentPlayerPosition moveTo: positionAfterRollingDice knowing: finishLine.
 	positionAfterEffectAndCards := self rollDiceApllyEffectsAndCardsTo: currentPlayer thatsIn: currentPlayerPosition.
-	currentPlayerPosition moveTo: positionAfterEffectAndCards knowing: finishLine.
+	currentPlayerPosition moveTo: positionAfterEffectAndCards  knowing: finishLine.
 	self assertTheWinnerIs: currentPlayer
 ]
 
@@ -226,22 +220,23 @@ UCABoardGame >> playersPositionsTable [
 ]
 
 { #category : #playing }
-UCABoardGame >> rollDiceApllyEffectsAndCardsTo: currentPlayer thatsIn: currentPlayerPosition [ 
-	| positionAfterRollingDice positionAfterCards positionAfterEffectAndCards positionReverseCardMoves |
-	positionAfterRollingDice := currentPlayerPosition lockerPosition + self rollDiceApropiateAmountOfTimes.
-	positionAfterCards := (self amountOfLockersThatActiveCardsMove: currentPlayer thatsIn: currentPlayerPosition) + positionAfterRollingDice.
-	"positionReverseCardMoves:= (self amountOfLockersReverseCardsMove: currentPlayer thatsIn:currentPlayerPosition ) + positionAfterCards. "
-	positionAfterEffectAndCards := self applyEffectTo: positionAfterCards of: currentPlayer.
-	^ positionAfterEffectAndCards
+UCABoardGame >> rollDice [
+	^dice roll.
 ]
 
 { #category : #playing }
-UCABoardGame >> rollDiceApropiateAmountOfTimes [
-	|rolledNumber|
-	rolledNumber := 0.
-	timesToRoll timesRepeat: [rolledNumber := rolledNumber + dice roll].
-	timesToRoll := 1.
-	^ rolledNumber 
+UCABoardGame >> rollDiceAndMove: currentPlayer thatsIn: currentPlayerPosition [ 
+	| positionAfterRollingDice |
+	positionAfterRollingDice := currentPlayerPosition lockerPosition + self rollDice.
+	^ positionAfterRollingDice 
+]
+
+{ #category : #playing }
+UCABoardGame >> rollDiceApllyEffectsAndCardsTo: currentPlayer thatsIn: currentPlayerPosition [ 
+	| positionAfterCards positionAfterEffectAndCards|
+	positionAfterCards := (self amountOfLockersThatActiveCardsMove: currentPlayer thatsIn: currentPlayerPosition) + currentPlayerPosition lockerPosition.
+	positionAfterEffectAndCards := self applyEffectTo: positionAfterCards of: currentPlayer.
+	^ positionAfterEffectAndCards
 ]
 
 { #category : #cards }
@@ -257,7 +252,6 @@ UCABoardGame >> typeLastCardPlayed: aCard [
 
 { #category : #playing }
 UCABoardGame >> winner [
-
 	self assertTheGameHasFinished.
 	^ winner 
 ]

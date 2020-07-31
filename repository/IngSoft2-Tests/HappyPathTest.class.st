@@ -41,13 +41,9 @@ HappyPathTest >> setUp [
 					add: Speed ;
 					add: Overload ;
 					add: Repeat ;
-					add: Acceleration  ;
+					add: Reversal ;
 					add: Redo ;
 					add: Redo .
-				"	add: Double ;
-					add: Skip ;
-					add: Reverse ;
-					add: Double ."
 	deck:= deckBuilder buildDeterministic .
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
 	effectRouletteBuilder add: SpeedUp new;
@@ -61,19 +57,10 @@ HappyPathTest >> setUp [
 								add: PickUpCard new;
 								add: PickUpCard new;
 								add: PickUpCard new;
-								add: SpeedUp new;
-								add: AtomicBomb new;
-								add: NoEffect new;
-								add: NoEffect new;
-								add: SpeedUp new;
-								add: SpeedUp new;
-								add: NoEffect new;
-								add: NoEffect new;
-								add: NoEffect new;
-								add: NoEffect new.
+								add: WormHole new.
 	effectRoulette:= effectRouletteBuilder buildDeterministic.
 	
-	die := Die of: 10 rolling: #(7 9 10 4 5 7 8 3 9 10 10 2 8 4 5 10 7 9 8 5 10 9 7).
+	die := Die of: 11 rolling: #(7 9 10 4 5 7 8 3 9 10 10 2 ).
 	juan := self juan.
 	nico := self nico.
 	sofi:= self sofi.
@@ -93,9 +80,9 @@ HappyPathTest >> sofi [
 { #category : #tests }
 HappyPathTest >> testHappyPath [
 
-| game tableOfFinalPositions accelerationCardThrownByJuan speedCardThrownByNico|
+| game accelerationCardThrownByJuan speedCardThrownByNico  reversalCardThrownBySofi|
 	
-	game:= UCABoardGame rolling: die with: players lockers: 15 laps: 3 effects: effectRoulette and: deck.
+	game:= UCABoardGame rolling: die with: players lockers: 15 laps: 2 effects: effectRoulette and: deck.
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:0;
@@ -145,7 +132,7 @@ HappyPathTest >> testHappyPath [
 	
 	accelerationCardThrownByJuan := Acceleration initializeCard .
 	game player: juan throw: (accelerationCardThrownByJuan).
-	game nextTurn. "In this Turn Juan rolled 4 and the effect was Pick Up card. He picked up a Double Card. As the Acceleration Card was active, he moves 5 lockers forward"
+	game nextTurn. "In this Turn Juan rolled 4 and the effect was Pick Up card. He picked up a Reversal Card. As the Acceleration Card was active, he moves 5 lockers forward"
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
@@ -168,7 +155,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 1;
 		assert: (game lockerNumberOf: sofi) equals: 11.
 		
-	game nextTurn. "In this Turn Sofi rolled 7 and the effect was Atomic Bomb. Sofi moves 8 lockers forward because of the acce;eration card and changes lap to 1. But then she moves to locker zero at lap 1 because of the atomic bomb effect"
+	game nextTurn. "In this Turn Sofi rolled 7 and the effect was Atomic Bomb. Sofi moves 8 lockers forward because of the acceleration card and changes lap to 1. But then she moves to locker zero at lap 1 because of the atomic bomb effect"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -196,7 +183,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: sofi) equals: 0.
 	game player: nico throw:(Redo initializeCardWithTarget: accelerationCardThrownByJuan)."Cancellation of Acceleration"
 		
-	game nextTurn. "In this Turn Sofi rolled 9 and the effect was Pick Up card. He picked up a Skip Card."
+	game nextTurn. "In this Turn Sofi rolled 9 and the effect was Pick Up card. He picked up a Reversal Card."
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -205,7 +192,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 4;
 		assert: (game lockerNumberOf: sofi) equals: 9.
 		
-	game nextTurn. "In this Turn Juan rolled 10 and the effect was Pick Up card. He picked up a Reverse Card. As he had the Overload card, he moved forward 8 lockers"
+	game nextTurn. "In this Turn Juan rolled 10 and the effect was Pick Up card. He picked up a Reversal Card. As he had the Overload card, he moved forward 8 lockers"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -214,7 +201,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 4;
 		assert: (game lockerNumberOf: sofi) equals: 9.
 		
-	game nextTurn. "In this Turn Nico rolled 10 and the effect was Pick Up card. He picked up a Double Card."
+	game nextTurn. "In this Turn Nico rolled 10 and the effect was Pick Up card."
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -223,23 +210,19 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 14;
 		assert: (game lockerNumberOf: sofi) equals: 9.
 		
-		game nextTurn. "In this Turn Sofi rolled 2 and the effect was SpeedUp.So she moved 6 lockers forwards and reaces lap 2"
+		reversalCardThrownBySofi := Reversal initializeCardWithTarget: (LockerTarget atLocker: 11).
+		game player: sofi throw: reversalCardThrownBySofi.
+		game nextTurn. "In this Turn Sofi rolled 2 and the effect was WormHole with a Reversal Card applied to it.So she moved 4 more lockers forwards and won de game"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
 		assert: (game lapNumberOf: sofi) equals:2;
 		assert: (game lockerNumberOf: juan) equals:11;
 		assert: (game lockerNumberOf: nico) equals: 14;
-		assert: (game lockerNumberOf: sofi) equals: 0.
+		assert: (game lockerNumberOf: sofi) equals: 0;
+		assert: game winner equals: sofi.
+
 	
-	game nextTurn. "In this Turn Juan rolled 8 and the effect was Atomic Bomb. Juan moves 6 lockers forward because of the Overload card and changes lap to 1. But then she moves to locker zero at lap 1 because of the atomic bomb effect"
-	self 
-		assert: (game lapNumberOf: juan) equals:1;
-		assert: (game lapNumberOf: nico) equals:1;
-		assert: (game lapNumberOf: sofi) equals:2;
-		assert: (game lockerNumberOf: juan) equals: 0;
-		assert: (game lockerNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: sofi) equals: 0.
 	
 
 

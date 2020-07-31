@@ -239,14 +239,7 @@ ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToAMoonWalkLock
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 9.
 		
-"	game nextTurn.Juan rolled 3, and lands at locker 8 with reversal effect
-	self
-		assert: (game lapNumberOf: juan) equals: 0;
-		assert: (game lockerNumberOf: juan) equals: 8;
-		assert: (game lapNumberOf: nico) equals: 0;
-		assert: (game lockerNumberOf: nico) equals: 11.
-		"
-	
+
 ]
 
 { #category : #tests }

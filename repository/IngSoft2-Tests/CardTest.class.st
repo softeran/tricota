@@ -74,12 +74,9 @@ CardTest >> testPlayerCanNotThrowAnyCardAfterTheGameHasFinished [
 	deckBuilder:= DeckBuilder startBuilding.
 	deckBuilder 	add: Acceleration;
 					add: Cancellation ;
-					"add: Double ;"
 					add: Overload ;
 					add: Redo ;
 					add: Repeat ;
-					"add: Reverse ;
-					add: Skip ;"
 					add: Speed .
 	deck:= deckBuilder buildDeterministic .
 	
@@ -96,10 +93,7 @@ CardTest >> testPlayerCanNotThrowAnyCardAfterTheGameHasFinished [
 	should: [ game player: nico throw: (Cancellation initializeCardWithTarget: cardToCancell) ]
 		raise: InvalidRequest
 		withMessageText: 'The game has finished'.
-	"self 
-	should: [ game player: juan throw: Double initializeCard  ]
-		raise: InvalidRequest
-		withMessageText: 'The game has finished'."
+
 	self 
 	should: [ game player: nico throw: (Overload initializeCardWithTarget: juan) ]
 		raise: InvalidRequest
@@ -112,14 +106,7 @@ CardTest >> testPlayerCanNotThrowAnyCardAfterTheGameHasFinished [
 	should: [ game player: nico throw: (Repeat initializeCardWithTarget: nico) ]
 		raise: InvalidRequest
 		withMessageText: 'The game has finished'.
-	"self 
-	should: [ game player: juan throw: Reverse initializeCard ]
-		raise: InvalidRequest
-		withMessageText: 'The game has finished'."
-	"self 
-	should: [ game player: nico throw: Skip initializeCard  ]
-		raise: InvalidRequest
-		withMessageText: 'The game has finished'."
+
 	self 
 	should: [ game player: nico throw: (Speed initializeCardWithTarget: nico) ]
 		raise: InvalidRequest
@@ -171,17 +158,6 @@ CardTest >> testPlayerCanNotThrowAnyCardIfHeDoesntHaveIt [
 	should: [ game player: nico throw: (Repeat initializeCardWithTarget: nico) ]
 		raise: InvalidRequest
 		withMessageText: 'Player doesnt have that card'.
-	"self 
-	should: [ game player: juan throw: Reverse initializeCard ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-	self 
-	should: [ game player: nico throw: Skip initializeCard  ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-	self 
-	should: [ game player: nico throw: (Speed initializeCardWithTarget: nico) ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'."
+
 	
 ]
