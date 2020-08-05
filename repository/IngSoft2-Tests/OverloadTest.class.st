@@ -140,7 +140,7 @@ OverloadTest >> testPlayerInLapOneMovesBackwardsAndChangesLapToZero [
 		assert: (game lockerNumberOf: juan) equals: 1;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 2.
-	game nextTurn."Juan rolled 1 minus 4 for being target of two speed card, he goes back to lap 0"
+	game nextTurn."Juan rolled 1 minus 4 for being target of two overload cards, he goes back to lap 0"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 4;
@@ -172,7 +172,7 @@ OverloadTest >> testStayInLockerAndLapZeroIfResultOfDiceAndOverloadCardIsNegativ
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
 	
-	game nextTurn."Nico rolled 2 minus  4 for being target of two speed cards, he stays in locker 0 lap 0 because no lap -1 doesnt exists"
+	game nextTurn."Nico rolled 2 minus  4 for being target of two overload cards, he stays in locker 0 lap 0 because there is no such thing as a negative lap"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;

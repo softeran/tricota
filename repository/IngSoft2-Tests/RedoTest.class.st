@@ -107,7 +107,7 @@ RedoTest >> testRedoAccelerationCard [
 		
 	redoThrownByJuan := Redo initializeCardWithTarget: Everyone new.
 	game player: juan throw: redoThrownByJuan .
-	game nextTurn."Juan rolled 3 plus 2 for two active acceleration cards (One was redoed)"
+	game nextTurn."Juan rolled 3 plus 2 for two active acceleration cards (One was a redo)"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 13;
@@ -158,7 +158,7 @@ RedoTest >> testRedoCancellationCard [
 		
 	redoThrownByNico := Redo initializeCardWithTarget: accelerationThrownByNico.
 	game player: nico throw: redoThrownByNico .
-	game nextTurn."Nico rolled 7 and now ther is no acceleration card because it was cancelled with a redo card"
+	game nextTurn."Nico rolled 7 and now there is no acceleration card because it was cancelled with a redo card"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 12;
@@ -190,14 +190,14 @@ RedoTest >> testRedoOverloadCard [
 
 	redoThrownByNico := Redo initializeCardWithTarget: juan.
 	game player: nico throw: redoThrownByNico .
-	game nextTurn."Nico rolled 9 minus 2 for being target of one overloa card"
+	game nextTurn."Nico rolled 9 minus 2 for being target of one overload card"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 7.
 		
-	game nextTurn."Juan rolled 3 minus 2 for being target of an active overload card (it was redoed)"
+	game nextTurn."Juan rolled 3 minus 2 for being target of an active overload card (it was a redo)"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 8;
@@ -237,7 +237,7 @@ RedoTest >> testRedoRedoCard [
 		
 	redoThrownByJuan := Redo initializeCardWithTarget: Everyone new.
 	game player: juan throw: redoThrownByJuan .
-	game nextTurn."Juan rolled 3 plus 2 because of two active acceleation cards (the second one was redoed)"
+	game nextTurn."Juan rolled 3 plus 2 because of two active acceleation cards (the second one was a redo)"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 13;
@@ -246,7 +246,7 @@ RedoTest >> testRedoRedoCard [
 		
 	redoThrownByNico := Redo initializeCardWithTarget: Everyone new.
 	game player: nico throw: redoThrownByNico .
-	game nextTurn."Nico rolled 7 plus 3 for three active acceleration cards, the third was redoed from the redo card"
+	game nextTurn."Nico rolled 7 plus 3 for three active acceleration cards, the third was a redo from the redo card"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 13;
@@ -274,7 +274,7 @@ RedoTest >> testRedoRepeatCard [
 	effectRoulette:= effectRouletteBuilder buildDeterministic. 
 	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: deck.
-	game nextTurn."Juan rolled 7 and pick up one card"
+	game nextTurn."Juan rolled 7 and picks up one card"
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;
@@ -328,7 +328,7 @@ RedoTest >> testRedoReversalCard [
 	
 	reversalThrownByJuan := Reversal initializeCardWithTarget: (LockerTarget atLocker: 7).
 	game player: juan throw: reversalThrownByJuan.
-	game nextTurn."Juan rolled 7 but landed at a SpeedUp locker with a Reversal Card applied to it"
+	game nextTurn."Juan rolled 7 and lands at a SpeedUp locker with a Reversal Card applied to it"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 3;
@@ -337,7 +337,7 @@ RedoTest >> testRedoReversalCard [
 
 	redoThrownByNico := Redo initializeCardWithTarget: (LockerTarget atLocker: 9) .
 	game player: nico throw: redoThrownByNico .
-	game nextTurn."Nico rolled 9 but landed at a SpeedUp locker with a Reversal Card applied to it"
+	game nextTurn."Nico rolled 9 and lands at a SpeedUp locker with a Reversal Card applied to it"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 3;
@@ -371,7 +371,7 @@ RedoTest >> testRedoSpeedCard [
 
 	redoThrownByNico := Redo initializeCardWithTarget: nico.
 	game player: nico throw: redoThrownByNico .
-	game nextTurn."Nico rolled 9 plus one because que redoed Speed card with him as target"
+	game nextTurn."Nico rolled 9 plus one because he throws a  redo of a Speed card with him as target"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 8;

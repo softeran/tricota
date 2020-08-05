@@ -116,7 +116,7 @@ RepeatTest >> testRepeatNoEffect [
 	repeatThrownByJuan := Repeat initializeCardWithTarget: nico.
 	game player: juan throw: repeatThrownByJuan .
 	
-	self"Juan threw repeat of no effect, nothing hapens"
+	self"Juan threw repeat of no effect, nothing happens"
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
@@ -133,7 +133,7 @@ RepeatTest >> testRepeatPickUpCard [
 	effectRoulette:= self buildEffectRouletteWhereSecondEffectIs: NoEffect  new.
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: deck.
 	
-	game nextTurn."Juan rolled 7 and pick up a card"
+	game nextTurn."Juan rolled 7 and picks up a card"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;
@@ -144,7 +144,7 @@ RepeatTest >> testRepeatPickUpCard [
 	repeatThrownByJuan := Repeat initializeCardWithTarget: juan.
 	game player: juan throw: repeatThrownByJuan .
 	
-	self"Juan threw repeat and pick up another card"
+	self"Juan threw repeat and picks up another card"
 		assert: juan numberOfCards equals: 3.
 	
 
@@ -175,7 +175,7 @@ RepeatTest >> testRepeatSpeedUp [
 	repeatThrownByJuan := Repeat initializeCardWithTarget: juan.
 	game player: juan throw: repeatThrownByJuan .
 	
-	self"Juan repeat speed up effect and moves 4 lockers forward"
+	self"Juan repeats speed up effect and moves 4 lockers forward"
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 11;
 		assert: (game lapNumberOf: nico) equals: 0;

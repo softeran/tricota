@@ -55,14 +55,3 @@ SequentialNaturalNumberProviderTest >> testProviding [
 		assert: (provider nextInt: maximum) equals: 3;
 		assert: (provider nextInt: maximum) equals: 5
 ]
-
-{ #category : #tests }
-SequentialNaturalNumberProviderTest >> testSkipsNumbersGreaterThanMaxium [
-
-	| provider maximum |
-	provider := SequentialNaturalNumberProvider providing: #(1 7 5).
-	maximum := 6.
-	self assert: (provider nextInt: maximum) equals: 1;
-		assert: (provider nextInt: maximum) equals: 5;
-		assert: (provider nextInt: maximum) equals: 1
-]

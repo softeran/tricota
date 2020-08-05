@@ -57,9 +57,9 @@ CombineCardsTest >> testCombineAccelerationOverloadAndSpeedCards [
 	
 	| deckBuilder game accelerationThrownByJuan overloadThrownByJuan  speedThrownByNico accelerationThrownByNico speedThrownBySofi |
 	deckBuilder:= DeckBuilder startBuilding.
-	deckBuilder add: Acceleration ; 	"Juan has Acceleration & Overload"
-					add: Overload ;			"Nico has Speed & Acceleration"
-					add: Speed.				"Sofi has Overload & Speed"
+	deckBuilder add: Acceleration ; 	"Juan has an Acceleration & Overload"
+					add: Overload ;			"Nico has a Speed & Acceleration"
+					add: Speed.				"Sofi has an Overload & Speed"
 	deck:= deckBuilder buildDeterministic .
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: deck.
 
@@ -68,7 +68,7 @@ CombineCardsTest >> testCombineAccelerationOverloadAndSpeedCards [
 	overloadThrownByJuan := Overload initializeCardWithTarget: nico.
 	game player: juan throw: overloadThrownByJuan .
 	
-	game nextTurn."Juan rolled 7 plus 1 of acrive acceleration card"
+	game nextTurn."Juan rolled 7 plus 1 of active acceleration card"
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 8;

@@ -66,7 +66,7 @@ CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndReversalCard [
 	reversalThrownByJuan := Reversal initializeCardWithTarget:  (LockerTarget atLocker: 3).
 	game player: juan throw: reversalThrownByJuan .
 	
-	game nextTurn."Juan rolled 7 plus 1 of  active acceleration card. He changes lap, but he landed at locker three that had a ReversalCard applied to it, so he went back to lap 0 "
+	game nextTurn."Juan rolled 7 plus 1 of  active acceleration card. He changes lap, but he lands at locker three where a ReversalCard was applied , so he goes back to lap 0 "
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 4;
@@ -124,7 +124,7 @@ CombineCardsAndEffectsTest >> testWithOverloadCardPlayerDoesntReachNextLapAndEff
 			assert: (game lockerNumberOf: juan) equals: 7;
 			assert: (game lapNumberOf: nico) equals: 0;
 			assert: (game lockerNumberOf: nico) equals: 0.	
-	game nextTurn."Nico rolled 9 minus 2 for being target of one active overload card. He doesnt reach lap 1 and the effect was Atomic bomb so que goes back to lap 0 locker 0"
+	game nextTurn."Nico rolled 9 minus 2 for being target of one active overload card. He doesnt reach lap 1 and lands at an Atomic bomb effect so que goes back to lap 0 locker 0"
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 0;
@@ -175,7 +175,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusOverloadCardAvoidPlayerToWin [
 	overloadThrownByJuan:= Overload initializeCardWithTarget: nico.
 	game player: juan throw: overloadThrownByJuan.
 	
-	game nextTurn."Juan rolled 7 and the effect was Worm hole so he moves to locker 3 and didnt win"
+	game nextTurn."Juan rolled 7 and the effect was Worm hole so he moves to locker 3 and dose not win"
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 3;
@@ -183,7 +183,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusOverloadCardAvoidPlayerToWin [
 			assert: (game lockerNumberOf: nico) equals: 0.
 	
 	
-	game nextTurn."Nico rolled 9 minus 2 for being target of active speed card and minus 4 becaus the effect was wormhole. He moves to locker 3"
+	game nextTurn."Nico rolled 9 minus 2 for being target of an active overload card and minus 4 because the effect was wormhole. He moves to locker 3"
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 3;
@@ -226,7 +226,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusThreeOverloadCardsAndReversalCard 
 			assert: (game lockerNumberOf: nico) equals: 6.
 	
 			
-	game nextTurn. "Juan rolled 3 but was target of an overload card, so he went back 2 "
+	game nextTurn. "Juan rolled 3 but was target of an overload card, so he goes back 2 "
 		self
 			assert: (game lapNumberOf: juan) equals: 1;
 			assert: (game lockerNumberOf: juan) equals: 1;
@@ -240,7 +240,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusThreeOverloadCardsAndReversalCard 
 { #category : #tests }
 CombineCardsAndEffectsTest >> testWormHolePlusTwoOverloadCardsDecreasesTwoLapsInOneTurn [
 
-	| effectRouletteBuilder deckBuilder game firstOverloadThrownByNico secondOverloadThrownByNico overloadThrownBySofi |
+	| effectRouletteBuilder deckBuilder game firstOverloadThrownByNico secondOverloadThrownByNico |
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
 	effectRouletteBuilder add: NoEffect new;
 								add: NoEffect new;
@@ -252,7 +252,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusTwoOverloadCardsDecreasesTwoLapsIn
 	deck:= deckBuilder buildDeterministic .
 	game:= UCABoardGame rolling: die with: players lockers: 3 laps: 5 effects: effectRoulette and: deck.
 	
-	game nextTurn."Juan rolled 7 and increases 2 laps"
+	game nextTurn."Juan rolled 7 and doing two laps at once "
 		self
 			assert: (game lapNumberOf: juan) equals: 2;
 			assert: (game lockerNumberOf: juan) equals: 1;
@@ -264,7 +264,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusTwoOverloadCardsDecreasesTwoLapsIn
 	game player: nico throw: firstOverloadThrownByNico.
 	secondOverloadThrownByNico:= Overload initializeCardWithTarget: juan.
 	game player: nico throw: secondOverloadThrownByNico.
-	game nextTurn."Nico rolled 9 and increases 3 laps"
+	game nextTurn."Nico rolled 9 and does 3 laps at once"
 		self
 			assert: (game lapNumberOf: juan) equals: 2;
 			assert: (game lockerNumberOf: juan) equals: 1;

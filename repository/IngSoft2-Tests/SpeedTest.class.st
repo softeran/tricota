@@ -27,7 +27,7 @@ SpeedTest >> testCantThrowSpeedCardIfItsNotYourTurn [
 	speedThrownByJuan := Speed initializeCardWithTarget: juan.
 	speedThrownByNico := Speed initializeCardWithTarget: nico.
 	
-	self "Nico tried to throw an Speed card in Juans turn"
+	self "Nico tried to throw a Speed card in Juans turn"
 		should: [ game player: nico throw: speedThrownByNico ]
 		raise: InvalidRequest 
 		withMessageText: 'It is not your turn'.

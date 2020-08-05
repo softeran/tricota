@@ -100,7 +100,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: sofi) equals: 0.
 		
-	game player: sofi throw: (Repeat initializeCardWithTarget: sofi). "Sofi threw Repeat Card and the last effect was SpeedUp"
+	game player: sofi throw: (Repeat initializeCardWithTarget: sofi). "Sofi threw a Repeat Card and the last effect was SpeedUp"
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
@@ -110,7 +110,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: sofi) equals: 4.
 		
-	game nextTurn. "In this Turn Nico rolled 9 and the effect was MoonWalk. Everyone except Nico went three lockers backwards"
+	game nextTurn. "In this Turn Nico rolled 9 and the effect was MoonWalk. Everyone except Nico goes three lockers backwards"
 
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
@@ -183,7 +183,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: sofi) equals: 0.
 	game player: nico throw:(Redo initializeCardWithTarget: accelerationCardThrownByJuan)."Cancellation of Acceleration"
 		
-	game nextTurn. "In this Turn Sofi rolled 9 and the effect was Pick Up card. He picked up a Reversal Card."
+	game nextTurn. "In this Turn Sofi rolled 9 and the effect was Pick Up card. She picked up a Reversal Card."
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -192,7 +192,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 4;
 		assert: (game lockerNumberOf: sofi) equals: 9.
 		
-	game nextTurn. "In this Turn Juan rolled 10 and the effect was Pick Up card. He picked up a Reversal Card. As he had the Overload card, he moved forward 8 lockers"
+	game nextTurn. "In this Turn Juan rolled 10 and the effect was Pick Up card. He picked up a Reversal Card. As he had the Overload card, he moves forward 8 lockers"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -212,7 +212,7 @@ HappyPathTest >> testHappyPath [
 		
 		reversalCardThrownBySofi := Reversal initializeCardWithTarget: (LockerTarget atLocker: 11).
 		game player: sofi throw: reversalCardThrownBySofi.
-		game nextTurn. "In this Turn Sofi rolled 2 and the effect was WormHole with a Reversal Card applied to it.So she moved 4 more lockers forwards and won de game"
+		game nextTurn. "In this Turn Sofi rolled 2 and the effect was WormHole with a Reversal Card applied to it.So she moves 4 more lockers forwards and wins de game"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;

@@ -84,7 +84,7 @@ CardTest >> testPlayerCanNotThrowAnyCardAfterTheGameHasFinished [
 	self finish: game. 
 	cardToCancell:= Acceleration initializeCard.
 	
-	"The game has finished, nobody can throw any card"
+	"The game has finished, nobody can throw a card"
 	self 
 	should: [ game player: juan throw: Acceleration initializeCard ]
 		raise: InvalidRequest
@@ -133,7 +133,7 @@ CardTest >> testPlayerCanNotThrowAnyCardIfHeDoesntHaveIt [
 	game:= UCABoardGame rolling: die with: players lockers: 9 laps: 2 effects: effectRoulette and: deck.
 	cardToCancell:= Acceleration initializeCard. 
 	
-	"No one can throw a card if he doesnt have it"
+	"No one can throw a card if they don't have it"
 	self 
 	should: [ game player: juan throw: Acceleration initializeCard ]
 		raise: InvalidRequest

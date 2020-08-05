@@ -92,7 +92,7 @@ CancellationTest >> testCancellationOfAccelerationCard [
 	cancellationThrownByNico := Cancellation initializeCardWithTarget: accelerationThrownByJuan.
 	game player: nico throw: cancellationThrownByNico .
 	
-	game nextTurn."Juan rolled 3 and theres no acceleration card because it was cancelled"
+	game nextTurn."Juan rolled 3 and there's no acceleration card because it was cancelled"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 11;
@@ -165,7 +165,7 @@ CancellationTest >> testCancellationOfReversalCard [
 	
 	reversalThrownByJuan := Reversal initializeCardWithTarget: (LockerTarget atLocker: 9) .
 	game player: juan throw: reversalThrownByJuan .
-	game nextTurn."Juan rolled 7 but landed at a locker with wormHole effect"
+	game nextTurn."Juan rolled 7 and lands at a locker with wormHole effect"
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 3;
@@ -249,7 +249,7 @@ CancellationTest >> testCantThrowCancellationCardWhenItsTargetIsntActive [
 	repeatCard := Repeat initializeCardWithTarget: juan.
 	speedCard := Speed initializeCardWithTarget: juan.
 	
-	"Cancellation card only can be thrown if its target is an active permanent card"
+	"Cancellation card can only be thrown if its target is an active permanent card"
 	self
 		should: [ game player: juan throw: (Cancellation initializeCardWithTarget: accelerationCard )]
 		raise: InvalidRequest 
