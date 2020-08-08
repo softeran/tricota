@@ -63,6 +63,54 @@ CardTest >> setUpCard [
 ]
 
 { #category : #running }
+CardTest >> testPlayerCanNotACardIfHeDoesntHaveIt [
+
+	| game deck deckBuilder effectRouletteBuilder cardToCancell|
+	self setUpCard.
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: PickUpCard new.
+	effectRoulette := effectRouletteBuilder buildDeterministic.
+	
+	deckBuilder:= DeckBuilder startBuilding.
+	deckBuilder 	add: Repeat ; 		"Juan has two repeat cards"
+					add: Repeat ;		"Nico has two speed cards"
+					add: Speed;
+					add: Speed.
+	deck:= deckBuilder buildDeterministic .
+	
+	game:= UCABoardGame rolling: die with: players lockers: 9 laps: 2 effects: effectRoulette and: deck.
+	cardToCancell:= Acceleration initializeCard. 
+	
+	"No one can throw a card if they don't have it"
+	self 
+	should: [ game player: juan throw: Acceleration initializeCard ]
+		raise: InvalidRequest
+		withMessageText: 'Player doesnt have that card'.
+	self 
+	should: [ game player: nico throw: (Cancellation initializeCardWithTarget: cardToCancell) ]
+		raise: InvalidRequest
+		withMessageText: 'Player doesnt have that card'.
+	self 
+	should: [ game player: juan throw: Speed initializeCard  ]
+		raise: InvalidRequest
+		withMessageText: 'Player doesnt have that card'.
+	self 
+	should: [ game player: nico throw: (Overload initializeCardWithTarget: juan) ]
+		raise: InvalidRequest
+		withMessageText: 'Player doesnt have that card'.
+	self 
+	should: [ game player: juan throw: (Redo initializeCardWithTarget: nico) ]
+		raise: InvalidRequest
+		withMessageText: 'Player doesnt have that card'.
+	self 
+	should: [ game player: nico throw: (Repeat initializeCardWithTarget: nico) ]
+		raise: InvalidRequest
+		withMessageText: 'Player doesnt have that card'.
+
+	
+]
+
+{ #category : #running }
 CardTest >> testPlayerCanNotThrowAnyCardAfterTheGameHasFinished [
 
 	| game deck deckBuilder effectRouletteBuilder cardToCancell|
@@ -111,53 +159,5 @@ CardTest >> testPlayerCanNotThrowAnyCardAfterTheGameHasFinished [
 	should: [ game player: nico throw: (Speed initializeCardWithTarget: nico) ]
 		raise: InvalidRequest
 		withMessageText: 'The game has finished'.
-	
-]
-
-{ #category : #running }
-CardTest >> testPlayerCanNotThrowAnyCardIfHeDoesntHaveIt [
-
-	| game deck deckBuilder effectRouletteBuilder cardToCancell|
-	self setUpCard.
-	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
-	effectRouletteBuilder add: PickUpCard new.
-	effectRoulette := effectRouletteBuilder buildDeterministic.
-	
-	deckBuilder:= DeckBuilder startBuilding.
-	deckBuilder 	add: Repeat ; 		"Juan has two repeat cards"
-					add: Repeat ;		"Nico has two speed cards"
-					add: Speed;
-					add: Speed.
-	deck:= deckBuilder buildDeterministic .
-	
-	game:= UCABoardGame rolling: die with: players lockers: 9 laps: 2 effects: effectRoulette and: deck.
-	cardToCancell:= Acceleration initializeCard. 
-	
-	"No one can throw a card if they don't have it"
-	self 
-	should: [ game player: juan throw: Acceleration initializeCard ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-	self 
-	should: [ game player: nico throw: (Cancellation initializeCardWithTarget: cardToCancell) ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-	self 
-	should: [ game player: juan throw: Speed initializeCard  ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-	self 
-	should: [ game player: nico throw: (Overload initializeCardWithTarget: juan) ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-	self 
-	should: [ game player: juan throw: (Redo initializeCardWithTarget: nico) ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-	self 
-	should: [ game player: nico throw: (Repeat initializeCardWithTarget: nico) ]
-		raise: InvalidRequest
-		withMessageText: 'Player doesnt have that card'.
-
 	
 ]

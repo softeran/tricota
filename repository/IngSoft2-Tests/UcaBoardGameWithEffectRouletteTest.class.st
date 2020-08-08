@@ -92,11 +92,11 @@ UcaBoardGameWithEffectRouletteTest >> testDeterministicPickUpCardEffect [
 		assert: (juan assertHasCard: Acceleration initializeCard );
 		assert: (juan assertHasCard: Speed initializeCard ).
 	
-	game nextTurn. "The effect of this turn was PickUpCard. Juan picks up a repeate card"
+	game nextTurn. "The effect of the locker was PickUpCard. Juan picked up a repeate card"
 	self assert: juan numberOfCards equals: 3.
 	self assert: (juan assertHasCard: Repeat initializeCard ).
 
-	game nextTurn. "The effect of this turn was PickUpCard. Nico picks up a Repeat"
+	game nextTurn. "The effect of this turn was PickUpCard. Nico picked up a Repeat"
 	self assert: nico numberOfCards equals: 3.
 	self assert: (nico assertHasCard: Overload initializeCard ).
 	
@@ -146,7 +146,7 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkMovesEveryoneExceptCurrentPlay
 ]
 
 { #category : #tests }
-UcaBoardGameWithEffectRouletteTest >> testMoonWalkMovesEveryoneExceptCurrentPlayerChangingLapIfPlayerIsInLapOneOrMore [
+UcaBoardGameWithEffectRouletteTest >> testMoonWalkMovesEveryoneExceptCurrentPlayerChangingLapIfNecessary [
 
 	| game effectRoulette sofi effectRouletteBuilder |
 
@@ -176,7 +176,7 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkMovesEveryoneExceptCurrentPlay
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lockerNumberOf: nico) equals: 1;
 		assert: (game lockerNumberOf: sofi) equals: 0.
-	game nextTurn."Sofi rolled 3 and the effect was Moonwalk, everyone except sofi moves 2 lockers backwards. Nico that is in lap 1 changes to lap 0"
+	game nextTurn."Sofi rolled 3 and the effect was Moonwalk, everyone except sofi moves 2 lockers backwards. Nico that is at lap 1 changes to lap 0"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:0;
@@ -197,7 +197,7 @@ UcaBoardGameWithEffectRouletteTest >> testMoonWalkNoNegativeLap [
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: deck.
 	game nextTurn.
 	
-	self "Juan rolled 7 and the effect was Moonwalk, everyone except juan moves 2 lockers backwards. Nico ,that is in lap 0 locker 0, stays there because lap -1 does not exist"
+	self "Juan rolled 7 and the effect was Moonwalk, everyone except juan moves 2 lockers backwards. Nico ,that is at lap 0 locker 0, stays there because lap -1 does not exist"
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
@@ -282,7 +282,7 @@ UcaBoardGameWithEffectRouletteTest >> testWormHoleChangingLapIfPlayerIsInLapOneO
 	game:= UCABoardGame rolling: die with: players lockers: 5 laps: 2 effects: effectRoulette and: deck.
 	game nextTurn.
 	
-	self "Juan rolled 7 . But the effect of locker 7 is  Worm hole so he moves backwards 4 lockers and goes back to lap 0"
+	self "Juan rolled 7 . But the effect of locker 7 was Worm hole so he moves backwards 4 lockers and goes back to lap 0"
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:0;
 		assert: (game lockerNumberOf: juan) equals: 3;

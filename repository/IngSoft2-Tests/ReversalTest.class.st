@@ -99,7 +99,7 @@ ReversalTest >> testApplyReversalCardToSpeedUpLocker [
 	
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: deck.
 	
-	game nextTurn."Juan rolled 7"
+	game nextTurn."Juan rolled 7 and lands at a speedUp locker"
 		self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 11;
@@ -108,7 +108,7 @@ ReversalTest >> testApplyReversalCardToSpeedUpLocker [
 		
 	game player: nico throw: reversalThrownByNico .
 	
-	game nextTurn."Nico rolled 9"
+	game nextTurn."Nico rolled 9 and lands ata a speedUp locker"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 11;
@@ -178,7 +178,7 @@ ReversalTest >> testCantThrowReversalCardIfItsNotYourTurn [
 ]
 
 { #category : #tests }
-ReversalTest >> testMoveBackwardsToZeroAsResultOfReversalCardApplyToSpeedUpLockerResultinInANegativePosition [
+ReversalTest >> testPlayerCantGoFurtherBackThatZeroLapZero [
 | game reversalThrownByJuan effectRouletteBuilder|
 	die := Die of: 10 rolling: #(7 3 3).
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
@@ -207,7 +207,7 @@ ReversalTest >> testMoveBackwardsToZeroAsResultOfReversalCardApplyToSpeedUpLocke
 ]
 
 { #category : #tests }
-ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToAMoonWalkLocker [
+ReversalTest >> testPlayerChangesLapBecauseOfReversalCardPlusMoonWalk [
 
 | game reversalThrownByNico effectRouletteBuilder|
 
@@ -228,7 +228,7 @@ ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToAMoonWalkLock
 	reversalThrownByNico := Reversal initializeCardWithTarget: (LockerTarget atLocker: 9).
 	game player: nico throw: reversalThrownByNico.
 	
-	game nextTurn."Nico rolled 9 and lands at locker 9 with reversal card applied to a wormHole locker"
+	game nextTurn."Nico rolled 9 and lands at locker 9 with reversal card applied to a MoonWalk locker"
 	self
 		assert: (game lapNumberOf: juan) equals: 1;
 		assert: (game lockerNumberOf: juan) equals: 1;
@@ -239,7 +239,7 @@ ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToAMoonWalkLock
 ]
 
 { #category : #tests }
-ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToASpeedUpLocker [
+ReversalTest >> testPlayerChangesLapBecauseTheReversalCardPlusSpeedUp [
 
 | game reversalThrownByNico effectRouletteBuilder|
 
@@ -275,7 +275,7 @@ ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToASpeedUpLocke
 ]
 
 { #category : #tests }
-ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToAWormHoleLocker [
+ReversalTest >> testPlayerChangesLapBecauseTheReversalCardPlusWormHole [
 
 | game reversalThrownByJuan effectRouletteBuilder|
 
@@ -304,7 +304,7 @@ ReversalTest >> testPlayerChangesLapBecauseTheReversalCardAppliedToAWormHoleLock
 ]
 
 { #category : #tests }
-ReversalTest >> testReversalCardDoseNothingWhenAppliedToAnAtomicBombLocker [
+ReversalTest >> testReversalCardAppliedToAtomicBombLocker [
 | game reversalThrownByJuan effectRouletteBuilder|
 
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
@@ -333,7 +333,7 @@ ReversalTest >> testReversalCardDoseNothingWhenAppliedToAnAtomicBombLocker [
 ]
 
 { #category : #tests }
-ReversalTest >> testReversalCardDoseNothingWhenAppliedToAnNoEffectLocker [
+ReversalTest >> testReversalCardAppliedToNoEffectLocker [
 | game reversalThrownByJuan effectRouletteBuilder|
 
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.

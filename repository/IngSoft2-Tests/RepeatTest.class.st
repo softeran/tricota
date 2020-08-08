@@ -40,7 +40,7 @@ RepeatTest >> testRepeatAtomicBomb [
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
-	game nextTurn."Nico rolled 9 but the effect was atomic bomb, everyone goes to locker 0"
+	game nextTurn."Nico rolled 9 but the effect is atomic bomb, everyone goes to locker 0"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 0;
@@ -50,7 +50,7 @@ RepeatTest >> testRepeatAtomicBomb [
 	repeatThrownByJuan := Repeat initializeCardWithTarget: juan.
 	game player: juan throw: repeatThrownByJuan .
 
-	self"Juan throwd repeat of atomic bomb, everyone stays in locker 0"
+	self"Juan throws repeat of atomic bomb, everyone stays in locker 0"
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 0;
 		assert: (game lapNumberOf: nico) equals: 0;
@@ -73,7 +73,7 @@ RepeatTest >> testRepeatMoonWalk [
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
-	game nextTurn."Nico rolled 9 and the effect was moonwalk, juan moves 2 lockers backwards"
+	game nextTurn."Nico rolled 9 and the effect is moonwalk, juan moves 2 lockers backwards"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 5;
@@ -106,7 +106,7 @@ RepeatTest >> testRepeatNoEffect [
 		assert: (game lockerNumberOf: juan) equals: 7;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
-	game nextTurn."Nico rolled 9 and there was no effect"
+	game nextTurn."Nico rolled 9 and there is no effect"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 7;
@@ -226,7 +226,7 @@ RepeatTest >> testTryToThrowRepeatCardBeforeNobodyRolledDice [
 	game:= UCABoardGame rolling: die with: players lockers: 60 laps: 2 effects: effectRoulette and: deck.
 	repeatThrownByJuan := Repeat initializeCardWithTarget: juan.
 	
-	self "Repeat card cant be throwed if no one roll the dice yet" 
+	self "Repeat card cant be used if no one roll the dice yet" 
 	should: [ game player: juan throw: repeatThrownByJuan ]
 		raise: InvalidRequest
 		withMessageText: 'Nobody rolled the dice yet'.

@@ -49,6 +49,37 @@ CombineCardsAndEffectsTest >> sofi [
 ]
 
 { #category : #tests }
+CombineCardsAndEffectsTest >> testCombinationOfOverloadCardAndAtomicBombEffect [
+
+	| effectRouletteBuilder deckBuilder game overloadThrownByJuan |
+	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
+	effectRouletteBuilder add: NoEffect new;
+								add: AtomicBomb new.
+	effectRoulette := effectRouletteBuilder buildDeterministic.
+	deckBuilder:= DeckBuilder startBuilding.
+	deckBuilder add: Overload. 	"Everyon has two Overload cards"
+	deck:= deckBuilder buildDeterministic .
+	game:= UCABoardGame rolling: die with: players lockers: 8 laps: 5 effects: effectRoulette and: deck.
+	
+	overloadThrownByJuan := Overload initializeCardWithTarget: nico .
+	game player: juan throw: overloadThrownByJuan .
+	
+	game nextTurn."Juan rolled 7 and the effect was no effect"
+		self
+			assert: (game lapNumberOf: juan) equals: 0;
+			assert: (game lockerNumberOf: juan) equals: 7;
+			assert: (game lapNumberOf: nico) equals: 0;
+			assert: (game lockerNumberOf: nico) equals: 0.	
+	game nextTurn."Nico rolled 9 minus 2 for being target of one active overload card. He doesnt reach lap 1 and lands at an Atomic bomb effect so he goes back to lap 0 locker 0"
+		self
+			assert: (game lapNumberOf: juan) equals: 0;
+			assert: (game lockerNumberOf: juan) equals: 0;
+			assert: (game lapNumberOf: nico) equals: 1;
+			assert: (game lockerNumberOf: nico) equals: 0.
+	
+]
+
+{ #category : #tests }
 CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndReversalCard [
 
 	| effectRouletteBuilder deckBuilder game accelerationThrownByJuan reversalThrownByJuan |
@@ -66,7 +97,7 @@ CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndReversalCard [
 	reversalThrownByJuan := Reversal initializeCardWithTarget:  (LockerTarget atLocker: 3).
 	game player: juan throw: reversalThrownByJuan .
 	
-	game nextTurn."Juan rolled 7 plus 1 of  active acceleration card. He changes lap, but he lands at locker three where a ReversalCard was applied , so he goes back to lap 0 "
+	game nextTurn."Juan rolled 7 plus 1 of active acceleration card. He changes lap, but he lands at locker three where a ReversalCard was applied to a speedUp locker, so he goes back to lap 0 "
 		self
 			assert: (game lapNumberOf: juan) equals: 0;
 			assert: (game lockerNumberOf: juan) equals: 4;
@@ -76,7 +107,7 @@ CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndReversalCard [
 ]
 
 { #category : #tests }
-CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndSpeedCardIncreasesTwoLapsInOneTurn [
+CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndSpeedCard [
 
 	| effectRouletteBuilder deckBuilder game accelerationThrownByJuan speedThrownByJuan |
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
@@ -103,38 +134,7 @@ CombineCardsAndEffectsTest >> testSpeedUpPlusAccelerationAndSpeedCardIncreasesTw
 ]
 
 { #category : #tests }
-CombineCardsAndEffectsTest >> testWithOverloadCardPlayerDoesntReachNextLapAndEffectAtomicBomb [
-
-	| effectRouletteBuilder deckBuilder game overloadThrownByJuan |
-	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
-	effectRouletteBuilder add: NoEffect new;
-								add: AtomicBomb new.
-	effectRoulette := effectRouletteBuilder buildDeterministic.
-	deckBuilder:= DeckBuilder startBuilding.
-	deckBuilder add: Overload. 	"Everyon has two Overload cards"
-	deck:= deckBuilder buildDeterministic .
-	game:= UCABoardGame rolling: die with: players lockers: 8 laps: 5 effects: effectRoulette and: deck.
-	
-	overloadThrownByJuan := Overload initializeCardWithTarget: nico .
-	game player: juan throw: overloadThrownByJuan .
-	
-	game nextTurn."Juan rolled 7 and the effect was no effect"
-		self
-			assert: (game lapNumberOf: juan) equals: 0;
-			assert: (game lockerNumberOf: juan) equals: 7;
-			assert: (game lapNumberOf: nico) equals: 0;
-			assert: (game lockerNumberOf: nico) equals: 0.	
-	game nextTurn."Nico rolled 9 minus 2 for being target of one active overload card. He doesnt reach lap 1 and lands at an Atomic bomb effect so que goes back to lap 0 locker 0"
-		self
-			assert: (game lapNumberOf: juan) equals: 0;
-			assert: (game lockerNumberOf: juan) equals: 0;
-			assert: (game lapNumberOf: nico) equals: 1;
-			assert: (game lockerNumberOf: nico) equals: 0.
-	
-]
-
-{ #category : #tests }
-CombineCardsAndEffectsTest >> testWithTwoAccelerationCardsPlayerReachNextLapAndEffectAtomicBomb [
+CombineCardsAndEffectsTest >> testTwoAccelerationCardsMakePlayerReachNextLapAndAtomicBombEffect [
 
 	| effectRouletteBuilder deckBuilder game firstAccelerationThrownByJuan secondAccelerationThrownByJuan |
 	effectRouletteBuilder := EffectRouletteBuilder buildingDeterministicRoulette.
@@ -218,7 +218,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusThreeOverloadCardsAndReversalCard 
 	
 	overloadThrownByNico:= Overload initializeCardWithTarget: juan.
 	game player: nico throw: overloadThrownByNico.
-	game nextTurn."Nico rolled 9 "
+	game nextTurn."Nico rolled 9 , he increses one lap and lands at locker 2 of lap one where a revesarl card was applied, so he moves 4 lockers fordward"
 		self
 			assert: (game lapNumberOf: juan) equals: 1;
 			assert: (game lockerNumberOf: juan) equals: 0;
@@ -252,7 +252,7 @@ CombineCardsAndEffectsTest >> testWormHolePlusTwoOverloadCardsDecreasesTwoLapsIn
 	deck:= deckBuilder buildDeterministic .
 	game:= UCABoardGame rolling: die with: players lockers: 3 laps: 5 effects: effectRoulette and: deck.
 	
-	game nextTurn."Juan rolled 7 and doing two laps at once "
+	game nextTurn."Juan rolled 7 and dose two laps at once "
 		self
 			assert: (game lapNumberOf: juan) equals: 2;
 			assert: (game lockerNumberOf: juan) equals: 1;

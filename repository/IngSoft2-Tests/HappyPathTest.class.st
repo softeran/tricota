@@ -132,7 +132,7 @@ HappyPathTest >> testHappyPath [
 	
 	accelerationCardThrownByJuan := Acceleration initializeCard .
 	game player: juan throw: (accelerationCardThrownByJuan).
-	game nextTurn. "In this Turn Juan rolled 4 and the effect was Pick Up card. He picked up a Reversal Card. As the Acceleration Card was active, he moves 5 lockers forward"
+	game nextTurn. "In this Turn Juan rolled 4 and the effect was Pick Up card. He picked up a Reversal Card. As the Acceleration Card is active, he moves 5 lockers forward"
 		
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
@@ -165,7 +165,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: sofi) equals: 0.
 		
 	game player: juan throw:(Cancellation initializeCardWithTarget: speedCardThrownByNico) .
-	game nextTurn. "In this Turn Juan rolled 8 and the effect was WormHole.As he had an Acceleration card and an Overload Card he only ended up moving 3 lockers forward "
+	game nextTurn. "In this Turn Juan rolled 8 and the effect was WormHole.As the Acceleration card and an Overload Card are active he only endsup moving 3 lockers forward "
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -173,7 +173,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: juan) equals: 3;
 		assert: (game lockerNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: sofi) equals: 0.
-	game nextTurn. "In this Turn Nico rolled 3 and the effect was No effect. As he had the acceleration card, he moves 4 lockers forward"
+	game nextTurn. "In this Turn Nico rolled 3 and the effect was No effect. As there is an acceleration card active , he moves 4 lockers forward"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;
@@ -192,7 +192,7 @@ HappyPathTest >> testHappyPath [
 		assert: (game lockerNumberOf: nico) equals: 4;
 		assert: (game lockerNumberOf: sofi) equals: 9.
 		
-	game nextTurn. "In this Turn Juan rolled 10 and the effect was Pick Up card. He picked up a Reversal Card. As he had the Overload card, he moves forward 8 lockers"
+	game nextTurn. "In this Turn Juan rolled 10 and the effect was Pick Up card. He picked up a Reversal Card. As tehre is an Overload card active , he moves forward 8 lockers"
 	self 
 		assert: (game lapNumberOf: juan) equals:0;
 		assert: (game lapNumberOf: nico) equals:1;

@@ -92,7 +92,7 @@ CancellationTest >> testCancellationOfAccelerationCard [
 	cancellationThrownByNico := Cancellation initializeCardWithTarget: accelerationThrownByJuan.
 	game player: nico throw: cancellationThrownByNico .
 	
-	game nextTurn."Juan rolled 3 and there's no acceleration card because it was cancelled"
+	game nextTurn."Juan rolled 3 and there's no acceleration card active"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 11;
@@ -138,7 +138,7 @@ CancellationTest >> testCancellationOfOverloadCard [
 		assert: (game lockerNumberOf: juan) equals: 10;
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 7.
-	game nextTurn."Nico rolled 7 and the overload card was cancelled "
+	game nextTurn."Nico rolled 7 , tehre was no overload card active"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 10;
@@ -172,7 +172,7 @@ CancellationTest >> testCancellationOfReversalCard [
 		assert: (game lapNumberOf: nico) equals: 0;
 		assert: (game lockerNumberOf: nico) equals: 0.
 
-	game nextTurn."Nico rolled 9"
+	game nextTurn."Nico rolled 9 and lands at a wormHole locker with a reversal card applied to it"
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 3;
@@ -182,7 +182,7 @@ CancellationTest >> testCancellationOfReversalCard [
 	cancellationThrownByNico := Cancellation initializeCardWithTarget: reversalThrownByJuan.
 	game player: nico throw: cancellationThrownByNico .
 	
-	game nextTurn."Juan rolled 3 and the speed card was cancelled "
+	game nextTurn."Juan rolled 3 and there was no reversal card active "
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 5;
@@ -222,7 +222,7 @@ CancellationTest >> testCancellationOfSpeedCard [
 	cancellationThrownByNico := Cancellation initializeCardWithTarget: speedThrownByJuan.
 	game player: nico throw: cancellationThrownByNico .
 	
-	game nextTurn."Juan rolled 3 and the speed card was cancelled "
+	game nextTurn."Juan rolled 3 , there was no speedUp card active "
 	self
 		assert: (game lapNumberOf: juan) equals: 0;
 		assert: (game lockerNumberOf: juan) equals: 11;

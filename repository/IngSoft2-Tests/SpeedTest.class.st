@@ -46,7 +46,7 @@ SpeedTest >> testCantThrowSpeedCardIfItsNotYourTurn [
 ]
 
 { #category : #tests }
-SpeedTest >> testPlayerChangesLapBecauseOfTheExtraLockersOfSpeedCard [
+SpeedTest >> testPlayerChangesLapAsaResultOfSpeedUpCard [
 
 	| game speedThrownByNico speedThrownByJuan  |
 	

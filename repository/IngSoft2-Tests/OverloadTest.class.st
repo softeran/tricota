@@ -155,7 +155,7 @@ OverloadTest >> testPlayerInLapOneMovesBackwardsAndChangesLapToZero [
 ]
 
 { #category : #tests }
-OverloadTest >> testStayInLockerAndLapZeroIfResultOfDiceAndOverloadCardIsNegative [
+OverloadTest >> testStayInLockerAndLapZeroIfTheResultIsNegative [
 
 	| game firstOverloadThrownByJuan secondOverloadThrownByJuan |
 	die := Die of: 10 rolling: #(7 2).
